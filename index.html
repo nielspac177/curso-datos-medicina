@@ -3,39 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400&display=swap" rel="stylesheet">
 <title>Estadística y Machine Learning para Estudiantes de Medicina</title>
-<meta name="description" content="Curso en vivo de 16 semanas: aprende estadística y machine learning con bases de datos abiertas en salud. Domingos 8 p.m. (hora Perú). Cohorte fundadora, solo Perú.">
+<meta name="description" content="Curso en vivo de 16 semanas de estadística y machine learning con bases de datos abiertas en salud, dirigido a estudiantes de medicina. Domingos de 8:00 a 10:00 p. m. (hora Perú). Cohorte fundadora, Perú.">
 <style>
   :root {
     --bg: #ffffff;
-    --bg-soft: #f4f6f7;
-    --text: #17242a;
-    --text-2: #51626b;
-    --accent: #0e6e7c;
-    --accent-strong: #0a5560;
-    --accent-soft: rgba(14, 110, 124, 0.10);
-    --line: rgba(23, 36, 42, 0.12);
+    --bg-soft: #f6f5f1;
+    --text: #1c2733;
+    --text-2: #55606b;
+    --accent: #9e2b3d;
+    --accent-strong: #7e2231;
+    --accent-soft: rgba(158, 43, 61, 0.08);
+    --line: rgba(28, 39, 51, 0.12);
     --card: rgba(255, 255, 255, 0.72);
-    --shadow: 0 12px 40px rgba(10, 40, 48, 0.10);
+    --shadow: 0 12px 40px rgba(28, 39, 51, 0.10);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0d1418;
-      --bg-soft: #131d22;
-      --text: #e8eef0;
-      --text-2: #9db1b9;
-      --accent: #4cc3d3;
-      --accent-strong: #7ad6e3;
-      --accent-soft: rgba(76, 195, 211, 0.12);
-      --line: rgba(232, 238, 240, 0.14);
-      --card: rgba(19, 29, 34, 0.72);
+      --bg: #14171c;
+      --bg-soft: #1b1f26;
+      --text: #eceae6;
+      --text-2: #a3a9b2;
+      --accent: #dc6478;
+      --accent-strong: #e88a99;
+      --accent-soft: rgba(220, 100, 120, 0.12);
+      --line: rgba(236, 234, 230, 0.14);
+      --card: rgba(27, 31, 38, 0.72);
       --shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: "Source Serif 4", Georgia, "Iowan Old Style", "Times New Roman", serif;
     background: var(--bg); color: var(--text); line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
@@ -59,9 +62,9 @@
     transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
     min-height: 44px; line-height: 24px;
   }
-  .pill:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 8px 24px rgba(14, 110, 124, 0.35); }
-  @media (prefers-color-scheme: dark) { .pill { color: #08262b; } }
-  .pill.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+  .pill:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 8px 24px rgba(158, 43, 61, 0.30); }
+  @media (prefers-color-scheme: dark) { .pill { color: #26090f; } }
+  .pill.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--text); }
   .pill.small { padding: 7px 16px; font-size: 14px; min-height: 38px; }
 
   /* Hero */
@@ -72,10 +75,10 @@
     background: var(--accent-soft); border-radius: 999px; padding: 6px 14px; margin-bottom: 22px;
   }
   h1 {
-    font-size: clamp(34px, 6vw, 62px); line-height: 1.04; letter-spacing: -0.03em;
+    font-size: clamp(34px, 6vw, 62px); line-height: 1.06; letter-spacing: -0.015em;
     font-weight: 800; max-width: 17ch;
   }
-  h1 em { font-style: normal; color: var(--accent); }
+  h1 em { font-style: italic; color: inherit; }
   .lede { font-size: clamp(17px, 2.2vw, 20px); color: var(--text-2); max-width: 58ch; margin: 22px 0 30px; }
   .cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
   .hero-meta { margin-top: 26px; font-size: 15px; color: var(--text-2); }
@@ -86,7 +89,7 @@
   .stats-in { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
   .stat { padding: 26px 18px; text-align: center; }
   .stat + .stat { border-left: 1px solid var(--line); }
-  .stat b { display: block; font-size: 24px; letter-spacing: -0.02em; }
+  .stat b { display: block; font-size: 24px; letter-spacing: -0.01em; }
   .stat span { font-size: 13.5px; color: var(--text-2); }
   @media (max-width: 720px) {
     .stats-in { grid-template-columns: repeat(2, 1fr); }
@@ -96,7 +99,7 @@
 
   section { padding: 76px 0; }
   section.alt { background: var(--bg-soft); }
-  h2 { font-size: clamp(26px, 4vw, 38px); letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 14px; max-width: 24ch; }
+  h2 { font-size: clamp(26px, 4vw, 38px); letter-spacing: -0.012em; line-height: 1.1; margin-bottom: 14px; max-width: 24ch; }
   .sub { color: var(--text-2); max-width: 62ch; margin-bottom: 36px; font-size: 17px; }
 
   /* Datos: bento */
@@ -119,7 +122,7 @@
   .step:last-child { border-bottom: none; }
   .step::before {
     counter-increment: paso; content: counter(paso, decimal-leading-zero);
-    font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -0.03em;
+    font-size: 26px; font-weight: 800; color: var(--text-2); letter-spacing: -0.015em;
   }
   .step b { display: block; font-size: 18px; margin-bottom: 4px; }
   .step p { color: var(--text-2); font-size: 15.5px; max-width: 60ch; }
@@ -140,7 +143,7 @@
   details.week summary::after { content: "+"; color: var(--accent); font-size: 20px; font-weight: 700; transition: transform 0.25s ease; }
   details.week[open] summary::after { transform: rotate(45deg); }
   details.week .wk-body { padding: 0 18px 16px; color: var(--text-2); font-size: 14.5px; }
-  .wk-tag { font-size: 12.5px; color: var(--accent); font-weight: 600; }
+  .wk-tag { font-size: 12.5px; color: var(--text-2); font-weight: 600; }
 
   /* Precio */
   .price-card {
@@ -148,7 +151,7 @@
     backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
     padding: 40px; max-width: 640px; margin: 0 auto; text-align: center;
   }
-  .price-big { font-size: clamp(40px, 7vw, 58px); font-weight: 800; letter-spacing: -0.03em; color: var(--accent); line-height: 1; }
+  .price-big { font-size: clamp(40px, 7vw, 58px); font-weight: 800; letter-spacing: -0.015em; color: var(--accent); line-height: 1; }
   .price-big small { font-size: 0.38em; font-weight: 600; color: var(--text-2); letter-spacing: 0; }
   .price-note { color: var(--text-2); font-size: 15px; margin: 12px 0 24px; }
   .price-list { text-align: left; max-width: 460px; margin: 0 auto 26px; font-size: 15px; color: var(--text-2); }
@@ -158,7 +161,7 @@
 
   /* Docente */
   .doc-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start; max-width: 940px; }
-  .doc-cred { font-size: 15px; color: var(--text-2); border-left: 3px solid var(--accent); padding-left: 16px; }
+  .doc-cred { font-size: 15px; color: var(--text-2); border-left: 3px solid var(--text); padding-left: 16px; }
   .doc-cred b { color: var(--text); }
   @media (max-width: 720px) { .doc-grid { grid-template-columns: 1fr; } }
 
@@ -182,20 +185,20 @@
 <nav>
   <div class="wrap nav-in">
     <div class="brand">Dr. Niels Pacheco-Barrios <span>· Datos y Medicina</span></div>
-    <a class="pill small js-inscribir" href="#suscripcion">Inscríbete</a>
+    <a class="pill small js-inscribir" href="#suscripcion">Inscríbase</a>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <span class="eyebrow">Cohorte fundadora · Solo Perú · 40 cupos</span>
-    <h1>Aprende <em>estadística y machine learning</em> con datos médicos reales</h1>
-    <p class="lede">Un curso en vivo de 16 semanas para estudiantes de medicina y de la salud. Empiezas desde cero y terminas presentando tu propio análisis con bases de datos abiertas de hospitales y estudios internacionales. Sin instalar nada, sin saber programar.</p>
+    <span class="eyebrow">Cohorte fundadora · Perú · 40 vacantes</span>
+    <h1>Estadística y <em>machine learning</em> con datos médicos reales</h1>
+    <p class="lede">Curso en vivo de 16 semanas dirigido a estudiantes de medicina y de carreras de la salud. El programa parte desde cero y culmina con la presentación de un análisis propio sobre bases de datos abiertas de hospitales y estudios internacionales. No se requiere experiencia previa en programación ni en estadística, y todo el trabajo se realiza en el navegador.</p>
     <div class="cta-row">
-      <a class="pill js-inscribir" href="#suscripcion">Inscríbete a la cohorte fundadora</a>
+      <a class="pill js-inscribir" href="#suscripcion">Inscríbase en la cohorte fundadora</a>
       <a class="pill ghost" href="syllabus.pdf" target="_blank" rel="noopener">Ver el syllabus (PDF)</a>
     </div>
-    <p class="hero-meta">Clases en vivo los <b>domingos de 8:00 a 10:00 p. m.</b> (hora Perú) · quedan grabadas</p>
+    <p class="hero-meta">Clases en vivo los <b>domingos de 8:00 a 10:00 p. m.</b> (hora Perú); cada sesión queda grabada</p>
   </div>
 </header>
 
@@ -203,20 +206,20 @@
   <div class="wrap stats-in">
     <div class="stat"><b>16</b><span>semanas en vivo</span></div>
     <div class="stat"><b>S/ 85</b><span>de aporte mensual</span></div>
-    <div class="stat"><b>4 a 6</b><span>por grupo de trabajo</span></div>
-    <div class="stat"><b>1</b><span>proyecto presentado tipo congreso</span></div>
+    <div class="stat"><b>4 a 6</b><span>integrantes por grupo de trabajo</span></div>
+    <div class="stat"><b>1</b><span>proyecto final en formato de congreso</span></div>
   </div>
 </div>
 
 <section>
   <div class="wrap">
-    <h2>Trabajarás con los mismos datos que usan los investigadores</h2>
-    <p class="sub">Nada de ejemplos de juguete. Cada semana practicas con bases de datos abiertas y reales, las mismas con las que se publican artículos en revistas internacionales.</p>
+    <h2>Trabajará con los mismos datos que usan los investigadores</h2>
+    <p class="sub">Cada semana se practica con bases de datos abiertas y reales, las mismas que sustentan publicaciones en revistas internacionales, en lugar de ejemplos simplificados diseñados para la enseñanza.</p>
     <div class="bento">
-      <div class="tile wide"><b>MIMIC-IV</b><p>Historias clínicas de cuidados intensivos de un hospital de Harvard. Usamos la versión demo abierta y te guiamos para obtener acceso a la versión completa.</p></div>
-      <div class="tile wide"><b>PPMI</b><p>Estudio longitudinal de Parkinson con datos clínicos, biomarcadores y neuroimagen. Acceso gratuito por solicitud.</p></div>
-      <div class="tile"><b>NHANES</b><p>Encuesta nacional de salud y nutrición de EE. UU., con examen físico y laboratorio.</p></div>
-      <div class="tile"><b>ENDES y SINADEF</b><p>Las bases peruanas: salud materno-infantil (INEI) y registro nacional de defunciones.</p></div>
+      <div class="tile wide"><b>MIMIC-IV</b><p>Historias clínicas de cuidados intensivos de un hospital de Harvard. Se trabaja con la versión de demostración abierta y se orienta el proceso para acceder a la versión completa.</p></div>
+      <div class="tile wide"><b>PPMI</b><p>Estudio longitudinal de la enfermedad de Parkinson con datos clínicos, biomarcadores y neuroimagen; acceso gratuito previa solicitud.</p></div>
+      <div class="tile"><b>NHANES</b><p>Encuesta nacional de salud y nutrición de los EE. UU., con examen físico y de laboratorio.</p></div>
+      <div class="tile"><b>ENDES y SINADEF</b><p>Las bases peruanas: salud materno-infantil (INEI) y el registro nacional de defunciones.</p></div>
       <div class="tile"><b>Global Burden of Disease</b><p>Carga de enfermedad por país, edad y sexo, del IHME.</p></div>
     </div>
   </div>
@@ -224,25 +227,25 @@
 
 <section class="alt">
   <div class="wrap">
-    <h2>Cómo funciona cada semana</h2>
+    <h2>Metodología semanal</h2>
     <div class="steps">
-      <div class="step"><div><b>Ves un video corto antes de clase</b><p>Llegas con la intuición del tema ya vista, sin fórmulas de más. Aula invertida: el tiempo en vivo se usa para aplicar, no para dictar.</p></div></div>
-      <div class="step"><div><b>Clase en vivo el domingo a las 8 p. m.</b><p>Dos horas: el concepto con ejemplos médicos y su aplicación en un cuaderno de Google Colab que ejecutas y modificas en paralelo. Todo queda grabado.</p></div></div>
-      <div class="step"><div><b>Resuelves un reto con tu pod</b><p>Grupos de 4 a 6 estudiantes que trabajan juntos todo el curso. Desde la semana 11, el pod desarrolla su proyecto final con mentoría del docente.</p></div></div>
-      <div class="step"><div><b>Programas con inteligencia artificial</b><p>Desde la semana 1 usas asistentes de IA para escribir y depurar código, y aprendes a verificar lo que devuelven. Incluye una demostración de Claude Code automatizando un análisis completo. La regla: la IA escribe código contigo; la interpretación es tuya.</p></div></div>
+      <div class="step"><div><b>Video de preparación antes de cada clase</b><p>Bajo el modelo de aula invertida, un video breve presenta la intuición del tema antes de la sesión, sin formalismo innecesario, de modo que el tiempo en vivo se dedica a aplicar y no a dictar.</p></div></div>
+      <div class="step"><div><b>Clase en vivo los domingos a las 8:00 p. m.</b><p>Durante dos horas se desarrolla el concepto con ejemplos médicos y se aplica en un cuaderno de Google Colab que cada estudiante ejecuta y modifica en paralelo. Todas las sesiones quedan grabadas.</p></div></div>
+      <div class="step"><div><b>Reto semanal en pods</b><p>Cada pod reúne de 4 a 6 estudiantes que trabajan juntos durante todo el curso. A partir de la semana 11, el pod desarrolla su proyecto final con mentoría del docente.</p></div></div>
+      <div class="step"><div><b>Programación asistida por inteligencia artificial</b><p>Desde la semana 1 se emplean asistentes de IA para escribir y depurar código, con énfasis en aprender a verificar sus resultados. Incluye una demostración de Claude Code automatizando un análisis completo. El principio del curso: el asistente colabora en el código; la interpretación corresponde al estudiante.</p></div></div>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>Al terminar serás capaz de</h2>
+    <h2>Al finalizar el curso será capaz de</h2>
     <div class="outcomes">
       <div class="outcome">Manejar Python en Google Colab para importar, limpiar, describir y graficar datos de salud.</div>
       <div class="outcome">Interpretar distribuciones, intervalos de confianza, valores p y poder estadístico.</div>
-      <div class="outcome">Elegir y ejecutar las pruebas estadísticas más usadas en investigación médica.</div>
-      <div class="outcome">Ajustar e interpretar regresiones lineales y logísticas con manejo de confusores.</div>
-      <div class="outcome">Entrenar y evaluar modelos de machine learning y explicar qué hacen las redes neuronales.</div>
+      <div class="outcome">Elegir y ejecutar las pruebas estadísticas de uso más frecuente en investigación médica.</div>
+      <div class="outcome">Ajustar e interpretar regresiones lineales y logísticas, con manejo de confusores.</div>
+      <div class="outcome">Entrenar y evaluar modelos de machine learning y explicar el funcionamiento de las redes neuronales.</div>
       <div class="outcome">Completar un proyecto con una base de datos abierta y presentarlo en formato de congreso.</div>
     </div>
   </div>
@@ -251,14 +254,14 @@
 <section class="alt">
   <div class="wrap">
     <h2>Las 16 semanas</h2>
-    <p class="sub">Incluye un módulo 0 de nivelación, opcional y autoguiado (notación, logaritmos y odds, matrices como tablas de datos, probabilidad básica), disponible desde tu inscripción.</p>
+    <p class="sub">Incluye un módulo 0 de nivelación, opcional y autoguiado (notación, logaritmos y odds, matrices como tablas de datos, probabilidad básica), disponible desde el momento de la inscripción.</p>
     <details class="week"><summary><span><span class="wk-tag">Semanas 1 a 3</span> · Explorar y describir datos</span></summary><div class="wk-body">Primeros pasos en Colab y Python; tipos de variables y la tabla 1 de un estudio; principios de una buena figura. Prácticas con NHANES, ENDES y Global Burden of Disease.</div></details>
     <details class="week"><summary><span><span class="wk-tag">Semanas 4 a 6</span> · Probabilidad, estimación y el valor p</span></summary><div class="wk-body">Distribuciones y teorema del límite central; intervalos de confianza y bootstrap; qué significa (y qué no) un valor p; poder estadístico y tamaño de muestra.</div></details>
     <details class="week"><summary><span><span class="wk-tag">Semanas 7 y 8</span> · Pruebas estadísticas y regresión lineal</span></summary><div class="wk-body">t de Student, chi cuadrado, pruebas pareadas y comparaciones múltiples; correlación y regresión lineal. Entrega del mini proyecto 1.</div></details>
-    <details class="week"><summary><span><span class="wk-tag">Semanas 9 a 11</span> · Regresión logística y el salto al machine learning</span></summary><div class="wk-body">Odds ratios e interpretación clínica; confusores y grafos causales; sesgo y varianza, validación cruzada y tu primer modelo predictivo con la demo de MIMIC-IV.</div></details>
+    <details class="week"><summary><span><span class="wk-tag">Semanas 9 a 11</span> · Regresión logística y el salto al machine learning</span></summary><div class="wk-body">Odds ratios e interpretación clínica; confusores y grafos causales; sesgo y varianza, validación cruzada y el primer modelo predictivo con la demo de MIMIC-IV.</div></details>
     <details class="week"><summary><span><span class="wk-tag">Semanas 12 a 14</span> · Machine learning aplicado</span></summary><div class="wk-body">Árboles de decisión y random forest; gradient boosting y métricas (ROC, calibración); redes neuronales en intuición. Prácticas con MIMIC-IV y PPMI.</div></details>
-    <details class="week"><summary><span><span class="wk-tag">Semanas 15 y 16</span> · Tu proyecto</span></summary><div class="wk-body">Taller de proyecto en pods con asesoría, y presentaciones finales tipo congreso. Cierre: cómo seguir hacia la publicación y los congresos estudiantiles.</div></details>
-    <p style="margin-top:18px"><a href="syllabus.pdf" target="_blank" rel="noopener">Descarga el syllabus completo en PDF →</a></p>
+    <details class="week"><summary><span><span class="wk-tag">Semanas 15 y 16</span> · El proyecto final</span></summary><div class="wk-body">Taller de proyecto en pods con asesoría del docente y presentaciones finales en formato de congreso. El cierre aborda la ruta hacia la publicación y los congresos estudiantiles.</div></details>
+    <p style="margin-top:18px"><a href="syllabus.pdf" target="_blank" rel="noopener">Descargue el syllabus completo en PDF →</a></p>
   </div>
 </section>
 
@@ -270,7 +273,7 @@
       </div>
       <div class="doc-cred">
         <p><b>Dr. Niels Pacheco-Barrios.</b> Médico cirujano por la Universidad Peruana Cayetano Heredia. Magíster en Estadística por la Harvard Medical School (EE. UU.). Investigador postdoctoral en el Brigham and Women's Hospital (Harvard). Colaborador de MIT Critical Data y del curso Machine Learning for Healthcare del MIT.</p>
-        <p style="margin-top:10px">Investiga con las mismas bases de datos abiertas que usarás en el curso (MIMIC-IV, NIS, NSQIP, PPMI), con publicaciones en revistas internacionales indexadas.</p>
+        <p style="margin-top:10px">Investiga con las mismas bases de datos abiertas que se emplean en el curso (MIMIC-IV, NIS, NSQIP, PPMI), con publicaciones en revistas internacionales indexadas.</p>
       </div>
     </div>
   </div>
@@ -281,16 +284,16 @@
     <div class="price-card">
       <span class="eyebrow">Contribución · Cohorte fundadora</span>
       <div class="price-big">S/ 85 <small>/ mes</small></div>
-      <p class="price-note">durante los 4 meses del curso · exclusivo de la primera cohorte<br>Programas internacionales equivalentes se venden entre US$ 800 y varios miles de dólares. Esta cohorte funciona por contribución: tu aporte sostiene el proyecto y las becas, y hace posible que el precio no sea una barrera.<br>¿Prefieres dejarlo resuelto? Aporte único de S/ 299.</p>
+      <p class="price-note">durante los cuatro meses del curso · exclusivo de la primera cohorte<br>Programas internacionales equivalentes tienen precios de entre US$ 800 y varios miles de dólares. Esta cohorte opera por contribución: el aporte sostiene el proyecto y las becas, y permite que el precio no sea una barrera.<br>También puede optar por un aporte único de S/ 299.</p>
       <ul class="price-list">
-        <li>Aporte por Plin al <b>993 126 398</b> (Niels Pacheco-Barrios). Tu lugar queda confirmado con el formulario y el primer aporte.</li>
-        <li>40 cupos. Pods de 4 a 6 estudiantes.</li>
+        <li>Aporte por Plin al <b>993 126 398</b> (Niels Pacheco-Barrios). La vacante queda confirmada con el formulario y el primer aporte.</li>
+        <li>40 vacantes, en pods de 4 a 6 estudiantes.</li>
         <li>Becas parciales disponibles (formulario de 5 minutos).</li>
         <li>Garantía: devolución completa hasta el final de la semana 2.</li>
-        <li>La cohorte fundadora conserva su precio en los siguientes cursos.</li>
+        <li>La cohorte fundadora conserva este precio en los siguientes cursos.</li>
       </ul>
       <a class="pill js-inscribir" href="#suscripcion">Completar el formulario de inscripción</a>
-      <p class="price-note" style="margin-top:16px">¿Dudas? Escríbeme por <a href="https://wa.me/51993126398">WhatsApp: +51 993 126 398</a></p>
+      <p class="price-note" style="margin-top:16px">Para consultas, escríbame por <a href="https://wa.me/51993126398">WhatsApp: +51 993 126 398</a></p>
     </div>
   </div>
 </section>
@@ -298,12 +301,12 @@
 <section>
   <div class="wrap faq">
     <h2>Preguntas frecuentes</h2>
-    <details><summary>¿Necesito saber programar o saber estadística?</summary><p>No. El curso empieza desde cero y el módulo 0 de nivelación te pone a punto antes de la semana 1. Todo se trabaja en Google Colab, en el navegador, sin instalar nada.</p></details>
-    <details><summary>¿Qué pasa si no puedo asistir un domingo?</summary><p>Las clases quedan grabadas. Para aprobar necesitas participar en vivo en al menos 12 de las 16 semanas, porque el trabajo en pod es en vivo.</p></details>
-    <details><summary>¿Cómo funciona la contribución mensual?</summary><p>Aportas S/ 85 al inicio de cada mes del curso, por Plin al 993 126 398. El aporte es requisito para participar: sostiene la plataforma, la mentoría y las becas. Si dejas de aportar, pierdes el acceso a las clases y al pod desde ese mes. También puedes hacer un aporte único de S/ 299.</p></details>
-    <details><summary>¿Recibo un certificado?</summary><p>Sí: una constancia digital con las 32 horas de clase en vivo, las horas de trabajo asincrónico y el título de tu proyecto final. Se emite al aprobar con el 60 % del puntaje y presentar el proyecto.</p></details>
-    <details><summary>¿El curso está en español?</summary><p>Sí, las clases y las guías son en español. Algunos videos de preparación están en inglés con subtítulos.</p></details>
-    <details><summary>¿Puedo llevarlo si no soy estudiante de medicina?</summary><p>Sí: está pensado para estudiantes de medicina y de carreras de la salud, y también aceptamos profesionales de la salud interesados.</p></details>
+    <details><summary>¿Se requiere experiencia en programación o en estadística?</summary><p>No. El curso parte desde cero y el módulo 0 de nivelación cubre los fundamentos antes de la semana 1. Todo el trabajo se realiza en Google Colab, en el navegador, sin instalar programas.</p></details>
+    <details><summary>¿Qué sucede si no puede asistir a una sesión?</summary><p>Las clases quedan grabadas. Para aprobar se requiere participación en vivo en al menos 12 de las 16 semanas, dado que el trabajo en pod se realiza durante la sesión.</p></details>
+    <details><summary>¿Cómo funciona la contribución mensual?</summary><p>El aporte de S/ 85 se realiza al inicio de cada mes del curso, por Plin al 993 126 398, y es requisito para participar: sostiene la plataforma, la mentoría y las becas. La suspensión del aporte implica la pérdida del acceso a las clases y al pod desde ese mes. También es posible realizar un aporte único de S/ 299.</p></details>
+    <details><summary>¿Se entrega un certificado?</summary><p>Sí. Se emite una constancia digital que consigna las 32 horas de clase en vivo, las horas de trabajo asincrónico y el título del proyecto final. Se otorga al aprobar con el 60 % del puntaje y presentar el proyecto.</p></details>
+    <details><summary>¿El curso se imparte en español?</summary><p>Sí. Las clases y las guías son en español; algunos videos de preparación están en inglés con subtítulos.</p></details>
+    <details><summary>¿Está abierto a quienes no estudian medicina?</summary><p>Sí. El curso está dirigido a estudiantes de medicina y de carreras de la salud, y también admite a profesionales de la salud interesados.</p></details>
   </div>
 </section>
 
