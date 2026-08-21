@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estadística y Machine Learning para Estudiantes de Medicina</title>
+<meta name="description" content="Curso en vivo de 16 semanas: aprende estadística y machine learning con bases de datos abiertas en salud. Domingos 8 p.m. (hora Perú). Cohorte fundadora, solo Perú.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f4f6f7;
+    --text: #17242a;
+    --text-2: #51626b;
+    --accent: #0e6e7c;
+    --accent-strong: #0a5560;
+    --accent-soft: rgba(14, 110, 124, 0.10);
+    --line: rgba(23, 36, 42, 0.12);
+    --card: rgba(255, 255, 255, 0.72);
+    --shadow: 0 12px 40px rgba(10, 40, 48, 0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1418;
+      --bg-soft: #131d22;
+      --text: #e8eef0;
+      --text-2: #9db1b9;
+      --accent: #4cc3d3;
+      --accent-strong: #7ad6e3;
+      --accent-soft: rgba(76, 195, 211, 0.12);
+      --line: rgba(232, 238, 240, 0.14);
+      --card: rgba(19, 29, 34, 0.72);
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--accent); text-decoration: none; }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+    background: color-mix(in srgb, var(--bg) 75%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-in { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .brand { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; color: var(--text); }
+  .brand span { color: var(--accent); }
+  .pill {
+    display: inline-block; padding: 10px 22px; border-radius: 999px;
+    background: var(--accent); color: #fff; font-weight: 600; font-size: 15px;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    min-height: 44px; line-height: 24px;
+  }
+  .pill:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 8px 24px rgba(14, 110, 124, 0.35); }
+  @media (prefers-color-scheme: dark) { .pill { color: #08262b; } }
+  .pill.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+  .pill.small { padding: 7px 16px; font-size: 14px; min-height: 38px; }
+
+  /* Hero */
+  header.hero { min-height: 72dvh; display: flex; align-items: center; padding: 72px 0 56px; }
+  .eyebrow {
+    display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--accent);
+    background: var(--accent-soft); border-radius: 999px; padding: 6px 14px; margin-bottom: 22px;
+  }
+  h1 {
+    font-size: clamp(34px, 6vw, 62px); line-height: 1.04; letter-spacing: -0.03em;
+    font-weight: 800; max-width: 17ch;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lede { font-size: clamp(17px, 2.2vw, 20px); color: var(--text-2); max-width: 58ch; margin: 22px 0 30px; }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .hero-meta { margin-top: 26px; font-size: 15px; color: var(--text-2); }
+  .hero-meta b { color: var(--text); }
+
+  /* Stats strip */
+  .stats { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg-soft); }
+  .stats-in { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .stat { padding: 26px 18px; text-align: center; }
+  .stat + .stat { border-left: 1px solid var(--line); }
+  .stat b { display: block; font-size: 24px; letter-spacing: -0.02em; }
+  .stat span { font-size: 13.5px; color: var(--text-2); }
+  @media (max-width: 720px) {
+    .stats-in { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(3) { border-left: none; }
+    .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+  }
+
+  section { padding: 76px 0; }
+  section.alt { background: var(--bg-soft); }
+  h2 { font-size: clamp(26px, 4vw, 38px); letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 14px; max-width: 24ch; }
+  .sub { color: var(--text-2); max-width: 62ch; margin-bottom: 36px; font-size: 17px; }
+
+  /* Datos: bento */
+  .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .tile {
+    grid-column: span 2; background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    padding: 22px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tile:hover { transform: translateY(-3px); }
+  .tile.wide { grid-column: span 3; }
+  .tile b { display: block; font-size: 16.5px; margin-bottom: 6px; }
+  .tile p { font-size: 14.5px; color: var(--text-2); }
+  @media (max-width: 860px) { .tile, .tile.wide { grid-column: span 3; } }
+  @media (max-width: 600px) { .tile, .tile.wide { grid-column: span 6; } }
+
+  /* Pasos */
+  .steps { display: grid; grid-template-columns: 1fr; gap: 0; counter-reset: paso; max-width: 760px; }
+  .step { display: grid; grid-template-columns: 58px 1fr; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .step:last-child { border-bottom: none; }
+  .step::before {
+    counter-increment: paso; content: counter(paso, decimal-leading-zero);
+    font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -0.03em;
+  }
+  .step b { display: block; font-size: 18px; margin-bottom: 4px; }
+  .step p { color: var(--text-2); font-size: 15.5px; max-width: 60ch; }
+
+  /* Outcomes */
+  .outcomes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 34px; max-width: 900px; }
+  .outcome { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 10px 0; font-size: 15.5px; color: var(--text-2); }
+  .outcome::before { content: "·"; color: var(--accent); font-weight: 800; font-size: 22px; line-height: 1; }
+  @media (max-width: 720px) { .outcomes { grid-template-columns: 1fr; } }
+
+  /* Calendario */
+  details.week { border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; background: var(--card); overflow: hidden; }
+  details.week summary {
+    cursor: pointer; padding: 14px 18px; font-weight: 600; font-size: 15.5px; list-style: none;
+    display: flex; justify-content: space-between; align-items: center; min-height: 44px;
+  }
+  details.week summary::-webkit-details-marker { display: none; }
+  details.week summary::after { content: "+"; color: var(--accent); font-size: 20px; font-weight: 700; transition: transform 0.25s ease; }
+  details.week[open] summary::after { transform: rotate(45deg); }
+  details.week .wk-body { padding: 0 18px 16px; color: var(--text-2); font-size: 14.5px; }
+  .wk-tag { font-size: 12.5px; color: var(--accent); font-weight: 600; }
+
+  /* Precio */
+  .price-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    padding: 40px; max-width: 640px; margin: 0 auto; text-align: center;
+  }
+  .price-big { font-size: clamp(40px, 7vw, 58px); font-weight: 800; letter-spacing: -0.03em; color: var(--accent); line-height: 1; }
+  .price-big small { font-size: 0.38em; font-weight: 600; color: var(--text-2); letter-spacing: 0; }
+  .price-note { color: var(--text-2); font-size: 15px; margin: 12px 0 24px; }
+  .price-list { text-align: left; max-width: 460px; margin: 0 auto 26px; font-size: 15px; color: var(--text-2); }
+  .price-list li { margin-bottom: 8px; padding-left: 4px; }
+  .price-list { list-style: none; }
+  .price-list li::before { content: "· "; color: var(--accent); font-weight: 800; }
+
+  /* Docente */
+  .doc-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start; max-width: 940px; }
+  .doc-cred { font-size: 15px; color: var(--text-2); border-left: 3px solid var(--accent); padding-left: 16px; }
+  .doc-cred b { color: var(--text); }
+  @media (max-width: 720px) { .doc-grid { grid-template-columns: 1fr; } }
+
+  /* FAQ */
+  .faq details { border-bottom: 1px solid var(--line); padding: 4px 0; }
+  .faq summary { cursor: pointer; font-weight: 600; padding: 14px 0; list-style: none; min-height: 44px; font-size: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq p { color: var(--text-2); padding-bottom: 16px; max-width: 68ch; font-size: 15.5px; }
+
+  footer { border-top: 1px solid var(--line); padding: 40px 0 60px; color: var(--text-2); font-size: 14.5px; }
+  .foot-in { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .pill, .tile { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <div class="brand">Dr. Niels Pacheco-Barrios <span>· Datos y Medicina</span></div>
+    <a class="pill small js-inscribir" href="#suscripcion">Inscríbete</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Cohorte fundadora · Solo Perú · 40 cupos</span>
+    <h1>Aprende <em>estadística y machine learning</em> con datos médicos reales</h1>
+    <p class="lede">Un curso en vivo de 16 semanas para estudiantes de medicina y de la salud. Empiezas desde cero y terminas presentando tu propio análisis con bases de datos abiertas de hospitales y estudios internacionales. Sin instalar nada, sin saber programar.</p>
+    <div class="cta-row">
+      <a class="pill js-inscribir" href="#suscripcion">Inscríbete a la cohorte fundadora</a>
+      <a class="pill ghost" href="syllabus.pdf" target="_blank" rel="noopener">Ver el syllabus (PDF)</a>
+    </div>
+    <p class="hero-meta">Clases en vivo los <b>domingos de 8:00 a 10:00 p. m.</b> (hora Perú) · quedan grabadas</p>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="wrap stats-in">
+    <div class="stat"><b>16</b><span>semanas en vivo</span></div>
+    <div class="stat"><b>S/ 85</b><span>de aporte mensual</span></div>
+    <div class="stat"><b>4 a 6</b><span>por grupo de trabajo</span></div>
+    <div class="stat"><b>1</b><span>proyecto presentado tipo congreso</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>Trabajarás con los mismos datos que usan los investigadores</h2>
+    <p class="sub">Nada de ejemplos de juguete. Cada semana practicas con bases de datos abiertas y reales, las mismas con las que se publican artículos en revistas internacionales.</p>
+    <div class="bento">
+      <div class="tile wide"><b>MIMIC-IV</b><p>Historias clínicas de cuidados intensivos de un hospital de Harvard. Usamos la versión demo abierta y te guiamos para obtener acceso a la versión completa.</p></div>
+      <div class="tile wide"><b>PPMI</b><p>Estudio longitudinal de Parkinson con datos clínicos, biomarcadores y neuroimagen. Acceso gratuito por solicitud.</p></div>
+      <div class="tile"><b>NHANES</b><p>Encuesta nacional de salud y nutrición de EE. UU., con examen físico y laboratorio.</p></div>
+      <div class="tile"><b>ENDES y SINADEF</b><p>Las bases peruanas: salud materno-infantil (INEI) y registro nacional de defunciones.</p></div>
+      <div class="tile"><b>Global Burden of Disease</b><p>Carga de enfermedad por país, edad y sexo, del IHME.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Cómo funciona cada semana</h2>
+    <div class="steps">
+      <div class="step"><div><b>Ves un video corto antes de clase</b><p>Llegas con la intuición del tema ya vista, sin fórmulas de más. Aula invertida: el tiempo en vivo se usa para aplicar, no para dictar.</p></div></div>
+      <div class="step"><div><b>Clase en vivo el domingo a las 8 p. m.</b><p>Dos horas: el concepto con ejemplos médicos y su aplicación en un cuaderno de Google Colab que ejecutas y modificas en paralelo. Todo queda grabado.</p></div></div>
+      <div class="step"><div><b>Resuelves un reto con tu pod</b><p>Grupos de 4 a 6 estudiantes que trabajan juntos todo el curso. Desde la semana 11, el pod desarrolla su proyecto final con mentoría del docente.</p></div></div>
+      <div class="step"><div><b>Programas con inteligencia artificial</b><p>Desde la semana 1 usas asistentes de IA para escribir y depurar código, y aprendes a verificar lo que devuelven. Incluye una demostración de Claude Code automatizando un análisis completo. La regla: la IA escribe código contigo; la interpretación es tuya.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Al terminar serás capaz de</h2>
+    <div class="outcomes">
+      <div class="outcome">Manejar Python en Google Colab para importar, limpiar, describir y graficar datos de salud.</div>
+      <div class="outcome">Interpretar distribuciones, intervalos de confianza, valores p y poder estadístico.</div>
+      <div class="outcome">Elegir y ejecutar las pruebas estadísticas más usadas en investigación médica.</div>
+      <div class="outcome">Ajustar e interpretar regresiones lineales y logísticas con manejo de confusores.</div>
+      <div class="outcome">Entrenar y evaluar modelos de machine learning y explicar qué hacen las redes neuronales.</div>
+      <div class="outcome">Completar un proyecto con una base de datos abierta y presentarlo en formato de congreso.</div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Las 16 semanas</h2>
+    <p class="sub">Incluye un módulo 0 de nivelación, opcional y autoguiado (notación, logaritmos y odds, matrices como tablas de datos, probabilidad básica), disponible desde tu inscripción.</p>
+    <details class="week"><summary><span><span class="wk-tag">Semanas 1 a 3</span> · Explorar y describir datos</span></summary><div class="wk-body">Primeros pasos en Colab y Python; tipos de variables y la tabla 1 de un estudio; principios de una buena figura. Prácticas con NHANES, ENDES y Global Burden of Disease.</div></details>
+    <details class="week"><summary><span><span class="wk-tag">Semanas 4 a 6</span> · Probabilidad, estimación y el valor p</span></summary><div class="wk-body">Distribuciones y teorema del límite central; intervalos de confianza y bootstrap; qué significa (y qué no) un valor p; poder estadístico y tamaño de muestra.</div></details>
+    <details class="week"><summary><span><span class="wk-tag">Semanas 7 y 8</span> · Pruebas estadísticas y regresión lineal</span></summary><div class="wk-body">t de Student, chi cuadrado, pruebas pareadas y comparaciones múltiples; correlación y regresión lineal. Entrega del mini proyecto 1.</div></details>
+    <details class="week"><summary><span><span class="wk-tag">Semanas 9 a 11</span> · Regresión logística y el salto al machine learning</span></summary><div class="wk-body">Odds ratios e interpretación clínica; confusores y grafos causales; sesgo y varianza, validación cruzada y tu primer modelo predictivo con la demo de MIMIC-IV.</div></details>
+    <details class="week"><summary><span><span class="wk-tag">Semanas 12 a 14</span> · Machine learning aplicado</span></summary><div class="wk-body">Árboles de decisión y random forest; gradient boosting y métricas (ROC, calibración); redes neuronales en intuición. Prácticas con MIMIC-IV y PPMI.</div></details>
+    <details class="week"><summary><span><span class="wk-tag">Semanas 15 y 16</span> · Tu proyecto</span></summary><div class="wk-body">Taller de proyecto en pods con asesoría, y presentaciones finales tipo congreso. Cierre: cómo seguir hacia la publicación y los congresos estudiantiles.</div></details>
+    <p style="margin-top:18px"><a href="syllabus.pdf" target="_blank" rel="noopener">Descarga el syllabus completo en PDF →</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="doc-grid">
+      <div>
+        <h2>El docente</h2>
+      </div>
+      <div class="doc-cred">
+        <p><b>Dr. Niels Pacheco-Barrios.</b> Médico cirujano por la Universidad Peruana Cayetano Heredia. Magíster en Estadística por la Harvard Medical School (EE. UU.). Investigador postdoctoral en el Brigham and Women's Hospital (Harvard). Colaborador de MIT Critical Data y del curso Machine Learning for Healthcare del MIT.</p>
+        <p style="margin-top:10px">Investiga con las mismas bases de datos abiertas que usarás en el curso (MIMIC-IV, NIS, NSQIP, PPMI), con publicaciones en revistas internacionales indexadas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="suscripcion">
+  <div class="wrap">
+    <div class="price-card">
+      <span class="eyebrow">Contribución · Cohorte fundadora</span>
+      <div class="price-big">S/ 85 <small>/ mes</small></div>
+      <p class="price-note">durante los 4 meses del curso · exclusivo de la primera cohorte<br>Programas internacionales equivalentes se venden entre US$ 800 y varios miles de dólares. Esta cohorte funciona por contribución: tu aporte sostiene el proyecto y las becas, y hace posible que el precio no sea una barrera.<br>¿Prefieres dejarlo resuelto? Aporte único de S/ 299.</p>
+      <ul class="price-list">
+        <li>Aporte por Plin al <b>993 126 398</b> (Niels Pacheco-Barrios). Tu lugar queda confirmado con el formulario y el primer aporte.</li>
+        <li>40 cupos. Pods de 4 a 6 estudiantes.</li>
+        <li>Becas parciales disponibles (formulario de 5 minutos).</li>
+        <li>Garantía: devolución completa hasta el final de la semana 2.</li>
+        <li>La cohorte fundadora conserva su precio en los siguientes cursos.</li>
+      </ul>
+      <a class="pill js-inscribir" href="#suscripcion">Completar el formulario de inscripción</a>
+      <p class="price-note" style="margin-top:16px">¿Dudas? Escríbeme por <a href="https://wa.me/51993126398">WhatsApp: +51 993 126 398</a></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap faq">
+    <h2>Preguntas frecuentes</h2>
+    <details><summary>¿Necesito saber programar o saber estadística?</summary><p>No. El curso empieza desde cero y el módulo 0 de nivelación te pone a punto antes de la semana 1. Todo se trabaja en Google Colab, en el navegador, sin instalar nada.</p></details>
+    <details><summary>¿Qué pasa si no puedo asistir un domingo?</summary><p>Las clases quedan grabadas. Para aprobar necesitas participar en vivo en al menos 12 de las 16 semanas, porque el trabajo en pod es en vivo.</p></details>
+    <details><summary>¿Cómo funciona la contribución mensual?</summary><p>Aportas S/ 85 al inicio de cada mes del curso, por Plin al 993 126 398. El aporte es requisito para participar: sostiene la plataforma, la mentoría y las becas. Si dejas de aportar, pierdes el acceso a las clases y al pod desde ese mes. También puedes hacer un aporte único de S/ 299.</p></details>
+    <details><summary>¿Recibo un certificado?</summary><p>Sí: una constancia digital con las 32 horas de clase en vivo, las horas de trabajo asincrónico y el título de tu proyecto final. Se emite al aprobar con el 60 % del puntaje y presentar el proyecto.</p></details>
+    <details><summary>¿El curso está en español?</summary><p>Sí, las clases y las guías son en español. Algunos videos de preparación están en inglés con subtítulos.</p></details>
+    <details><summary>¿Puedo llevarlo si no soy estudiante de medicina?</summary><p>Sí: está pensado para estudiantes de medicina y de carreras de la salud, y también aceptamos profesionales de la salud interesados.</p></details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>Estadística y Machine Learning para Estudiantes de Medicina<br>Dr. Niels Pacheco-Barrios · Cohorte fundadora, Perú</div>
+    <div><a href="https://wa.me/51993126398">WhatsApp: +51 993 126 398</a><br><a href="syllabus.pdf" target="_blank" rel="noopener">Syllabus (PDF)</a></div>
+  </div>
+</footer>
+
+<script>
+  // Cuando tengas el Google Form, pega su enlace aquí entre las comillas:
+  var FORM_URL = "";
+  document.querySelectorAll(".js-inscribir").forEach(function (a) {
+    if (FORM_URL) { a.href = FORM_URL; a.target = "_blank"; a.rel = "noopener"; }
+    else if (a.closest(".price-card")) { a.href = "https://wa.me/51993126398?text=Hola%2C%20quiero%20inscribirme%20al%20curso%20de%20Estad%C3%ADstica%20y%20Machine%20Learning"; }
+  });
+</script>
+
+</body>
+</html>
