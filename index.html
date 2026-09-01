@@ -78,6 +78,10 @@
   .pill.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--text); }
   .pill.small { padding: 7px 16px; font-size: 14px; min-height: 38px; }
   #lang-btn { cursor: pointer; font-family: inherit; }
+  #pgbar {
+    position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
+    background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; z-index: 51;
+  }
 
   /* Hero */
   header.hero { min-height: 72dvh; display: flex; align-items: center; padding: 72px 0 56px; }
@@ -109,7 +113,8 @@
     .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
   }
 
-  section { padding: 76px 0; }
+  section { padding: 76px 0; position: relative; }
+  .stats, footer { position: relative; }
   section.alt { background: var(--bg-soft); }
   h2 { font-size: clamp(26px, 4vw, 38px); letter-spacing: -0.012em; line-height: 1.1; margin-bottom: 14px; max-width: 24ch; }
   .sub { color: var(--text-2); max-width: 62ch; margin-bottom: 36px; font-size: 17px; }
@@ -190,13 +195,13 @@
   /* Hero: campo de datos al fondo */
   header.hero { position: relative; overflow: hidden; min-height: 92dvh; }
   header.hero .wrap { position: relative; z-index: 1; width: 100%; }
-  .hero-bg { --p: 1; position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-bg { --p: 1; position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   .hero-bg svg { width: 100%; height: 100%; display: block;
     transform: translate3d(calc(var(--mx, 0) * -14px), calc(var(--my, 0) * -10px + var(--s, 0) * -70px), 0);
-    opacity: calc(1 - var(--s, 0) * 0.45);
+    opacity: calc(1 - var(--s, 0) * 0.42);
     transition: transform 0.25s ease-out; will-change: transform; }
   .hero-bg::after {
-    content: ""; position: absolute; inset: 0;
+    content: ""; position: absolute; inset: 0; opacity: calc(1 - var(--s, 0) * 1.3);
     background: linear-gradient(90deg, var(--bg) 6%, color-mix(in srgb, var(--bg) 72%, transparent) 38%, transparent 64%),
                 linear-gradient(0deg, var(--bg) 2%, transparent 26%);
   }
@@ -204,8 +209,8 @@
     .hero-bg::after { background: linear-gradient(0deg, var(--bg) 6%, color-mix(in srgb, var(--bg) 55%, transparent) 45%, color-mix(in srgb, var(--bg) 30%, transparent) 100%); }
   }
   .fig-cap {
-    position: absolute; right: 22px; bottom: 16px; z-index: 1;
-    font-size: 12.5px; font-style: italic; color: var(--text-2); opacity: 0.85;
+    position: fixed; right: 22px; bottom: 16px; z-index: 1;
+    font-size: 12.5px; font-style: italic; color: var(--text-2); opacity: calc(0.85 * (1 - var(--s, 0) * 1.6));
   }
   .pt {
     transform-box: fill-box; transform-origin: center;
@@ -216,12 +221,30 @@
   }
   .pA { fill: var(--text-2); } .pB { fill: var(--accent); }
   @keyframes ptin { from { opacity: 0; } }
-  .fit { stroke: var(--accent); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p)); opacity: 0.85; }
-  .band { fill: var(--accent); opacity: calc(var(--p) * 0.07); }
-  .anno { opacity: calc((var(--p) - 0.62) / 0.3); }
+  .fit { stroke: var(--accent); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p)); opacity: calc(0.85 * (1 - var(--s, 0))); }
+  .band { fill: var(--accent); opacity: calc(var(--p) * 0.07 * (1 - var(--s, 0))); }
+  .anno { opacity: calc(((var(--p) - 0.62) / 0.3) * (1 - var(--s, 0) * 1.6)); }
   .anno rect { fill: var(--card); stroke: var(--line); }
   .anno-dot { fill: var(--accent); }
   .anno text { font-family: inherit; font-style: italic; font-size: 15px; fill: var(--text); }
+
+  .spark { display: block; width: 100%; height: 26px; margin-top: 12px; }
+  .spark path { fill: none; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .spark-a path { stroke: var(--accent); }
+  .spark-b path { stroke: var(--text-2); }
+  .rv.in .spark path { stroke-dashoffset: 0; transition: stroke-dashoffset 1.2s ease 0.45s; }
+
+  /* Riel de la metodología */
+  .steps { position: relative; --mp: 0; }
+  .steps::before {
+    content: ""; position: absolute; left: 20px; top: 30px; bottom: 30px; width: 2px;
+    background: var(--line);
+  }
+  .steps::after {
+    content: ""; position: absolute; left: 20px; top: 30px; bottom: 30px; width: 2px;
+    background: var(--accent); transform: scaleY(var(--mp)); transform-origin: 50% 0;
+  }
+  .step::before { position: relative; z-index: 1; background: var(--bg-soft); align-self: start; }
 
   /* Revelado por sección con cascada */
   .rv { opacity: 0; transform: translateY(16px); }
@@ -236,13 +259,41 @@
   .rv.in > * > :nth-child(4), .rv.in .stat:nth-child(4) { transition-delay: 0.27s; }
   .rv.in > * > :nth-child(5) { transition-delay: 0.36s; }
   .rv.in > * > :nth-child(6) { transition-delay: 0.45s; }
+  .rv h2 { opacity: 0; transform: translateY(28px); clip-path: inset(0 0 100% 0); }
+  .rv.in h2 { opacity: 1; transform: none; clip-path: inset(0 0 -25% 0); transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), clip-path 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+  .rv details.week { opacity: 0; transform: translateX(-30px); }
+  .rv details.week:nth-of-type(even) { transform: translateX(30px); }
+  .rv.in details.week { opacity: 1; transform: none; transition: opacity 0.6s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1); }
+  .rv.in details.week:nth-of-type(2) { transition-delay: 0.08s; }
+  .rv.in details.week:nth-of-type(3) { transition-delay: 0.16s; }
+  .rv.in details.week:nth-of-type(4) { transition-delay: 0.24s; }
+  .rv.in details.week:nth-of-type(5) { transition-delay: 0.32s; }
+  .rv.in details.week:nth-of-type(6) { transition-delay: 0.4s; }
+  .faq.rv details { opacity: 0; transform: translateY(18px); }
+  .faq.rv.in details { opacity: 1; transform: none; transition: opacity 0.55s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+  .faq.rv.in details:nth-of-type(2) { transition-delay: 0.06s; }
+  .faq.rv.in details:nth-of-type(3) { transition-delay: 0.12s; }
+  .faq.rv.in details:nth-of-type(4) { transition-delay: 0.18s; }
+  .faq.rv.in details:nth-of-type(5) { transition-delay: 0.24s; }
+  .faq.rv.in details:nth-of-type(6) { transition-delay: 0.3s; }
+  .faq.rv.in details:nth-of-type(7) { transition-delay: 0.36s; }
+  .faq.rv.in details:nth-of-type(8) { transition-delay: 0.42s; }
+  .faq.rv.in details:nth-of-type(9) { transition-delay: 0.48s; }
+  .faq.rv.in details:nth-of-type(10) { transition-delay: 0.54s; }
+  .rv .price-card { opacity: 0; transform: translateY(30px) scale(0.965); }
+  .rv.in .price-card { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.85s cubic-bezier(0.22, 1, 0.36, 1); }
+  .rv .doc-cred { opacity: 0; transform: translateX(-22px); }
+  .rv.in .doc-cred { opacity: 1; transform: none; transition: opacity 0.7s ease 0.15s, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.15s; }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .pill, .tile { transition: none; }
     .hero-bg { --p: 1 !important; }
     .pt { animation: none; }
-    .rv, .rv .tile, .rv .step, .rv .outcome, .rv .stat { opacity: 1 !important; transform: none !important; }
+    .rv, .rv .tile, .rv .step, .rv .outcome, .rv .stat, .rv h2, .rv details.week, .faq.rv details, .rv .price-card, .rv .doc-cred { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+    .spark path { stroke-dashoffset: 0 !important; }
+    .steps::after { transform: none; }
+    #pgbar { display: none; }
     .hero-bg svg { transform: none; }
   }
 </style>
@@ -250,6 +301,7 @@
 <body>
 
 <nav>
+  <div id="pgbar"></div>
   <div class="wrap nav-in">
     <div class="brand">Dr. Niels Pacheco-Barrios <span data-i="nav.tag">· Data &amp; Medicine</span></div>
     <div class="nav-actions">
@@ -308,11 +360,11 @@
     <h2 data-i="d.h2">You will work with the same data researchers use</h2>
     <p class="sub" data-i="d.sub">Every week you practice on real, open datasets — the same ones behind papers in international journals — instead of simplified teaching examples.</p>
     <div class="bento">
-      <div class="tile wide" data-i="d.t1"><b>MIMIC-IV</b><p>Intensive-care medical records from a Harvard hospital. The course uses the open demo version and guides you through the process for full access.</p></div>
-      <div class="tile wide" data-i="d.t2"><b>PPMI</b><p>A longitudinal study of Parkinson's disease with clinical data, biomarkers, and neuroimaging; free access upon request.</p></div>
-      <div class="tile" data-i="d.t3"><b>NHANES</b><p>The U.S. national health and nutrition survey, with physical exams and laboratory data.</p></div>
-      <div class="tile" data-i="d.t4"><b>ENDES &amp; SINADEF</b><p>The Peruvian datasets: maternal and child health (INEI) and the national death registry.</p></div>
-      <div class="tile" data-i="d.t5"><b>Global Burden of Disease</b><p>Disease burden by country, age, and sex, from IHME.</p></div>
+      <div class="tile wide" data-i="d.t1"><b>MIMIC-IV</b><p>Intensive-care medical records from a Harvard hospital. The course uses the open demo version and guides you through the process for full access.</p><svg class="spark spark-a" viewBox="0 0 120 26" aria-hidden="true"><path pathLength="1" d="M2,14 L16,14 22,5 28,22 34,10 50,12 56,3 64,20 72,9 90,11 100,6 118,8"/></svg></div>
+      <div class="tile wide" data-i="d.t2"><b>PPMI</b><p>A longitudinal study of Parkinson's disease with clinical data, biomarkers, and neuroimaging; free access upon request.</p><svg class="spark spark-b" viewBox="0 0 120 26" aria-hidden="true"><path pathLength="1" d="M2,6 C24,6 30,13 48,13 S70,10 84,15 S106,21 118,20"/></svg></div>
+      <div class="tile" data-i="d.t3"><b>NHANES</b><p>The U.S. national health and nutrition survey, with physical exams and laboratory data.</p><svg class="spark spark-a" viewBox="0 0 120 26" aria-hidden="true"><path pathLength="1" d="M8,24 V10 M24,24 V6 M40,24 V14 M56,24 V4 M72,24 V12 M88,24 V8 M104,24 V16 M116,24 V7"/></svg></div>
+      <div class="tile" data-i="d.t4"><b>ENDES &amp; SINADEF</b><p>The Peruvian datasets: maternal and child health (INEI) and the national death registry.</p><svg class="spark spark-b" viewBox="0 0 120 26" aria-hidden="true"><path pathLength="1" d="M2,20 C20,18 28,8 40,6 52,4 60,10 72,14 84,17 100,19 118,18"/></svg></div>
+      <div class="tile" data-i="d.t5"><b>Global Burden of Disease</b><p>Disease burden by country, age, and sex, from IHME.</p><svg class="spark spark-a" viewBox="0 0 120 26" aria-hidden="true"><path pathLength="1" d="M2,22 L18,19 34,20 50,15 66,16 82,10 98,12 118,5"/></svg></div>
     </div>
   </div>
 </section>
@@ -447,11 +499,11 @@
     "sp.t4": "<b>Qué es una base de datos abierta</b><p>Un conjunto de datos reales (historias clínicas anonimizadas, encuestas nacionales de salud, registros de defunciones) que hospitales e instituciones publican de forma gratuita para que cualquiera pueda investigar con ellos. En el curso se trabaja con los mismos que usan los investigadores, no con ejemplos inventados.</p>",
     "d.h2": "Trabajará con los mismos datos que usan los investigadores",
     "d.sub": "Cada semana se practica con bases de datos abiertas y reales, las mismas que sustentan publicaciones en revistas internacionales, en lugar de ejemplos simplificados diseñados para la enseñanza.",
-    "d.t1": "<b>MIMIC-IV</b><p>Historias clínicas de cuidados intensivos de un hospital de Harvard. Se trabaja con la versión de demostración abierta y se orienta el proceso para acceder a la versión completa.</p>",
-    "d.t2": "<b>PPMI</b><p>Estudio longitudinal de la enfermedad de Parkinson con datos clínicos, biomarcadores y neuroimagen; acceso gratuito previa solicitud.</p>",
-    "d.t3": "<b>NHANES</b><p>Encuesta nacional de salud y nutrición de los EE. UU., con examen físico y de laboratorio.</p>",
-    "d.t4": "<b>ENDES y SINADEF</b><p>Las bases peruanas: salud materno-infantil (INEI) y el registro nacional de defunciones.</p>",
-    "d.t5": "<b>Global Burden of Disease</b><p>Carga de enfermedad por país, edad y sexo, del IHME.</p>",
+    "d.t1": "<b>MIMIC-IV</b><p>Historias clínicas de cuidados intensivos de un hospital de Harvard. Se trabaja con la versión de demostración abierta y se orienta el proceso para acceder a la versión completa.</p><svg class=\"spark spark-a\" viewBox=\"0 0 120 26\" aria-hidden=\"true\"><path pathLength=\"1\" d=\"M2,14 L16,14 22,5 28,22 34,10 50,12 56,3 64,20 72,9 90,11 100,6 118,8\"/></svg>",
+    "d.t2": "<b>PPMI</b><p>Estudio longitudinal de la enfermedad de Parkinson con datos clínicos, biomarcadores y neuroimagen; acceso gratuito previa solicitud.</p><svg class=\"spark spark-b\" viewBox=\"0 0 120 26\" aria-hidden=\"true\"><path pathLength=\"1\" d=\"M2,6 C24,6 30,13 48,13 S70,10 84,15 S106,21 118,20\"/></svg>",
+    "d.t3": "<b>NHANES</b><p>Encuesta nacional de salud y nutrición de los EE. UU., con examen físico y de laboratorio.</p><svg class=\"spark spark-a\" viewBox=\"0 0 120 26\" aria-hidden=\"true\"><path pathLength=\"1\" d=\"M8,24 V10 M24,24 V6 M40,24 V14 M56,24 V4 M72,24 V12 M88,24 V8 M104,24 V16 M116,24 V7\"/></svg>",
+    "d.t4": "<b>ENDES y SINADEF</b><p>Las bases peruanas: salud materno-infantil (INEI) y el registro nacional de defunciones.</p><svg class=\"spark spark-b\" viewBox=\"0 0 120 26\" aria-hidden=\"true\"><path pathLength=\"1\" d=\"M2,20 C20,18 28,8 40,6 52,4 60,10 72,14 84,17 100,19 118,18\"/></svg>",
+    "d.t5": "<b>Global Burden of Disease</b><p>Carga de enfermedad por país, edad y sexo, del IHME.</p><svg class=\"spark spark-a\" viewBox=\"0 0 120 26\" aria-hidden=\"true\"><path pathLength=\"1\" d=\"M2,22 L18,19 34,20 50,15 66,16 82,10 98,12 118,5\"/></svg>",
     "m.h2": "Metodología semanal",
     "m.s1": "<b>Video de preparación antes de cada clase</b><p>Bajo el modelo de aula invertida, un video breve presenta la intuición del tema antes de la sesión, sin formalismo innecesario, de modo que el tiempo en vivo se dedica a aplicar y no a dictar.</p>",
     "m.s2": "<b>Clase en vivo los domingos a las 8:00 p. m.</b><p>Durante dos horas se desarrolla el concepto con ejemplos médicos y se aplica en un cuaderno de Google Colab que cada estudiante ejecuta y modifica en paralelo. Todas las sesiones quedan grabadas.</p>",
@@ -578,12 +630,25 @@
     } else { startPlay(); }
     // El scroll aleja el campo (cine de salida), ya no controla el ensamblaje
     var rafPend = false;
+    var pgbar = document.getElementById("pgbar");
+    var stepsEl = document.querySelector(".steps");
     var driveScroll = function () {
       rafPend = false;
       var vh = window.innerHeight || document.documentElement.clientHeight || 800;
       var v = window.scrollY / (vh * 0.9);
       if (!isFinite(v)) v = 0;
       heroFig.style.setProperty("--s", Math.min(1, Math.max(0, v)).toFixed(3));
+      if (pgbar) {
+        var total = document.documentElement.scrollHeight - vh;
+        var pg = total > 0 ? window.scrollY / total : 0;
+        pgbar.style.transform = "scaleX(" + Math.min(1, Math.max(0, pg)).toFixed(4) + ")";
+      }
+      if (stepsEl) {
+        var r = stepsEl.getBoundingClientRect();
+        var mp = r.height > 0 ? (vh * 0.78 - r.top) / r.height : 0;
+        if (!isFinite(mp)) mp = 0;
+        stepsEl.style.setProperty("--mp", Math.min(1, Math.max(0, mp)).toFixed(3));
+      }
     };
     driveScroll();
     addEventListener("scroll", function () { if (!rafPend) { rafPend = true; requestAnimationFrame(driveScroll); } }, { passive: true });
@@ -621,6 +686,25 @@
         });
       }, { threshold: 0.4 });
       ioStats.observe(statsEl);
+    }
+    var priceEl = document.querySelector(".price-big");
+    if (priceEl && priceEl.firstChild && priceEl.firstChild.nodeType === 3) {
+      var ioPrice = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        ioPrice.disconnect();
+        var node = priceEl.firstChild;
+        var pm = node.nodeValue.match(/^(\D*)(\d+)([\s\S]*)$/);
+        if (!pm) return;
+        var pre2 = pm[1], target2 = parseInt(pm[2], 10), suf2 = pm[3], st2 = null;
+        var tick2 = function (ts) {
+          if (st2 === null) st2 = ts;
+          var t = Math.min(1, (ts - st2) / 1100);
+          node.nodeValue = pre2 + Math.round(target2 * (1 - Math.pow(1 - t, 3))) + suf2;
+          if (t < 1) requestAnimationFrame(tick2);
+        };
+        requestAnimationFrame(tick2);
+      }, { threshold: 0.5 });
+      ioPrice.observe(priceEl);
     }
   }
   if (!reduceMotion && "IntersectionObserver" in window) {
