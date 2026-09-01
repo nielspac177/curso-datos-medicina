@@ -576,8 +576,10 @@
     var rafPend = false;
     var driveScroll = function () {
       rafPend = false;
-      var v = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.9)));
-      heroFig.style.setProperty("--s", v.toFixed(3));
+      var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+      var v = window.scrollY / (vh * 0.9);
+      if (!isFinite(v)) v = 0;
+      heroFig.style.setProperty("--s", Math.min(1, Math.max(0, v)).toFixed(3));
     };
     driveScroll();
     addEventListener("scroll", function () { if (!rafPend) { rafPend = true; requestAnimationFrame(driveScroll); } }, { passive: true });
