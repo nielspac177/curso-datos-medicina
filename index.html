@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400&display=swap" rel="stylesheet">
-<title>Estadística y Machine Learning para Estudiantes de Medicina</title>
-<meta name="description" content="Curso en vivo de 16 semanas de estadística y machine learning con bases de datos abiertas en salud, dirigido a estudiantes de medicina. Proyecto sin fines de lucro. Domingos de 8:00 a 10:00 p. m. (hora Perú). Cohorte fundadora, Perú.">
+<title>Statistics and Machine Learning for Medical Students</title>
+<meta id="meta-desc" name="description" content="A 16-week live course on statistics and machine learning with open health datasets, for medical students. Non-profit project. Sundays, 8:00–10:00 p.m. (Peru time). Founding cohort, Peru.">
 <style>
   :root {
     --bg: #ffffff;
@@ -56,6 +56,7 @@
   .nav-in { display: flex; align-items: center; justify-content: space-between; height: 58px; }
   .brand { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; color: var(--text); }
   .brand span { color: var(--accent); }
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
   .pill {
     display: inline-block; padding: 10px 22px; border-radius: 999px;
     background: var(--accent); color: #fff; font-weight: 600; font-size: 15px;
@@ -66,6 +67,7 @@
   @media (prefers-color-scheme: dark) { .pill { color: #26090f; } }
   .pill.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--text); }
   .pill.small { padding: 7px 16px; font-size: 14px; min-height: 38px; }
+  #lang-btn { cursor: pointer; font-family: inherit; }
 
   /* Hero */
   header.hero { min-height: 72dvh; display: flex; align-items: center; padding: 72px 0 56px; }
@@ -184,97 +186,100 @@
 
 <nav>
   <div class="wrap nav-in">
-    <div class="brand">Dr. Niels Pacheco-Barrios <span>· Datos y Medicina</span></div>
-    <a class="pill small js-inscribir" href="#suscripcion">Inscríbase</a>
+    <div class="brand">Dr. Niels Pacheco-Barrios <span data-i="nav.tag">· Data &amp; Medicine</span></div>
+    <div class="nav-actions">
+      <button id="lang-btn" class="pill ghost small" type="button">Español</button>
+      <a class="pill small js-inscribir" href="#suscripcion" data-i="nav.cta">Enroll</a>
+    </div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <span class="eyebrow">Sin fines de lucro · Cohorte fundadora Perú · 40 vacantes</span>
-    <h1>Estadística y <em>machine learning</em> con datos médicos reales</h1>
-    <p class="lede">Curso en vivo de 16 semanas dirigido a estudiantes de medicina y de carreras de la salud. El programa parte desde cero y culmina con la presentación de un análisis propio sobre bases de datos abiertas de hospitales y estudios internacionales. No se requiere experiencia previa en programación ni en estadística: todo se trabaja en Google Colab (una herramienta gratuita de Google que funciona en el navegador, como un documento en línea), sin instalar ningún programa.</p>
+    <span class="eyebrow" data-i="h.eye">Non-profit · Founding cohort (Peru) · 40 seats</span>
+    <h1 data-i="h.h1">Statistics and <em>machine learning</em> with real medical data</h1>
+    <p class="lede" data-i="h.lede">A 16-week live course for medical and health-sciences students. The program starts from zero and ends with you presenting your own analysis of open datasets from hospitals and international studies. No prior experience in programming or statistics is required: everything runs in Google Colab (a free Google tool that works in your browser, like an online document), with nothing to install.</p>
     <div class="cta-row">
-      <a class="pill js-inscribir" href="#suscripcion">Inscríbase en la cohorte fundadora</a>
-      <a class="pill ghost" href="syllabus.pdf" target="_blank" rel="noopener">Ver el syllabus (PDF)</a>
+      <a class="pill js-inscribir" href="#suscripcion" data-i="h.cta1">Enroll in the founding cohort</a>
+      <a class="pill ghost" href="syllabus.pdf" target="_blank" rel="noopener" data-i="h.cta2">View the syllabus (PDF, in Spanish)</a>
     </div>
-    <p class="hero-meta">Clases en vivo los <b>domingos de 8:00 a 10:00 p. m.</b> (hora Perú); cada sesión queda grabada</p>
+    <p class="hero-meta" data-i="h.meta">Live classes on <b>Sundays, 8:00–10:00 p.m.</b> (Peru time, GMT-5); every session is recorded</p>
   </div>
 </header>
 
 <div class="stats">
   <div class="wrap stats-in">
-    <div class="stat"><b>16</b><span>semanas en vivo</span></div>
-    <div class="stat"><b>S/ 150</b><span>contribución simbólica · al mes</span></div>
-    <div class="stat"><b>4 a 6</b><span>integrantes por grupo de trabajo</span></div>
-    <div class="stat"><b>1</b><span>proyecto final en formato de congreso</span></div>
+    <div class="stat" data-i="st1"><b>16</b><span>weeks, live</span></div>
+    <div class="stat" data-i="st2"><b>S/ 150</b><span>symbolic contribution · per month</span></div>
+    <div class="stat" data-i="st3"><b>4–6</b><span>students per working group</span></div>
+    <div class="stat" data-i="st4"><b>1</b><span>final project, conference-style</span></div>
   </div>
 </div>
 
 <section class="alt">
   <div class="wrap">
-    <h2>En palabras simples: ¿de qué trata el curso?</h2>
-    <p class="sub">Para quien nunca ha llevado estadística ni ha programado. Cuatro ideas bastan para entender el curso.</p>
+    <h2 data-i="sp.h2">In plain words: what is this course about?</h2>
+    <p class="sub" data-i="sp.sub">For someone who has never taken statistics or written code. Four ideas are enough to understand the course.</p>
     <div class="bento">
-      <div class="tile wide"><b>Qué va a aprender</b><p>A responder preguntas médicas con datos reales. Por ejemplo: ¿qué pacientes de una unidad de cuidados intensivos tienen mayor riesgo de morir? ¿La anemia materna se asocia con el peso al nacer? La estadística es el conjunto de herramientas para responder esas preguntas con números y no con impresiones. El <em>machine learning</em> es su extensión más reciente: programas que aprenden patrones de miles de casos para predecir lo que ocurrirá con un paciente nuevo.</p></div>
-      <div class="tile wide"><b>Qué significa programar aquí</b><p>Escribir instrucciones cortas en Python, un lenguaje de programación muy usado en ciencia, para que la computadora ordene, cuente, grafique y analice los datos por usted. No hace falta saberlo de antemano: se aprende desde la primera clase, con un asistente de inteligencia artificial que ayuda a escribir y corregir el código.</p></div>
-      <div class="tile wide"><b>Qué es Google Colab</b><p>Una página web gratuita de Google donde se escribe y se ejecuta código desde el navegador, como si fuera un documento de Google Docs. No se instala nada: se abre un enlace y el cuaderno de la clase ya está listo para usar. Solo se necesita una cuenta de Google y una computadora con internet.</p></div>
-      <div class="tile wide"><b>Qué es una base de datos abierta</b><p>Un conjunto de datos reales (historias clínicas anonimizadas, encuestas nacionales de salud, registros de defunciones) que hospitales e instituciones publican de forma gratuita para que cualquiera pueda investigar con ellos. En el curso se trabaja con los mismos que usan los investigadores, no con ejemplos inventados.</p></div>
+      <div class="tile wide" data-i="sp.t1"><b>What you will learn</b><p>To answer medical questions with real data. For example: which patients in an intensive care unit are at the highest risk of dying? Is maternal anemia associated with birth weight? Statistics is the toolbox for answering those questions with numbers rather than impressions. <em>Machine learning</em> is its most recent extension: programs that learn patterns from thousands of cases to predict what will happen with a new patient.</p></div>
+      <div class="tile wide" data-i="sp.t2"><b>What programming means here</b><p>Writing short instructions in Python, a programming language widely used in science, so the computer sorts, counts, plots, and analyzes the data for you. You do not need to know it beforehand: you learn it from the first class, with an artificial-intelligence assistant that helps you write and fix the code.</p></div>
+      <div class="tile wide" data-i="sp.t3"><b>What Google Colab is</b><p>A free Google web page where you write and run code from the browser, much like a Google Docs document. Nothing is installed: you open a link and the class notebook is ready to use. All you need is a Google account and a computer with internet access.</p></div>
+      <div class="tile wide" data-i="sp.t4"><b>What an open dataset is</b><p>A collection of real data (anonymized medical records, national health surveys, death registries) that hospitals and institutions publish for free so anyone can do research with it. The course works with the same datasets researchers use, not invented examples.</p></div>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>Trabajará con los mismos datos que usan los investigadores</h2>
-    <p class="sub">Cada semana se practica con bases de datos abiertas y reales, las mismas que sustentan publicaciones en revistas internacionales, en lugar de ejemplos simplificados diseñados para la enseñanza.</p>
+    <h2 data-i="d.h2">You will work with the same data researchers use</h2>
+    <p class="sub" data-i="d.sub">Every week you practice on real, open datasets — the same ones behind papers in international journals — instead of simplified teaching examples.</p>
     <div class="bento">
-      <div class="tile wide"><b>MIMIC-IV</b><p>Historias clínicas de cuidados intensivos de un hospital de Harvard. Se trabaja con la versión de demostración abierta y se orienta el proceso para acceder a la versión completa.</p></div>
-      <div class="tile wide"><b>PPMI</b><p>Estudio longitudinal de la enfermedad de Parkinson con datos clínicos, biomarcadores y neuroimagen; acceso gratuito previa solicitud.</p></div>
-      <div class="tile"><b>NHANES</b><p>Encuesta nacional de salud y nutrición de los EE. UU., con examen físico y de laboratorio.</p></div>
-      <div class="tile"><b>ENDES y SINADEF</b><p>Las bases peruanas: salud materno-infantil (INEI) y el registro nacional de defunciones.</p></div>
-      <div class="tile"><b>Global Burden of Disease</b><p>Carga de enfermedad por país, edad y sexo, del IHME.</p></div>
+      <div class="tile wide" data-i="d.t1"><b>MIMIC-IV</b><p>Intensive-care medical records from a Harvard hospital. The course uses the open demo version and guides you through the process for full access.</p></div>
+      <div class="tile wide" data-i="d.t2"><b>PPMI</b><p>A longitudinal study of Parkinson's disease with clinical data, biomarkers, and neuroimaging; free access upon request.</p></div>
+      <div class="tile" data-i="d.t3"><b>NHANES</b><p>The U.S. national health and nutrition survey, with physical exams and laboratory data.</p></div>
+      <div class="tile" data-i="d.t4"><b>ENDES &amp; SINADEF</b><p>The Peruvian datasets: maternal and child health (INEI) and the national death registry.</p></div>
+      <div class="tile" data-i="d.t5"><b>Global Burden of Disease</b><p>Disease burden by country, age, and sex, from IHME.</p></div>
     </div>
   </div>
 </section>
 
 <section class="alt">
   <div class="wrap">
-    <h2>Metodología semanal</h2>
+    <h2 data-i="m.h2">The weekly method</h2>
     <div class="steps">
-      <div class="step"><div><b>Video de preparación antes de cada clase</b><p>Bajo el modelo de aula invertida, un video breve presenta la intuición del tema antes de la sesión, sin formalismo innecesario, de modo que el tiempo en vivo se dedica a aplicar y no a dictar.</p></div></div>
-      <div class="step"><div><b>Clase en vivo los domingos a las 8:00 p. m.</b><p>Durante dos horas se desarrolla el concepto con ejemplos médicos y se aplica en un cuaderno de Google Colab que cada estudiante ejecuta y modifica en paralelo. Todas las sesiones quedan grabadas.</p></div></div>
-      <div class="step"><div><b>Reto semanal en pods</b><p>Cada pod reúne de 4 a 6 estudiantes que trabajan juntos durante todo el curso. A partir de la semana 11, el pod desarrolla su proyecto final con mentoría del docente.</p></div></div>
-      <div class="step"><div><b>Programación asistida por inteligencia artificial</b><p>Desde la semana 1 se emplean asistentes de IA para escribir y depurar código, con énfasis en aprender a verificar sus resultados. Incluye una demostración de Claude Code automatizando un análisis completo. El principio del curso: el asistente colabora en el código; la interpretación corresponde al estudiante.</p></div></div>
+      <div class="step"><div data-i="m.s1"><b>A short prep video before each class</b><p>Following the flipped-classroom model, a brief video introduces the intuition of the topic before the session, without unnecessary formalism, so live time is spent applying rather than lecturing.</p></div></div>
+      <div class="step"><div data-i="m.s2"><b>Live class on Sundays at 8:00 p.m.</b><p>For two hours the concept is developed through medical examples and applied in a Google Colab notebook that every student runs and modifies in parallel. All sessions are recorded.</p></div></div>
+      <div class="step"><div data-i="m.s3"><b>A weekly challenge in pods</b><p>Each pod brings together 4–6 students who work as a team throughout the course. From week 11 on, the pod develops its final project with the instructor's mentorship.</p></div></div>
+      <div class="step"><div data-i="m.s4"><b>AI-assisted programming</b><p>From week 1 the course uses AI assistants to write and debug code, with an emphasis on learning to verify their output. It includes a demonstration of Claude Code automating a complete analysis. The course principle: the assistant collaborates on the code; the interpretation belongs to the student.</p></div></div>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>Al finalizar el curso será capaz de</h2>
+    <h2 data-i="o.h2">By the end of the course you will be able to</h2>
     <div class="outcomes">
-      <div class="outcome">Manejar Python en Google Colab para importar, limpiar, describir y graficar datos de salud.</div>
-      <div class="outcome">Interpretar distribuciones, intervalos de confianza, valores p y poder estadístico.</div>
-      <div class="outcome">Elegir y ejecutar las pruebas estadísticas de uso más frecuente en investigación médica.</div>
-      <div class="outcome">Ajustar e interpretar regresiones lineales y logísticas, con manejo de confusores.</div>
-      <div class="outcome">Entrenar y evaluar modelos de machine learning y explicar el funcionamiento de las redes neuronales.</div>
-      <div class="outcome">Completar un proyecto con una base de datos abierta y presentarlo en formato de congreso.</div>
+      <div class="outcome" data-i="o.1">Use Python in Google Colab to import, clean, describe, and plot health data.</div>
+      <div class="outcome" data-i="o.2">Interpret distributions, confidence intervals, p-values, and statistical power.</div>
+      <div class="outcome" data-i="o.3">Choose and run the statistical tests most frequently used in medical research.</div>
+      <div class="outcome" data-i="o.4">Fit and interpret linear and logistic regressions, handling confounders.</div>
+      <div class="outcome" data-i="o.5">Train and evaluate machine-learning models and explain how neural networks work.</div>
+      <div class="outcome" data-i="o.6">Complete a project on an open dataset and present it conference-style.</div>
     </div>
   </div>
 </section>
 
 <section class="alt">
   <div class="wrap">
-    <h2>Las 16 semanas</h2>
-    <p class="sub">Incluye un módulo 0 de nivelación, opcional y autoguiado (notación, logaritmos y odds, matrices como tablas de datos, probabilidad básica), disponible desde el momento de la inscripción.</p>
-    <details class="week"><summary><span><span class="wk-tag">Semanas 1 a 3</span> · Explorar y describir datos</span></summary><div class="wk-body">Primeros pasos en Colab y Python; tipos de variables y la tabla 1 de un estudio; principios de una buena figura. Prácticas con NHANES, ENDES y Global Burden of Disease.</div></details>
-    <details class="week"><summary><span><span class="wk-tag">Semanas 4 a 6</span> · Probabilidad, estimación y el valor p</span></summary><div class="wk-body">Distribuciones y teorema del límite central; intervalos de confianza y bootstrap; qué significa (y qué no) un valor p; poder estadístico y tamaño de muestra.</div></details>
-    <details class="week"><summary><span><span class="wk-tag">Semanas 7 y 8</span> · Pruebas estadísticas y regresión lineal</span></summary><div class="wk-body">t de Student, chi cuadrado, pruebas pareadas y comparaciones múltiples; correlación y regresión lineal. Entrega del mini proyecto 1.</div></details>
-    <details class="week"><summary><span><span class="wk-tag">Semanas 9 a 11</span> · Regresión logística y el salto al machine learning</span></summary><div class="wk-body">Odds ratios e interpretación clínica; confusores y grafos causales; sesgo y varianza, validación cruzada y el primer modelo predictivo con la demo de MIMIC-IV.</div></details>
-    <details class="week"><summary><span><span class="wk-tag">Semanas 12 a 14</span> · Machine learning aplicado</span></summary><div class="wk-body">Árboles de decisión y random forest; gradient boosting y métricas (ROC, calibración); redes neuronales en intuición. Prácticas con MIMIC-IV y PPMI.</div></details>
-    <details class="week"><summary><span><span class="wk-tag">Semanas 15 y 16</span> · El proyecto final</span></summary><div class="wk-body">Taller de proyecto en pods con asesoría del docente y presentaciones finales en formato de congreso. El cierre aborda la ruta hacia la publicación y los congresos estudiantiles.</div></details>
-    <p style="margin-top:18px"><a href="syllabus.pdf" target="_blank" rel="noopener">Descargue el syllabus completo en PDF →</a></p>
+    <h2 data-i="w.h2">The 16 weeks</h2>
+    <p class="sub" data-i="w.sub">Includes an optional, self-paced module 0 (notation, logarithms and odds, matrices as data tables, basic probability), available from the moment you enroll.</p>
+    <details class="week"><summary><span data-i="w.s1"><span class="wk-tag">Weeks 1–3</span> · Exploring and describing data</span></summary><div class="wk-body" data-i="w.b1">First steps in Colab and Python; variable types and a study's Table 1; principles of a good figure. Practice with NHANES, ENDES, and the Global Burden of Disease.</div></details>
+    <details class="week"><summary><span data-i="w.s2"><span class="wk-tag">Weeks 4–6</span> · Probability, estimation, and the p-value</span></summary><div class="wk-body" data-i="w.b2">Distributions and the central limit theorem; confidence intervals and the bootstrap; what a p-value means (and what it does not); statistical power and sample size.</div></details>
+    <details class="week"><summary><span data-i="w.s3"><span class="wk-tag">Weeks 7–8</span> · Statistical tests and linear regression</span></summary><div class="wk-body" data-i="w.b3">Student's t, chi-square, paired tests, and multiple comparisons; correlation and linear regression. Mini-project 1 is due.</div></details>
+    <details class="week"><summary><span data-i="w.s4"><span class="wk-tag">Weeks 9–11</span> · Logistic regression and the leap to machine learning</span></summary><div class="wk-body" data-i="w.b4">Odds ratios and clinical interpretation; confounders and causal graphs; bias and variance, cross-validation, and the first predictive model with the MIMIC-IV demo.</div></details>
+    <details class="week"><summary><span data-i="w.s5"><span class="wk-tag">Weeks 12–14</span> · Applied machine learning</span></summary><div class="wk-body" data-i="w.b5">Decision trees and random forests; gradient boosting and metrics (ROC, calibration); neural networks by intuition. Practice with MIMIC-IV and PPMI.</div></details>
+    <details class="week"><summary><span data-i="w.s6"><span class="wk-tag">Weeks 15–16</span> · The final project</span></summary><div class="wk-body" data-i="w.b6">Project workshop in pods with the instructor's guidance, and conference-style final presentations. The closing covers the path toward publication and student conferences.</div></details>
+    <p style="margin-top:18px" data-i="w.dl"><a href="syllabus.pdf" target="_blank" rel="noopener">Download the full syllabus in PDF (Spanish) →</a></p>
   </div>
 </section>
 
@@ -282,11 +287,11 @@
   <div class="wrap">
     <div class="doc-grid">
       <div>
-        <h2>El docente</h2>
+        <h2 data-i="t.h2">The instructor</h2>
       </div>
       <div class="doc-cred">
-        <p><b>Dr. Niels Pacheco-Barrios.</b> Médico cirujano por la Universidad Peruana Cayetano Heredia. Magíster en Estadística por la Harvard Medical School (EE. UU.). Investigador postdoctoral en el Brigham and Women's Hospital (Harvard). Colaborador de MIT Critical Data y del curso Machine Learning for Healthcare del MIT.</p>
-        <p style="margin-top:10px">Investiga con las mismas bases de datos abiertas que se emplean en el curso (MIMIC-IV, NIS, NSQIP, PPMI), con publicaciones en revistas internacionales indexadas.</p>
+        <p data-i="t.p1"><b>Dr. Niels Pacheco-Barrios.</b> Physician (M.D.), Universidad Peruana Cayetano Heredia. Master's degree in Statistics, Harvard Medical School (USA). Postdoctoral researcher at Brigham and Women's Hospital (Harvard). Collaborator with MIT Critical Data and MIT's Machine Learning for Healthcare course.</p>
+        <p style="margin-top:10px" data-i="t.p2">His research uses the same open datasets employed in the course (MIMIC-IV, NIS, NSQIP, PPMI), with publications in indexed international journals.</p>
       </div>
     </div>
   </div>
@@ -295,54 +300,184 @@
 <section class="alt" id="suscripcion">
   <div class="wrap">
     <div class="price-card">
-      <span class="eyebrow">Proyecto sin fines de lucro · Cohorte fundadora</span>
-      <p class="price-note" style="margin:4px 0 10px">Un curso equivalente cuesta <b>US$ 500 o más</b>. Lo que se pide aquí es una <b>contribución simbólica</b>:</p>
-      <div class="price-big">S/ 150 <small>/ mes</small></div>
-      <p class="price-note">durante los cuatro meses del curso · exclusivo de la primera cohorte<br>Este curso es un proyecto sin fines de lucro. Sé que el precio es la principal barrera para un estudiante de medicina que aún no trabaja; por eso no cobro el precio de mercado, sino una contribución simbólica que me permite dedicar tiempo al curso y sostener la plataforma y las becas.<br>También puede optar por una contribución única de S/ 540.</p>
+      <span class="eyebrow" data-i="p.eye">Non-profit project · Founding cohort</span>
+      <p class="price-note" style="margin:4px 0 10px" data-i="p.cmp">An equivalent course costs <b>US$ 500 or more</b>. What is asked here is a <b>symbolic contribution</b>:</p>
+      <div class="price-big" data-i="p.big">S/ 150 <small>/ month</small></div>
+      <p class="price-note" data-i="p.note">for the four months of the course · exclusive to the first cohort<br>This course is a non-profit project. I know price is the main barrier for a medical student who does not yet work; that is why I do not charge the market price, but a symbolic contribution that lets me dedicate time to the course and sustain the platform and the scholarships.<br>You may also choose a one-time contribution of S/ 540.</p>
       <ul class="price-list">
-        <li>Contribución por Plin al <b>993 126 398</b> (Niels Pacheco-Barrios). La vacante queda confirmada con el formulario y la primera contribución.</li>
-        <li>40 vacantes, en pods de 4 a 6 estudiantes.</li>
-        <li>Becas parciales disponibles (formulario de 5 minutos).</li>
-        <li>Garantía: devolución completa hasta el final de la semana 2.</li>
-        <li>La cohorte fundadora conserva este precio en los siguientes cursos.</li>
+        <li data-i="p.l1">Contribution via Plin to <b>993 126 398</b> (Niels Pacheco-Barrios), Peru's mobile payment system. Your seat is confirmed by the form plus the first contribution.</li>
+        <li data-i="p.l2">40 seats, in pods of 4–6 students.</li>
+        <li data-i="p.l3">Partial scholarships available (a 5-minute form).</li>
+        <li data-i="p.l4">Guarantee: full refund through the end of week 2.</li>
+        <li data-i="p.l5">The founding cohort keeps this price in future courses of the program.</li>
       </ul>
-      <p class="price-note" style="margin-bottom:20px"><b>¿Paga desde fuera del Perú?</b> Puede pagar con tarjeta de crédito o débito (Visa, Mastercard, Amex), sin crear ninguna cuenta:<br><a href="https://www.paypal.com/ncp/payment/NZ6QS3TWZXAY4" target="_blank" rel="noopener">Mensualidad · US$ 49</a> &nbsp;·&nbsp; <a href="https://www.paypal.com/ncp/payment/SNWTDTBAWPDEJ" target="_blank" rel="noopener">Curso completo · US$ 179</a></p>
-      <a class="pill js-inscribir" href="#suscripcion">Completar el formulario de inscripción</a>
-      <p class="price-note" style="margin-top:16px">Para consultas, escríbame por <a href="https://wa.me/51993126398">WhatsApp: +51 993 126 398</a></p>
+      <p class="price-note" style="margin-bottom:20px" data-i="p.intl"><b>Paying from outside Peru?</b> You can pay by credit or debit card (Visa, Mastercard, Amex), with no account needed:<br><a href="https://www.paypal.com/ncp/payment/NZ6QS3TWZXAY4" target="_blank" rel="noopener">Monthly · US$ 49</a> &nbsp;·&nbsp; <a href="https://www.paypal.com/ncp/payment/SNWTDTBAWPDEJ" target="_blank" rel="noopener">Full course · US$ 179</a></p>
+      <a class="pill js-inscribir" href="#suscripcion" data-i="p.cta">Complete the enrollment form</a>
+      <p class="price-note" style="margin-top:16px" data-i="p.wa">Questions? Write to me on <a href="https://wa.me/51993126398">WhatsApp: +51 993 126 398</a></p>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap faq">
-    <h2>Preguntas frecuentes</h2>
-    <details><summary>¿Se requiere experiencia en programación o en estadística?</summary><p>No. El curso parte desde cero y el módulo 0 de nivelación cubre los fundamentos antes de la semana 1. Todo el trabajo se realiza en Google Colab, en el navegador, sin instalar programas.</p></details>
-    <details><summary>¿Qué es Google Colab? ¿Debo instalar algo?</summary><p>Google Colab es una página web gratuita de Google donde se escribe y se ejecuta código desde el navegador, como un documento en línea. No se instala nada: se abre el enlace del cuaderno de la clase y ya está listo para usar. Solo se necesita una cuenta de Google.</p></details>
-    <details><summary>¿Qué significa «machine learning»?</summary><p>Son programas que aprenden patrones a partir de muchos casos para predecir un resultado en casos nuevos; por ejemplo, estimar el riesgo de mortalidad de un paciente a partir de sus datos de ingreso. En el curso se entrenan y evalúan estos modelos con bases de datos reales, y se aprende a juzgar cuándo son útiles en salud y cuándo no.</p></details>
-    <details><summary>¿Qué sucede si no puede asistir a una sesión?</summary><p>Las clases quedan grabadas. Para aprobar se requiere participación en vivo en al menos 12 de las 16 semanas, dado que el trabajo en pod se realiza durante la sesión.</p></details>
-    <details><summary>¿Cómo funciona la contribución mensual?</summary><p>Es una contribución simbólica: un curso equivalente cuesta US$ 500 o más. La contribución de S/ 150 se realiza al inicio de cada mes del curso, por Plin al 993 126 398, y es requisito para participar. La suspensión de la contribución implica la pérdida del acceso a las clases y al pod desde ese mes. También es posible realizar una contribución única de S/ 540.</p></details>
-    <details><summary>¿Se puede pagar desde el extranjero?</summary><p>Sí. Desde fuera del Perú puede pagar con tarjeta de crédito o débito, sin crear ninguna cuenta: <a href="https://www.paypal.com/ncp/payment/NZ6QS3TWZXAY4" target="_blank" rel="noopener">mensualidad de US$ 49</a> o <a href="https://www.paypal.com/ncp/payment/SNWTDTBAWPDEJ" target="_blank" rel="noopener">curso completo por US$ 179</a> (pago procesado por PayPal, con sus protecciones al comprador). Luego de pagar, escríbame por WhatsApp con su nombre para confirmar la inscripción.</p></details>
-    <details><summary>¿Por qué se pide una contribución si el proyecto es sin fines de lucro?</summary><p>Porque el curso necesita sostenerse: la contribución simbólica cubre la plataforma, las grabaciones, la mentoría y las becas, y me permite reservar el tiempo que el curso requiere. No busca generar ganancia; busca que el proyecto exista y que el precio nunca deje fuera a un estudiante.</p></details>
-    <details><summary>¿Se entrega un certificado?</summary><p>Sí. Se emite una constancia digital que consigna las 32 horas de clase en vivo, las horas de trabajo asincrónico y el título del proyecto final. Se otorga al aprobar con el 60 % del puntaje y presentar el proyecto.</p></details>
-    <details><summary>¿El curso se imparte en español?</summary><p>Sí. Las clases y las guías son en español; algunos videos de preparación están en inglés con subtítulos.</p></details>
-    <details><summary>¿Está abierto a quienes no estudian medicina?</summary><p>Sí. El curso está dirigido a estudiantes de medicina y de carreras de la salud, y también admite a profesionales de la salud interesados.</p></details>
+    <h2 data-i="f.h2">Frequently asked questions</h2>
+    <details><summary data-i="f.q1">Do I need experience in programming or statistics?</summary><p data-i="f.a1">No. The course starts from zero and the optional module 0 covers the fundamentals before week 1. All work happens in Google Colab, in the browser, with nothing to install.</p></details>
+    <details><summary data-i="f.q2">What is Google Colab? Do I have to install anything?</summary><p data-i="f.a2">Google Colab is a free Google web page where you write and run code from the browser, like an online document. Nothing is installed: you open the class notebook link and it is ready to use. You only need a Google account.</p></details>
+    <details><summary data-i="f.q3">What does “machine learning” mean?</summary><p data-i="f.a3">Programs that learn patterns from many cases in order to predict an outcome in new ones; for example, estimating a patient's mortality risk from admission data. In the course you train and evaluate these models on real datasets, and learn to judge when they are useful in healthcare and when they are not.</p></details>
+    <details><summary data-i="f.q4">What if I cannot attend a session?</summary><p data-i="f.a4">Classes are recorded. Passing requires live participation in at least 12 of the 16 weeks, since pod work happens during the session.</p></details>
+    <details><summary data-i="f.q5">How does the monthly contribution work?</summary><p data-i="f.a5">It is a symbolic contribution: an equivalent course costs US$ 500 or more. The contribution is made at the start of each month of the course — S/ 150 via Plin from Peru, or US$ 49 by card from abroad — and it is required to participate. Stopping the contribution means losing access to classes and to the pod from that month on. A one-time contribution is also available: S/ 540 or US$ 179.</p></details>
+    <details><summary data-i="f.q6">Can I pay from outside Peru?</summary><p data-i="f.a6">Yes. From outside Peru you can pay by credit or debit card, with no account needed: <a href="https://www.paypal.com/ncp/payment/NZ6QS3TWZXAY4" target="_blank" rel="noopener">monthly US$ 49</a> or <a href="https://www.paypal.com/ncp/payment/SNWTDTBAWPDEJ" target="_blank" rel="noopener">full course US$ 179</a> (processed by PayPal, with its buyer protections). After paying, write to me on WhatsApp with your name to confirm your enrollment.</p></details>
+    <details><summary data-i="f.q7">Why ask for a contribution if the project is non-profit?</summary><p data-i="f.a7">Because the course needs to sustain itself: the symbolic contribution covers the platform, the recordings, the mentorship, and the scholarships, and lets me set aside the time the course requires. It is not meant to generate profit; it is meant to keep the project alive and to make sure price never leaves a student out.</p></details>
+    <details><summary data-i="f.q8">Is there a certificate?</summary><p data-i="f.a8">Yes. A digital certificate records the 32 hours of live class, the asynchronous work hours, and the title of your final project. It is granted upon passing with 60 % of the total score and presenting the project.</p></details>
+    <details><summary data-i="f.q9">Is the course taught in Spanish?</summary><p data-i="f.a9">Yes. Classes, guides, and the enrollment form are in Spanish; some preparation videos are in English with subtitles. You will need working Spanish to follow the course.</p></details>
+    <details><summary data-i="f.q10">Is it open to people who are not medical students?</summary><p data-i="f.a10">Yes. The course is aimed at medical and health-sciences students, and interested health professionals are also welcome.</p></details>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot-in">
-    <div>Estadística y Machine Learning para Estudiantes de Medicina<br>Dr. Niels Pacheco-Barrios · Cohorte fundadora, Perú</div>
-    <div><a href="https://wa.me/51993126398">WhatsApp: +51 993 126 398</a><br><a href="syllabus.pdf" target="_blank" rel="noopener">Syllabus (PDF)</a><br><a href="https://www.paypal.com/ncp/payment/DGH5BNW3VXLBN" target="_blank" rel="noopener">Apoye este proyecto</a></div>
+    <div data-i="ft.l">Statistics and Machine Learning for Medical Students<br>Dr. Niels Pacheco-Barrios · Founding cohort, Peru</div>
+    <div data-i="ft.r"><a href="https://wa.me/51993126398">WhatsApp: +51 993 126 398</a><br><a href="syllabus.pdf" target="_blank" rel="noopener">Syllabus (PDF, Spanish)</a><br><a href="https://www.paypal.com/ncp/payment/DGH5BNW3VXLBN" target="_blank" rel="noopener">Support this project</a></div>
   </div>
 </footer>
 
 <script>
-  // Cuando tengas el Google Form, pega su enlace aquí entre las comillas:
   var FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeiy4tmE5zeaHU_YISxSZ9zRqX03NVOTuaxdTSwrBuCekikcw/viewform";
   document.querySelectorAll(".js-inscribir").forEach(function (a) {
     if (FORM_URL) { a.href = FORM_URL; a.target = "_blank"; a.rel = "noopener"; }
     else if (a.closest(".price-card")) { a.href = "https://wa.me/51993126398?text=Hola%2C%20quiero%20inscribirme%20al%20curso%20de%20Estad%C3%ADstica%20y%20Machine%20Learning"; }
   });
+
+  // Contenido en español (el inglés vive en el HTML y se captura al cargar).
+  var ES = {
+    "_title": "Estadística y Machine Learning para Estudiantes de Medicina",
+    "_desc": "Curso en vivo de 16 semanas de estadística y machine learning con bases de datos abiertas en salud, dirigido a estudiantes de medicina. Proyecto sin fines de lucro. Domingos de 8:00 a 10:00 p. m. (hora Perú). Cohorte fundadora, Perú.",
+    "nav.tag": "· Datos y Medicina",
+    "nav.cta": "Inscríbase",
+    "h.eye": "Sin fines de lucro · Cohorte fundadora Perú · 40 vacantes",
+    "h.h1": "Estadística y <em>machine learning</em> con datos médicos reales",
+    "h.lede": "Curso en vivo de 16 semanas dirigido a estudiantes de medicina y de carreras de la salud. El programa parte desde cero y culmina con la presentación de un análisis propio sobre bases de datos abiertas de hospitales y estudios internacionales. No se requiere experiencia previa en programación ni en estadística: todo se trabaja en Google Colab (una herramienta gratuita de Google que funciona en el navegador, como un documento en línea), sin instalar ningún programa.",
+    "h.cta1": "Inscríbase en la cohorte fundadora",
+    "h.cta2": "Ver el syllabus (PDF)",
+    "h.meta": "Clases en vivo los <b>domingos de 8:00 a 10:00 p. m.</b> (hora Perú); cada sesión queda grabada",
+    "st1": "<b>16</b><span>semanas en vivo</span>",
+    "st2": "<b>S/ 150</b><span>contribución simbólica · al mes</span>",
+    "st3": "<b>4 a 6</b><span>integrantes por grupo de trabajo</span>",
+    "st4": "<b>1</b><span>proyecto final en formato de congreso</span>",
+    "sp.h2": "En palabras simples: ¿de qué trata el curso?",
+    "sp.sub": "Para quien nunca ha llevado estadística ni ha programado. Cuatro ideas bastan para entender el curso.",
+    "sp.t1": "<b>Qué va a aprender</b><p>A responder preguntas médicas con datos reales. Por ejemplo: ¿qué pacientes de una unidad de cuidados intensivos tienen mayor riesgo de morir? ¿La anemia materna se asocia con el peso al nacer? La estadística es el conjunto de herramientas para responder esas preguntas con números y no con impresiones. El <em>machine learning</em> es su extensión más reciente: programas que aprenden patrones de miles de casos para predecir lo que ocurrirá con un paciente nuevo.</p>",
+    "sp.t2": "<b>Qué significa programar aquí</b><p>Escribir instrucciones cortas en Python, un lenguaje de programación muy usado en ciencia, para que la computadora ordene, cuente, grafique y analice los datos por usted. No hace falta saberlo de antemano: se aprende desde la primera clase, con un asistente de inteligencia artificial que ayuda a escribir y corregir el código.</p>",
+    "sp.t3": "<b>Qué es Google Colab</b><p>Una página web gratuita de Google donde se escribe y se ejecuta código desde el navegador, como si fuera un documento de Google Docs. No se instala nada: se abre un enlace y el cuaderno de la clase ya está listo para usar. Solo se necesita una cuenta de Google y una computadora con internet.</p>",
+    "sp.t4": "<b>Qué es una base de datos abierta</b><p>Un conjunto de datos reales (historias clínicas anonimizadas, encuestas nacionales de salud, registros de defunciones) que hospitales e instituciones publican de forma gratuita para que cualquiera pueda investigar con ellos. En el curso se trabaja con los mismos que usan los investigadores, no con ejemplos inventados.</p>",
+    "d.h2": "Trabajará con los mismos datos que usan los investigadores",
+    "d.sub": "Cada semana se practica con bases de datos abiertas y reales, las mismas que sustentan publicaciones en revistas internacionales, en lugar de ejemplos simplificados diseñados para la enseñanza.",
+    "d.t1": "<b>MIMIC-IV</b><p>Historias clínicas de cuidados intensivos de un hospital de Harvard. Se trabaja con la versión de demostración abierta y se orienta el proceso para acceder a la versión completa.</p>",
+    "d.t2": "<b>PPMI</b><p>Estudio longitudinal de la enfermedad de Parkinson con datos clínicos, biomarcadores y neuroimagen; acceso gratuito previa solicitud.</p>",
+    "d.t3": "<b>NHANES</b><p>Encuesta nacional de salud y nutrición de los EE. UU., con examen físico y de laboratorio.</p>",
+    "d.t4": "<b>ENDES y SINADEF</b><p>Las bases peruanas: salud materno-infantil (INEI) y el registro nacional de defunciones.</p>",
+    "d.t5": "<b>Global Burden of Disease</b><p>Carga de enfermedad por país, edad y sexo, del IHME.</p>",
+    "m.h2": "Metodología semanal",
+    "m.s1": "<b>Video de preparación antes de cada clase</b><p>Bajo el modelo de aula invertida, un video breve presenta la intuición del tema antes de la sesión, sin formalismo innecesario, de modo que el tiempo en vivo se dedica a aplicar y no a dictar.</p>",
+    "m.s2": "<b>Clase en vivo los domingos a las 8:00 p. m.</b><p>Durante dos horas se desarrolla el concepto con ejemplos médicos y se aplica en un cuaderno de Google Colab que cada estudiante ejecuta y modifica en paralelo. Todas las sesiones quedan grabadas.</p>",
+    "m.s3": "<b>Reto semanal en pods</b><p>Cada pod reúne de 4 a 6 estudiantes que trabajan juntos durante todo el curso. A partir de la semana 11, el pod desarrolla su proyecto final con mentoría del docente.</p>",
+    "m.s4": "<b>Programación asistida por inteligencia artificial</b><p>Desde la semana 1 se emplean asistentes de IA para escribir y depurar código, con énfasis en aprender a verificar sus resultados. Incluye una demostración de Claude Code automatizando un análisis completo. El principio del curso: el asistente colabora en el código; la interpretación corresponde al estudiante.</p>",
+    "o.h2": "Al finalizar el curso será capaz de",
+    "o.1": "Manejar Python en Google Colab para importar, limpiar, describir y graficar datos de salud.",
+    "o.2": "Interpretar distribuciones, intervalos de confianza, valores p y poder estadístico.",
+    "o.3": "Elegir y ejecutar las pruebas estadísticas de uso más frecuente en investigación médica.",
+    "o.4": "Ajustar e interpretar regresiones lineales y logísticas, con manejo de confusores.",
+    "o.5": "Entrenar y evaluar modelos de machine learning y explicar el funcionamiento de las redes neuronales.",
+    "o.6": "Completar un proyecto con una base de datos abierta y presentarlo en formato de congreso.",
+    "w.h2": "Las 16 semanas",
+    "w.sub": "Incluye un módulo 0 de nivelación, opcional y autoguiado (notación, logaritmos y odds, matrices como tablas de datos, probabilidad básica), disponible desde el momento de la inscripción.",
+    "w.s1": "<span class=\"wk-tag\">Semanas 1 a 3</span> · Explorar y describir datos",
+    "w.b1": "Primeros pasos en Colab y Python; tipos de variables y la tabla 1 de un estudio; principios de una buena figura. Prácticas con NHANES, ENDES y Global Burden of Disease.",
+    "w.s2": "<span class=\"wk-tag\">Semanas 4 a 6</span> · Probabilidad, estimación y el valor p",
+    "w.b2": "Distribuciones y teorema del límite central; intervalos de confianza y bootstrap; qué significa (y qué no) un valor p; poder estadístico y tamaño de muestra.",
+    "w.s3": "<span class=\"wk-tag\">Semanas 7 y 8</span> · Pruebas estadísticas y regresión lineal",
+    "w.b3": "t de Student, chi cuadrado, pruebas pareadas y comparaciones múltiples; correlación y regresión lineal. Entrega del mini proyecto 1.",
+    "w.s4": "<span class=\"wk-tag\">Semanas 9 a 11</span> · Regresión logística y el salto al machine learning",
+    "w.b4": "Odds ratios e interpretación clínica; confusores y grafos causales; sesgo y varianza, validación cruzada y el primer modelo predictivo con la demo de MIMIC-IV.",
+    "w.s5": "<span class=\"wk-tag\">Semanas 12 a 14</span> · Machine learning aplicado",
+    "w.b5": "Árboles de decisión y random forest; gradient boosting y métricas (ROC, calibración); redes neuronales en intuición. Prácticas con MIMIC-IV y PPMI.",
+    "w.s6": "<span class=\"wk-tag\">Semanas 15 y 16</span> · El proyecto final",
+    "w.b6": "Taller de proyecto en pods con asesoría del docente y presentaciones finales en formato de congreso. El cierre aborda la ruta hacia la publicación y los congresos estudiantiles.",
+    "w.dl": "<a href=\"syllabus.pdf\" target=\"_blank\" rel=\"noopener\">Descargue el syllabus completo en PDF →</a>",
+    "t.h2": "El docente",
+    "t.p1": "<b>Dr. Niels Pacheco-Barrios.</b> Médico cirujano por la Universidad Peruana Cayetano Heredia. Magíster en Estadística por la Harvard Medical School (EE. UU.). Investigador postdoctoral en el Brigham and Women's Hospital (Harvard). Colaborador de MIT Critical Data y del curso Machine Learning for Healthcare del MIT.",
+    "t.p2": "Investiga con las mismas bases de datos abiertas que se emplean en el curso (MIMIC-IV, NIS, NSQIP, PPMI), con publicaciones en revistas internacionales indexadas.",
+    "p.eye": "Proyecto sin fines de lucro · Cohorte fundadora",
+    "p.cmp": "Un curso equivalente cuesta <b>US$ 500 o más</b>. Lo que se pide aquí es una <b>contribución simbólica</b>:",
+    "p.big": "S/ 150 <small>/ mes</small>",
+    "p.note": "durante los cuatro meses del curso · exclusivo de la primera cohorte<br>Este curso es un proyecto sin fines de lucro. Sé que el precio es la principal barrera para un estudiante de medicina que aún no trabaja; por eso no cobro el precio de mercado, sino una contribución simbólica que me permite dedicar tiempo al curso y sostener la plataforma y las becas.<br>También puede optar por una contribución única de S/ 540.",
+    "p.l1": "Contribución por Plin al <b>993 126 398</b> (Niels Pacheco-Barrios). La vacante queda confirmada con el formulario y la primera contribución.",
+    "p.l2": "40 vacantes, en pods de 4 a 6 estudiantes.",
+    "p.l3": "Becas parciales disponibles (formulario de 5 minutos).",
+    "p.l4": "Garantía: devolución completa hasta el final de la semana 2.",
+    "p.l5": "La cohorte fundadora conserva este precio en los siguientes cursos.",
+    "p.intl": "<b>¿Paga desde fuera del Perú?</b> Puede pagar con tarjeta de crédito o débito (Visa, Mastercard, Amex), sin crear ninguna cuenta:<br><a href=\"https://www.paypal.com/ncp/payment/NZ6QS3TWZXAY4\" target=\"_blank\" rel=\"noopener\">Mensualidad · US$ 49</a> &nbsp;·&nbsp; <a href=\"https://www.paypal.com/ncp/payment/SNWTDTBAWPDEJ\" target=\"_blank\" rel=\"noopener\">Curso completo · US$ 179</a>",
+    "p.cta": "Completar el formulario de inscripción",
+    "p.wa": "Para consultas, escríbame por <a href=\"https://wa.me/51993126398\">WhatsApp: +51 993 126 398</a>",
+    "f.h2": "Preguntas frecuentes",
+    "f.q1": "¿Se requiere experiencia en programación o en estadística?",
+    "f.a1": "No. El curso parte desde cero y el módulo 0 de nivelación cubre los fundamentos antes de la semana 1. Todo el trabajo se realiza en Google Colab, en el navegador, sin instalar programas.",
+    "f.q2": "¿Qué es Google Colab? ¿Debo instalar algo?",
+    "f.a2": "Google Colab es una página web gratuita de Google donde se escribe y se ejecuta código desde el navegador, como un documento en línea. No se instala nada: se abre el enlace del cuaderno de la clase y ya está listo para usar. Solo se necesita una cuenta de Google.",
+    "f.q3": "¿Qué significa «machine learning»?",
+    "f.a3": "Son programas que aprenden patrones a partir de muchos casos para predecir un resultado en casos nuevos; por ejemplo, estimar el riesgo de mortalidad de un paciente a partir de sus datos de ingreso. En el curso se entrenan y evalúan estos modelos con bases de datos reales, y se aprende a juzgar cuándo son útiles en salud y cuándo no.",
+    "f.q4": "¿Qué sucede si no puede asistir a una sesión?",
+    "f.a4": "Las clases quedan grabadas. Para aprobar se requiere participación en vivo en al menos 12 de las 16 semanas, dado que el trabajo en pod se realiza durante la sesión.",
+    "f.q5": "¿Cómo funciona la contribución mensual?",
+    "f.a5": "Es una contribución simbólica: un curso equivalente cuesta US$ 500 o más. La contribución de S/ 150 se realiza al inicio de cada mes del curso, por Plin al 993 126 398, y es requisito para participar. La suspensión de la contribución implica la pérdida del acceso a las clases y al pod desde ese mes. También es posible realizar una contribución única de S/ 540.",
+    "f.q6": "¿Se puede pagar desde el extranjero?",
+    "f.a6": "Sí. Desde fuera del Perú puede pagar con tarjeta de crédito o débito, sin crear ninguna cuenta: <a href=\"https://www.paypal.com/ncp/payment/NZ6QS3TWZXAY4\" target=\"_blank\" rel=\"noopener\">mensualidad de US$ 49</a> o <a href=\"https://www.paypal.com/ncp/payment/SNWTDTBAWPDEJ\" target=\"_blank\" rel=\"noopener\">curso completo por US$ 179</a> (pago procesado por PayPal, con sus protecciones al comprador). Luego de pagar, escríbame por WhatsApp con su nombre para confirmar la inscripción.",
+    "f.q7": "¿Por qué se pide una contribución si el proyecto es sin fines de lucro?",
+    "f.a7": "Porque el curso necesita sostenerse: la contribución simbólica cubre la plataforma, las grabaciones, la mentoría y las becas, y me permite reservar el tiempo que el curso requiere. No busca generar ganancia; busca que el proyecto exista y que el precio nunca deje fuera a un estudiante.",
+    "f.q8": "¿Se entrega un certificado?",
+    "f.a8": "Sí. Se emite una constancia digital que consigna las 32 horas de clase en vivo, las horas de trabajo asincrónico y el título del proyecto final. Se otorga al aprobar con el 60 % del puntaje y presentar el proyecto.",
+    "f.q9": "¿El curso se imparte en español?",
+    "f.a9": "Sí. Las clases y las guías son en español; algunos videos de preparación están en inglés con subtítulos.",
+    "f.q10": "¿Está abierto a quienes no estudian medicina?",
+    "f.a10": "Sí. El curso está dirigido a estudiantes de medicina y de carreras de la salud, y también admite a profesionales de la salud interesados.",
+    "ft.l": "Estadística y Machine Learning para Estudiantes de Medicina<br>Dr. Niels Pacheco-Barrios · Cohorte fundadora, Perú",
+    "ft.r": "<a href=\"https://wa.me/51993126398\">WhatsApp: +51 993 126 398</a><br><a href=\"syllabus.pdf\" target=\"_blank\" rel=\"noopener\">Syllabus (PDF)</a><br><a href=\"https://www.paypal.com/ncp/payment/DGH5BNW3VXLBN\" target=\"_blank\" rel=\"noopener\">Apoye este proyecto</a>"
+  };
+
+  var EN = {};
+  var i18nEls = document.querySelectorAll("[data-i]");
+  i18nEls.forEach(function (el) { EN[el.getAttribute("data-i")] = el.innerHTML; });
+  EN["_title"] = document.title;
+  EN["_desc"] = document.getElementById("meta-desc").getAttribute("content");
+
+  var langBtn = document.getElementById("lang-btn");
+  var currentLang = "en";
+
+  function setLang(l) {
+    var D = (l === "es") ? ES : EN;
+    i18nEls.forEach(function (el) {
+      var k = el.getAttribute("data-i");
+      if (D[k] !== undefined) el.innerHTML = D[k];
+    });
+    document.title = D["_title"];
+    document.getElementById("meta-desc").setAttribute("content", D["_desc"]);
+    document.documentElement.lang = l;
+    langBtn.textContent = (l === "es") ? "English" : "Español";
+    currentLang = l;
+    try { localStorage.setItem("lang", l); } catch (e) {}
+  }
+
+  langBtn.addEventListener("click", function () {
+    setLang(currentLang === "es" ? "en" : "es");
+  });
+
+  (function () {
+    var q = new URLSearchParams(location.search).get("lang");
+    var saved = null;
+    try { saved = localStorage.getItem("lang"); } catch (e) {}
+    var l = (q === "es" || q === "en") ? q : (saved === "es" || saved === "en") ? saved : "en";
+    if (l === "es") setLang("es");
+  })();
 </script>
 
 </body>
