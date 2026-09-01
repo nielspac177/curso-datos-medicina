@@ -176,9 +176,47 @@
   footer { border-top: 1px solid var(--line); padding: 40px 0 60px; color: var(--text-2); font-size: 14.5px; }
   .foot-in { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
 
+
+  /* Hero: figura de datos */
+  .hero-grid { display: grid; grid-template-columns: 1.04fr 0.96fr; gap: 54px; align-items: center; }
+  @media (max-width: 940px) { .hero-grid { grid-template-columns: 1fr; } .hero-fig { max-width: 500px; margin: 6px auto 0; } }
+  .hero-fig {
+    --p: 1;
+    margin: 0; border: 1px solid var(--line); border-radius: 18px; background: var(--card);
+    box-shadow: var(--shadow); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    padding: 16px 16px 12px;
+    transform: translateY(calc((1 - var(--p)) * 16px)) rotate(calc((1 - var(--p)) * -1.1deg));
+  }
+  .hero-fig svg { display: block; width: 100%; height: auto; }
+  .fig-cap { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; font-style: italic; color: var(--text-2); margin-top: 10px; }
+  .gl { stroke: var(--line); stroke-width: 1; }
+  .ax { stroke: var(--text-2); stroke-width: 1.4; opacity: 0.55; }
+  .pt {
+    transform-box: fill-box; transform-origin: center;
+    transform: translate(calc(var(--dx) * (1 - var(--p)) * 1px), calc(var(--dy) * (1 - var(--p)) * 1px));
+    filter: grayscale(calc((1 - var(--p)) * 92%));
+    opacity: calc(0.5 + 0.5 * var(--p));
+    animation: ptin 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards; animation-delay: var(--sd);
+  }
+  .pA { fill: var(--text-2); } .pB { fill: var(--accent); }
+  @keyframes ptin { from { opacity: 0; } }
+  .fit { stroke: var(--accent); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p)); }
+  .band { fill: var(--accent); opacity: calc(var(--p) * 0.09); }
+  .anno { opacity: calc((var(--p) - 0.72) / 0.28); }
+  .anno rect { fill: var(--card); stroke: var(--line); }
+  .anno-dot { fill: var(--accent); }
+  .anno text { font-family: inherit; font-style: italic; font-size: 13.5px; fill: var(--text); }
+
+  /* Revelado por sección */
+  .rv { opacity: 0; transform: translateY(16px); }
+  .rv.in { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .pill, .tile { transition: none; }
+    .hero-fig { --p: 1 !important; transform: none; }
+    .pt { animation: none; }
+    .rv { opacity: 1; transform: none; }
   }
 </style>
 </head>
@@ -195,7 +233,8 @@
 </nav>
 
 <header class="hero">
-  <div class="wrap">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
     <span class="eyebrow" data-i="h.eye">Non-profit · Founding cohort (Peru) · 40 seats</span>
     <h1 data-i="h.h1">Statistics and <em>machine learning</em> with real medical data</h1>
     <p class="lede" data-i="h.lede">A 16-week live course for medical and health-sciences students. The program starts from zero and ends with you presenting your own analysis of open datasets from hospitals and international studies. No prior experience in programming or statistics is required: everything runs in Google Colab (a free Google tool that works in your browser, like an online document), with nothing to install.</p>
@@ -204,6 +243,18 @@
       <a class="pill ghost" href="syllabus.pdf" target="_blank" rel="noopener" data-i="h.cta2">View the syllabus (PDF, in Spanish)</a>
     </div>
     <p class="hero-meta" data-i="h.meta">Live classes on <b>Sundays, 8:00–10:00 p.m.</b> (Peru time, GMT-5); every session is recorded</p>
+    </div>
+    <figure class="hero-fig" id="hero-fig">
+      <svg viewBox="0 0 520 440" role="img" aria-hidden="true" focusable="false">
+        <g class="grid"><line class="gl" x1="54" y1="110" x2="500" y2="110"/><line class="gl" x1="54" y1="195" x2="500" y2="195"/><line class="gl" x1="54" y1="280" x2="500" y2="280"/><line class="gl" x1="54" y1="365" x2="500" y2="365"/></g>
+        <path class="band" d="M56,344.0 L68,342.3 L80,340.2 L92,337.7 L104,334.7 L116,331.1 L128,326.9 L140,321.9 L152,316.0 L164,309.1 L176,301.1 L188,292.0 L200,281.6 L212,270.1 L224,257.4 L236,243.6 L248,229.0 L260,213.6 L272,197.9 L284,182.2 L296,166.6 L308,151.6 L320,137.4 L332,124.1 L344,112.0 L356,101.1 L368,91.3 L380,82.8 L392,75.4 L404,69.0 L416,63.5 L428,58.9 L440,55.0 L452,51.7 L464,49.0 L476,46.7 L488,44.8 L500,43.3 L500,95.3 L488,96.8 L476,98.7 L464,101.0 L452,103.7 L440,107.0 L428,110.9 L416,115.5 L404,121.0 L392,127.4 L380,134.8 L368,143.3 L356,153.1 L344,164.0 L332,176.1 L320,189.4 L308,203.6 L296,218.6 L284,234.2 L272,249.9 L260,265.6 L248,281.0 L236,295.6 L224,309.4 L212,322.1 L200,333.6 L188,344.0 L176,353.1 L164,361.1 L152,368.0 L140,373.9 L128,378.9 L116,383.1 L104,386.7 L92,389.7 L80,392.2 L68,394.3 L56,396.0 Z"/>
+        <line class="ax" x1="54" y1="396" x2="500" y2="396"/><line class="ax" x1="54" y1="396" x2="54" y2="28"/>
+        <circle class="pt pA" cx="217" cy="338" r="4.6" style="--dx:-102;--dy:1;--sd:0.04s"/><circle class="pt pB" cx="314" cy="138" r="4.6" style="--dx:80;--dy:94;--sd:1.23s"/><circle class="pt pA" cx="248" cy="343" r="4.6" style="--dx:74;--dy:-41;--sd:0.63s"/><circle class="pt pA" cx="200" cy="374" r="4.6" style="--dx:-101;--dy:38;--sd:0.60s"/><circle class="pt pA" cx="80" cy="386" r="4.6" style="--dx:-99;--dy:-78;--sd:0.07s"/><circle class="pt pA" cx="221" cy="315" r="4.6" style="--dx:-101;--dy:-56;--sd:0.28s"/><circle class="pt pB" cx="322" cy="111" r="4.6" style="--dx:-91;--dy:26;--sd:1.05s"/><circle class="pt pB" cx="309" cy="136" r="4.6" style="--dx:76;--dy:-64;--sd:1.30s"/><circle class="pt pB" cx="363" cy="95" r="4.6" style="--dx:6;--dy:91;--sd:1.37s"/><circle class="pt pA" cx="257" cy="295" r="4.6" style="--dx:-43;--dy:16;--sd:0.32s"/><circle class="pt pA" cx="187" cy="386" r="4.6" style="--dx:-87;--dy:-53;--sd:0.11s"/><circle class="pt pA" cx="185" cy="386" r="4.6" style="--dx:-80;--dy:-2;--sd:0.46s"/><circle class="pt pB" cx="232" cy="246" r="4.6" style="--dx:-67;--dy:-64;--sd:1.09s"/><circle class="pt pA" cx="243" cy="346" r="4.6" style="--dx:18;--dy:-20;--sd:0.14s"/><circle class="pt pB" cx="383" cy="74" r="4.6" style="--dx:-57;--dy:-29;--sd:1.19s"/><circle class="pt pB" cx="356" cy="64" r="4.6" style="--dx:41;--dy:-85;--sd:0.98s"/><circle class="pt pA" cx="159" cy="372" r="4.6" style="--dx:35;--dy:-81;--sd:0.00s"/><circle class="pt pA" cx="137" cy="386" r="4.6" style="--dx:6;--dy:71;--sd:0.39s"/><circle class="pt pA" cx="311" cy="218" r="4.6" style="--dx:45;--dy:18;--sd:0.53s"/><circle class="pt pB" cx="221" cy="201" r="4.6" style="--dx:6;--dy:-67;--sd:1.33s"/><circle class="pt pB" cx="376" cy="71" r="4.6" style="--dx:-114;--dy:-15;--sd:0.91s"/><circle class="pt pB" cx="342" cy="85" r="4.6" style="--dx:-95;--dy:-76;--sd:1.26s"/><circle class="pt pA" cx="271" cy="268" r="4.6" style="--dx:110;--dy:-73;--sd:0.42s"/><circle class="pt pB" cx="461" cy="40" r="4.6" style="--dx:86;--dy:57;--sd:1.02s"/><circle class="pt pA" cx="110" cy="386" r="4.6" style="--dx:-44;--dy:60;--sd:0.21s"/><circle class="pt pB" cx="313" cy="91" r="4.6" style="--dx:105;--dy:-66;--sd:0.84s"/><circle class="pt pB" cx="316" cy="108" r="4.6" style="--dx:104;--dy:36;--sd:0.95s"/><circle class="pt pB" cx="263" cy="197" r="4.6" style="--dx:-61;--dy:-3;--sd:0.88s"/><circle class="pt pA" cx="176" cy="386" r="4.6" style="--dx:-110;--dy:-7;--sd:0.67s"/><circle class="pt pA" cx="120" cy="386" r="4.6" style="--dx:32;--dy:-24;--sd:0.25s"/><circle class="pt pB" cx="261" cy="207" r="4.6" style="--dx:-101;--dy:51;--sd:0.70s"/><circle class="pt pB" cx="250" cy="212" r="4.6" style="--dx:-25;--dy:71;--sd:0.74s"/><circle class="pt pB" cx="308" cy="150" r="4.6" style="--dx:-115;--dy:-66;--sd:1.12s"/><circle class="pt pA" cx="81" cy="386" r="4.6" style="--dx:61;--dy:14;--sd:0.49s"/><circle class="pt pB" cx="237" cy="216" r="4.6" style="--dx:11;--dy:73;--sd:0.77s"/><circle class="pt pA" cx="195" cy="356" r="4.6" style="--dx:68;--dy:38;--sd:0.35s"/><circle class="pt pB" cx="439" cy="40" r="4.6" style="--dx:-51;--dy:-16;--sd:0.81s"/><circle class="pt pB" cx="243" cy="214" r="4.6" style="--dx:-109;--dy:71;--sd:1.16s"/><circle class="pt pA" cx="229" cy="330" r="4.6" style="--dx:78;--dy:84;--sd:0.56s"/><circle class="pt pA" cx="338" cy="170" r="4.6" style="--dx:82;--dy:-40;--sd:0.18s"/>
+        <path class="fit" pathLength="1" d="M56,370.0 L68,368.3 L80,366.2 L92,363.7 L104,360.7 L116,357.1 L128,352.9 L140,347.9 L152,342.0 L164,335.1 L176,327.1 L188,318.0 L200,307.6 L212,296.1 L224,283.4 L236,269.6 L248,255.0 L260,239.6 L272,223.9 L284,208.2 L296,192.6 L308,177.6 L320,163.4 L332,150.1 L344,138.0 L356,127.1 L368,117.3 L380,108.8 L392,101.4 L404,95.0 L416,89.5 L428,84.9 L440,81.0 L452,77.7 L464,75.0 L476,72.7 L488,70.8 L500,69.3"/>
+        <g class="anno"><rect x="290" y="70" width="168" height="30" rx="15"/><circle cx="308" cy="85" r="4" class="anno-dot"/><text x="320" y="90">AUC 0.91 · p &lt; 0.001</text></g>
+      </svg>
+      <figcaption class="fig-cap"><span data-i="h.fig">Figure 1 · From raw data to a fitted model</span><span>n&nbsp;=&nbsp;40</span></figcaption>
+    </figure>
   </div>
 </header>
 
@@ -359,6 +410,7 @@
     "h.lede": "Curso en vivo de 16 semanas dirigido a estudiantes de medicina y de carreras de la salud. El programa parte desde cero y culmina con la presentación de un análisis propio sobre bases de datos abiertas de hospitales y estudios internacionales. No se requiere experiencia previa en programación ni en estadística: todo se trabaja en Google Colab (una herramienta gratuita de Google que funciona en el navegador, como un documento en línea), sin instalar ningún programa.",
     "h.cta1": "Inscríbase en la cohorte fundadora",
     "h.cta2": "Ver el syllabus (PDF)",
+    "h.fig": "Figura 1 · Del dato crudo al modelo ajustado",
     "h.meta": "Clases en vivo los <b>domingos de 8:00 a 10:00 p. m.</b> (hora Perú); cada sesión queda grabada",
     "st1": "<b>16</b><span>semanas en vivo</span>",
     "st2": "<b>S/ 150</b><span>contribución simbólica · al mes</span>",
@@ -478,6 +530,27 @@
     var l = (q === "es" || q === "en") ? q : (saved === "es" || saved === "en") ? saved : "en";
     if (l === "es") setLang("es");
   })();
+
+  var heroFig = document.getElementById("hero-fig");
+  var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (heroFig && !reduceMotion) {
+    var rafPend = false;
+    var driveFig = function () {
+      rafPend = false;
+      var v = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.7)));
+      heroFig.style.setProperty("--p", v.toFixed(3));
+    };
+    heroFig.style.setProperty("--p", "0");
+    driveFig();
+    addEventListener("scroll", function () { if (!rafPend) { rafPend = true; requestAnimationFrame(driveFig); } }, { passive: true });
+    addEventListener("resize", function () { if (!rafPend) { rafPend = true; requestAnimationFrame(driveFig); } }, { passive: true });
+  }
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll("section > .wrap, .stats-in").forEach(function (el) { el.classList.add("rv"); io.observe(el); });
+  }
 </script>
 
 </body>
