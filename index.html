@@ -177,35 +177,38 @@
   .foot-in { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
 
 
-  /* Hero: figura de datos */
-  .hero-grid { display: grid; grid-template-columns: 1.04fr 0.96fr; gap: 54px; align-items: center; }
-  @media (max-width: 940px) { .hero-grid { grid-template-columns: 1fr; } .hero-fig { max-width: 500px; margin: 6px auto 0; } }
-  .hero-fig {
-    --p: 1;
-    margin: 0; border: 1px solid var(--line); border-radius: 18px; background: var(--card);
-    box-shadow: var(--shadow); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    padding: 16px 16px 12px;
-    transform: translateY(calc((1 - var(--p)) * 16px)) rotate(calc((1 - var(--p)) * -1.1deg));
+  /* Hero: campo de datos al fondo */
+  header.hero { position: relative; overflow: hidden; min-height: 92dvh; }
+  header.hero .wrap { position: relative; z-index: 1; width: 100%; }
+  .hero-bg { --p: 1; position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-bg svg { width: 100%; height: 100%; display: block; }
+  .hero-bg::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--bg) 6%, color-mix(in srgb, var(--bg) 72%, transparent) 38%, transparent 64%),
+                linear-gradient(0deg, var(--bg) 2%, transparent 26%);
   }
-  .hero-fig svg { display: block; width: 100%; height: auto; }
-  .fig-cap { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; font-style: italic; color: var(--text-2); margin-top: 10px; }
-  .gl { stroke: var(--line); stroke-width: 1; }
-  .ax { stroke: var(--text-2); stroke-width: 1.4; opacity: 0.55; }
+  @media (max-width: 720px) {
+    .hero-bg::after { background: linear-gradient(0deg, var(--bg) 6%, color-mix(in srgb, var(--bg) 55%, transparent) 45%, color-mix(in srgb, var(--bg) 30%, transparent) 100%); }
+  }
+  .fig-cap {
+    position: absolute; right: 22px; bottom: 16px; z-index: 1;
+    font-size: 12.5px; font-style: italic; color: var(--text-2); opacity: 0.85;
+  }
   .pt {
     transform-box: fill-box; transform-origin: center;
     transform: translate(calc(var(--dx) * (1 - var(--p)) * 1px), calc(var(--dy) * (1 - var(--p)) * 1px));
     filter: grayscale(calc((1 - var(--p)) * 92%));
-    opacity: calc(0.5 + 0.5 * var(--p));
-    animation: ptin 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards; animation-delay: var(--sd);
+    opacity: calc(var(--o) * (0.55 + 0.45 * var(--p)));
+    animation: ptin 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards; animation-delay: var(--sd);
   }
   .pA { fill: var(--text-2); } .pB { fill: var(--accent); }
   @keyframes ptin { from { opacity: 0; } }
-  .fit { stroke: var(--accent); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p)); }
-  .band { fill: var(--accent); opacity: calc(var(--p) * 0.09); }
+  .fit { stroke: var(--accent); stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p)); opacity: 0.85; }
+  .band { fill: var(--accent); opacity: calc(var(--p) * 0.07); }
   .anno { opacity: calc((var(--p) - 0.62) / 0.3); }
   .anno rect { fill: var(--card); stroke: var(--line); }
   .anno-dot { fill: var(--accent); }
-  .anno text { font-family: inherit; font-style: italic; font-size: 13.5px; fill: var(--text); }
+  .anno text { font-family: inherit; font-style: italic; font-size: 15px; fill: var(--text); }
 
   /* Revelado por sección */
   .rv { opacity: 0; transform: translateY(16px); }
@@ -214,7 +217,7 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .pill, .tile { transition: none; }
-    .hero-fig { --p: 1 !important; transform: none; }
+    .hero-bg { --p: 1 !important; }
     .pt { animation: none; }
     .rv { opacity: 1; transform: none; }
   }
@@ -233,8 +236,16 @@
 </nav>
 
 <header class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
+  <div class="hero-bg" id="hero-fig">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <path class="band" d="M-20,659 L20,657 L60,656 L100,654 L140,651 L180,647 L220,643 L260,638 L300,631 L340,623 L380,614 L420,602 L460,588 L500,571 L540,552 L580,530 L620,505 L660,478 L700,449 L740,419 L780,389 L820,359 L860,330 L900,303 L940,278 L980,256 L1020,237 L1060,220 L1100,206 L1140,194 L1180,185 L1220,177 L1260,170 L1300,165 L1340,161 L1380,157 L1420,154 L1460,152 L1460,244 L1420,246 L1380,249 L1340,253 L1300,257 L1260,262 L1220,269 L1180,277 L1140,286 L1100,298 L1060,312 L1020,329 L980,348 L940,370 L900,395 L860,422 L820,451 L780,481 L740,511 L700,541 L660,570 L620,597 L580,622 L540,644 L500,663 L460,680 L420,694 L380,706 L340,715 L300,723 L260,730 L220,735 L180,739 L140,743 L100,746 L60,748 L20,749 L-20,751 Z"/>
+      <circle class="pt pB" cx="768" cy="166" r="3.6" style="--dx:199;--dy:-67;--sd:1.12s;--o:0.65"/><circle class="pt pB" cx="1228" cy="120" r="3.8" style="--dx:-92;--dy:127;--sd:1.17s;--o:0.52"/><circle class="pt pB" cx="1271" cy="36" r="6.3" style="--dx:-163;--dy:154;--sd:1.25s;--o:0.69"/><circle class="pt pB" cx="1085" cy="148" r="5.3" style="--dx:124;--dy:140;--sd:1.08s;--o:0.77"/><circle class="pt pA" cx="460" cy="828" r="4.9" style="--dx:238;--dy:-15;--sd:0.00s;--o:0.71"/><circle class="pt pA" cx="893" cy="609" r="5.6" style="--dx:-140;--dy:-136;--sd:0.40s;--o:0.87"/><circle class="pt pA" cx="561" cy="851" r="6.2" style="--dx:64;--dy:-97;--sd:0.48s;--o:0.54"/><circle class="pt pA" cx="116" cy="870" r="6.3" style="--dx:108;--dy:-202;--sd:0.04s;--o:0.88"/><circle class="pt pA" cx="961" cy="467" r="5.7" style="--dx:-239;--dy:57;--sd:0.20s;--o:0.57"/><circle class="pt pB" cx="1010" cy="179" r="5.2" style="--dx:20;--dy:1;--sd:1.28s;--o:0.46"/><circle class="pt pB" cx="651" cy="367" r="6.0" style="--dx:171;--dy:182;--sd:0.79s;--o:0.62"/><circle class="pt pA" cx="624" cy="701" r="3.6" style="--dx:46;--dy:48;--sd:0.66s;--o:0.74"/><circle class="pt pB" cx="917" cy="201" r="6.2" style="--dx:-173;--dy:52;--sd:1.36s;--o:0.51"/><circle class="pt pB" cx="665" cy="245" r="5.0" style="--dx:269;--dy:210;--sd:1.10s;--o:0.81"/><circle class="pt pB" cx="897" cy="285" r="3.8" style="--dx:185;--dy:-116;--sd:0.92s;--o:0.47"/><circle class="pt pA" cx="941" cy="499" r="3.9" style="--dx:42;--dy:161;--sd:0.37s;--o:0.52"/><circle class="pt pB" cx="1371" cy="123" r="4.3" style="--dx:-156;--dy:12;--sd:1.21s;--o:0.78"/><circle class="pt pA" cx="211" cy="808" r="4.7" style="--dx:-263;--dy:-16;--sd:0.09s;--o:0.83"/><circle class="pt pA" cx="651" cy="738" r="5.0" style="--dx:-192;--dy:-213;--sd:0.07s;--o:0.48"/><circle class="pt pA" cx="730" cy="702" r="4.5" style="--dx:164;--dy:183;--sd:0.62s;--o:0.76"/><circle class="pt pA" cx="597" cy="697" r="3.6" style="--dx:-182;--dy:97;--sd:0.46s;--o:0.55"/><circle class="pt pB" cx="1391" cy="36" r="5.1" style="--dx:-56;--dy:132;--sd:1.30s;--o:0.67"/><circle class="pt pB" cx="822" cy="207" r="6.2" style="--dx:212;--dy:131;--sd:1.06s;--o:0.66"/><circle class="pt pA" cx="217" cy="870" r="4.7" style="--dx:214;--dy:46;--sd:0.42s;--o:0.50"/><circle class="pt pB" cx="1064" cy="97" r="5.8" style="--dx:73;--dy:68;--sd:0.95s;--o:0.88"/><circle class="pt pA" cx="523" cy="820" r="4.8" style="--dx:-0;--dy:71;--sd:0.11s;--o:0.58"/><circle class="pt pA" cx="126" cy="772" r="5.1" style="--dx:166;--dy:-142;--sd:0.24s;--o:0.65"/><circle class="pt pA" cx="687" cy="705" r="3.5" style="--dx:-201;--dy:-205;--sd:0.55s;--o:0.86"/><circle class="pt pA" cx="67" cy="870" r="4.2" style="--dx:-146;--dy:90;--sd:0.44s;--o:0.82"/><circle class="pt pA" cx="46" cy="827" r="3.9" style="--dx:-30;--dy:-193;--sd:0.51s;--o:0.62"/><circle class="pt pA" cx="886" cy="627" r="6.0" style="--dx:-46;--dy:128;--sd:0.64s;--o:0.71"/><circle class="pt pA" cx="230" cy="843" r="3.7" style="--dx:198;--dy:62;--sd:0.31s;--o:0.90"/><circle class="pt pA" cx="940" cy="587" r="6.1" style="--dx:-280;--dy:-128;--sd:0.18s;--o:0.66"/><circle class="pt pB" cx="1329" cy="36" r="4.4" style="--dx:-33;--dy:172;--sd:0.77s;--o:0.75"/><circle class="pt pB" cx="1140" cy="43" r="3.5" style="--dx:-107;--dy:128;--sd:0.90s;--o:0.51"/><circle class="pt pB" cx="1073" cy="76" r="4.3" style="--dx:192;--dy:26;--sd:1.23s;--o:0.62"/><circle class="pt pB" cx="1143" cy="36" r="4.8" style="--dx:-125;--dy:-146;--sd:0.84s;--o:0.57"/><circle class="pt pA" cx="232" cy="812" r="4.3" style="--dx:264;--dy:134;--sd:0.29s;--o:0.85"/><circle class="pt pB" cx="706" cy="429" r="4.0" style="--dx:-111;--dy:78;--sd:0.75s;--o:0.53"/><circle class="pt pA" cx="113" cy="839" r="3.8" style="--dx:260;--dy:114;--sd:0.22s;--o:0.56"/><circle class="pt pB" cx="988" cy="53" r="5.8" style="--dx:-7;--dy:-207;--sd:1.14s;--o:0.48"/><circle class="pt pB" cx="1355" cy="36" r="5.3" style="--dx:-207;--dy:-20;--sd:1.03s;--o:0.86"/><circle class="pt pA" cx="696" cy="789" r="4.8" style="--dx:-268;--dy:60;--sd:0.57s;--o:0.78"/><circle class="pt pB" cx="1403" cy="36" r="6.0" style="--dx:-238;--dy:-206;--sd:0.88s;--o:0.47"/><circle class="pt pA" cx="574" cy="671" r="6.3" style="--dx:-77;--dy:172;--sd:0.53s;--o:0.75"/><circle class="pt pA" cx="205" cy="870" r="3.7" style="--dx:73;--dy:129;--sd:0.02s;--o:0.59"/><circle class="pt pA" cx="333" cy="870" r="5.6" style="--dx:-238;--dy:20;--sd:0.59s;--o:0.86"/><circle class="pt pB" cx="922" cy="220" r="5.2" style="--dx:111;--dy:-1;--sd:0.73s;--o:0.86"/><circle class="pt pB" cx="1117" cy="139" r="3.4" style="--dx:-14;--dy:-141;--sd:0.97s;--o:0.66"/><circle class="pt pA" cx="211" cy="870" r="3.7" style="--dx:-207;--dy:63;--sd:0.26s;--o:0.64"/><circle class="pt pB" cx="1208" cy="159" r="5.5" style="--dx:-171;--dy:-120;--sd:1.39s;--o:0.59"/><circle class="pt pA" cx="116" cy="870" r="4.5" style="--dx:-144;--dy:45;--sd:0.35s;--o:0.65"/><circle class="pt pB" cx="718" cy="308" r="5.8" style="--dx:-209;--dy:-29;--sd:1.34s;--o:0.86"/><circle class="pt pB" cx="883" cy="99" r="3.5" style="--dx:-233;--dy:110;--sd:0.70s;--o:0.72"/><circle class="pt pB" cx="956" cy="81" r="6.2" style="--dx:190;--dy:83;--sd:1.19s;--o:0.67"/><circle class="pt pA" cx="305" cy="753" r="5.9" style="--dx:149;--dy:-44;--sd:0.15s;--o:0.62"/><circle class="pt pB" cx="1020" cy="147" r="5.9" style="--dx:-204;--dy:-2;--sd:0.81s;--o:0.83"/><circle class="pt pB" cx="1050" cy="36" r="6.1" style="--dx:-60;--dy:128;--sd:1.01s;--o:0.49"/><circle class="pt pB" cx="1123" cy="169" r="6.3" style="--dx:22;--dy:-38;--sd:1.32s;--o:0.87"/><circle class="pt pA" cx="978" cy="602" r="4.3" style="--dx:191;--dy:91;--sd:0.13s;--o:0.55"/><circle class="pt pA" cx="974" cy="576" r="5.6" style="--dx:128;--dy:-49;--sd:0.68s;--o:0.71"/><circle class="pt pB" cx="666" cy="361" r="4.3" style="--dx:70;--dy:-3;--sd:0.86s;--o:0.83"/><circle class="pt pA" cx="233" cy="810" r="4.3" style="--dx:153;--dy:-75;--sd:0.33s;--o:0.48"/><circle class="pt pB" cx="1146" cy="136" r="5.5" style="--dx:-127;--dy:-68;--sd:0.99s;--o:0.68"/>
+      <path class="fit" pathLength="1" d="M-20,705 L20,703 L60,702 L100,700 L140,697 L180,693 L220,689 L260,684 L300,677 L340,669 L380,660 L420,648 L460,634 L500,617 L540,598 L580,576 L620,551 L660,524 L700,495 L740,465 L780,435 L820,405 L860,376 L900,349 L940,324 L980,302 L1020,283 L1060,266 L1100,252 L1140,240 L1180,231 L1220,223 L1260,216 L1300,211 L1340,207 L1380,203 L1420,200 L1460,198"/>
+      <g class="anno"><rect x="1012" y="596" width="196" height="36" rx="18"/><circle cx="1034" cy="614" r="4.5" class="anno-dot"/><text x="1048" y="620">AUC 0.91 · p &lt; 0.001</text></g>
+    </svg>
+    <span class="fig-cap"><span data-i="h.fig">Figure 1 · From raw data to a fitted model</span> · n&nbsp;=&nbsp;64</span>
+  </div>
+  <div class="wrap">
     <span class="eyebrow" data-i="h.eye">Non-profit · Founding cohort (Peru) · 40 seats</span>
     <h1 data-i="h.h1">Statistics and <em>machine learning</em> with real medical data</h1>
     <p class="lede" data-i="h.lede">A 16-week live course for medical and health-sciences students. The program starts from zero and ends with you presenting your own analysis of open datasets from hospitals and international studies. No prior experience in programming or statistics is required: everything runs in Google Colab (a free Google tool that works in your browser, like an online document), with nothing to install.</p>
@@ -243,18 +254,6 @@
       <a class="pill ghost" href="syllabus.pdf" target="_blank" rel="noopener" data-i="h.cta2">View the syllabus (PDF, in Spanish)</a>
     </div>
     <p class="hero-meta" data-i="h.meta">Live classes on <b>Sundays, 8:00–10:00 p.m.</b> (Peru time, GMT-5); every session is recorded</p>
-    </div>
-    <figure class="hero-fig" id="hero-fig">
-      <svg viewBox="0 0 520 440" role="img" aria-hidden="true" focusable="false">
-        <g class="grid"><line class="gl" x1="54" y1="110" x2="500" y2="110"/><line class="gl" x1="54" y1="195" x2="500" y2="195"/><line class="gl" x1="54" y1="280" x2="500" y2="280"/><line class="gl" x1="54" y1="365" x2="500" y2="365"/></g>
-        <path class="band" d="M56,344.0 L68,342.3 L80,340.2 L92,337.7 L104,334.7 L116,331.1 L128,326.9 L140,321.9 L152,316.0 L164,309.1 L176,301.1 L188,292.0 L200,281.6 L212,270.1 L224,257.4 L236,243.6 L248,229.0 L260,213.6 L272,197.9 L284,182.2 L296,166.6 L308,151.6 L320,137.4 L332,124.1 L344,112.0 L356,101.1 L368,91.3 L380,82.8 L392,75.4 L404,69.0 L416,63.5 L428,58.9 L440,55.0 L452,51.7 L464,49.0 L476,46.7 L488,44.8 L500,43.3 L500,95.3 L488,96.8 L476,98.7 L464,101.0 L452,103.7 L440,107.0 L428,110.9 L416,115.5 L404,121.0 L392,127.4 L380,134.8 L368,143.3 L356,153.1 L344,164.0 L332,176.1 L320,189.4 L308,203.6 L296,218.6 L284,234.2 L272,249.9 L260,265.6 L248,281.0 L236,295.6 L224,309.4 L212,322.1 L200,333.6 L188,344.0 L176,353.1 L164,361.1 L152,368.0 L140,373.9 L128,378.9 L116,383.1 L104,386.7 L92,389.7 L80,392.2 L68,394.3 L56,396.0 Z"/>
-        <line class="ax" x1="54" y1="396" x2="500" y2="396"/><line class="ax" x1="54" y1="396" x2="54" y2="28"/>
-        <circle class="pt pA" cx="217" cy="338" r="4.6" style="--dx:-102;--dy:1;--sd:0.04s"/><circle class="pt pB" cx="314" cy="138" r="4.6" style="--dx:80;--dy:94;--sd:1.23s"/><circle class="pt pA" cx="248" cy="343" r="4.6" style="--dx:74;--dy:-41;--sd:0.63s"/><circle class="pt pA" cx="200" cy="374" r="4.6" style="--dx:-101;--dy:38;--sd:0.60s"/><circle class="pt pA" cx="80" cy="386" r="4.6" style="--dx:-99;--dy:-78;--sd:0.07s"/><circle class="pt pA" cx="221" cy="315" r="4.6" style="--dx:-101;--dy:-56;--sd:0.28s"/><circle class="pt pB" cx="322" cy="111" r="4.6" style="--dx:-91;--dy:26;--sd:1.05s"/><circle class="pt pB" cx="309" cy="136" r="4.6" style="--dx:76;--dy:-64;--sd:1.30s"/><circle class="pt pB" cx="363" cy="95" r="4.6" style="--dx:6;--dy:91;--sd:1.37s"/><circle class="pt pA" cx="257" cy="295" r="4.6" style="--dx:-43;--dy:16;--sd:0.32s"/><circle class="pt pA" cx="187" cy="386" r="4.6" style="--dx:-87;--dy:-53;--sd:0.11s"/><circle class="pt pA" cx="185" cy="386" r="4.6" style="--dx:-80;--dy:-2;--sd:0.46s"/><circle class="pt pB" cx="232" cy="246" r="4.6" style="--dx:-67;--dy:-64;--sd:1.09s"/><circle class="pt pA" cx="243" cy="346" r="4.6" style="--dx:18;--dy:-20;--sd:0.14s"/><circle class="pt pB" cx="383" cy="74" r="4.6" style="--dx:-57;--dy:-29;--sd:1.19s"/><circle class="pt pB" cx="356" cy="64" r="4.6" style="--dx:41;--dy:-85;--sd:0.98s"/><circle class="pt pA" cx="159" cy="372" r="4.6" style="--dx:35;--dy:-81;--sd:0.00s"/><circle class="pt pA" cx="137" cy="386" r="4.6" style="--dx:6;--dy:71;--sd:0.39s"/><circle class="pt pA" cx="311" cy="218" r="4.6" style="--dx:45;--dy:18;--sd:0.53s"/><circle class="pt pB" cx="221" cy="201" r="4.6" style="--dx:6;--dy:-67;--sd:1.33s"/><circle class="pt pB" cx="376" cy="71" r="4.6" style="--dx:-114;--dy:-15;--sd:0.91s"/><circle class="pt pB" cx="342" cy="85" r="4.6" style="--dx:-95;--dy:-76;--sd:1.26s"/><circle class="pt pA" cx="271" cy="268" r="4.6" style="--dx:110;--dy:-73;--sd:0.42s"/><circle class="pt pB" cx="461" cy="40" r="4.6" style="--dx:86;--dy:57;--sd:1.02s"/><circle class="pt pA" cx="110" cy="386" r="4.6" style="--dx:-44;--dy:60;--sd:0.21s"/><circle class="pt pB" cx="313" cy="91" r="4.6" style="--dx:105;--dy:-66;--sd:0.84s"/><circle class="pt pB" cx="316" cy="108" r="4.6" style="--dx:104;--dy:36;--sd:0.95s"/><circle class="pt pB" cx="263" cy="197" r="4.6" style="--dx:-61;--dy:-3;--sd:0.88s"/><circle class="pt pA" cx="176" cy="386" r="4.6" style="--dx:-110;--dy:-7;--sd:0.67s"/><circle class="pt pA" cx="120" cy="386" r="4.6" style="--dx:32;--dy:-24;--sd:0.25s"/><circle class="pt pB" cx="261" cy="207" r="4.6" style="--dx:-101;--dy:51;--sd:0.70s"/><circle class="pt pB" cx="250" cy="212" r="4.6" style="--dx:-25;--dy:71;--sd:0.74s"/><circle class="pt pB" cx="308" cy="150" r="4.6" style="--dx:-115;--dy:-66;--sd:1.12s"/><circle class="pt pA" cx="81" cy="386" r="4.6" style="--dx:61;--dy:14;--sd:0.49s"/><circle class="pt pB" cx="237" cy="216" r="4.6" style="--dx:11;--dy:73;--sd:0.77s"/><circle class="pt pA" cx="195" cy="356" r="4.6" style="--dx:68;--dy:38;--sd:0.35s"/><circle class="pt pB" cx="439" cy="40" r="4.6" style="--dx:-51;--dy:-16;--sd:0.81s"/><circle class="pt pB" cx="243" cy="214" r="4.6" style="--dx:-109;--dy:71;--sd:1.16s"/><circle class="pt pA" cx="229" cy="330" r="4.6" style="--dx:78;--dy:84;--sd:0.56s"/><circle class="pt pA" cx="338" cy="170" r="4.6" style="--dx:82;--dy:-40;--sd:0.18s"/>
-        <path class="fit" pathLength="1" d="M56,370.0 L68,368.3 L80,366.2 L92,363.7 L104,360.7 L116,357.1 L128,352.9 L140,347.9 L152,342.0 L164,335.1 L176,327.1 L188,318.0 L200,307.6 L212,296.1 L224,283.4 L236,269.6 L248,255.0 L260,239.6 L272,223.9 L284,208.2 L296,192.6 L308,177.6 L320,163.4 L332,150.1 L344,138.0 L356,127.1 L368,117.3 L380,108.8 L392,101.4 L404,95.0 L416,89.5 L428,84.9 L440,81.0 L452,77.7 L464,75.0 L476,72.7 L488,70.8 L500,69.3"/>
-        <g class="anno"><rect x="298" y="306" width="168" height="30" rx="15"/><circle cx="316" cy="321" r="4" class="anno-dot"/><text x="328" y="326">AUC 0.91 · p &lt; 0.001</text></g>
-      </svg>
-      <figcaption class="fig-cap"><span data-i="h.fig">Figure 1 · From raw data to a fitted model</span><span>n&nbsp;=&nbsp;40</span></figcaption>
-    </figure>
   </div>
 </header>
 
