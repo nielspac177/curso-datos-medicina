@@ -78,6 +78,9 @@
   .pill.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--text); }
   .pill.small { padding: 7px 16px; font-size: 14px; min-height: 38px; }
   #lang-btn { cursor: pointer; font-family: inherit; }
+  .nav-link { font-weight: 600; font-size: 15px; color: var(--text); padding: 0 6px; }
+  .nav-link:hover { color: var(--accent); }
+  @media (max-width: 560px) { .brand span { display: none; } .nav-link { font-size: 14px; padding: 0 2px; } }
   #pgbar {
     position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
     background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; z-index: 51;
@@ -305,6 +308,7 @@
   <div class="wrap nav-in">
     <div class="brand">Dr. Niels Pacheco-Barrios <span data-i="nav.tag">· Data &amp; Medicine</span></div>
     <div class="nav-actions">
+      <a class="nav-link" href="materiales/" data-i="nav.mat">Materials</a>
       <button id="lang-btn" class="pill ghost small" type="button">Español</button>
       <a class="pill small js-inscribir" href="#suscripcion" data-i="nav.cta">Enroll</a>
     </div>
@@ -480,6 +484,7 @@
     "_desc": "Curso en vivo de 16 semanas de estadística y machine learning con bases de datos abiertas en salud, dirigido a estudiantes de medicina. Proyecto sin fines de lucro. Domingos de 8:00 a 10:00 p. m. (hora Perú). Cohorte fundadora, Perú.",
     "nav.tag": "· Datos y Medicina",
     "nav.cta": "Inscríbase",
+    "nav.mat": "Materiales",
     "h.eye": "Sin fines de lucro · Cohorte fundadora Perú · 40 vacantes",
     "h.h1": "Estadística y <em>machine learning</em> con datos médicos reales",
     "h.lede": "Curso en vivo de 16 semanas dirigido a estudiantes de medicina y de carreras de la salud. El programa parte desde cero y culmina con la presentación de un análisis propio sobre bases de datos abiertas de hospitales y estudios internacionales. No se requiere experiencia previa en programación ni en estadística: todo se trabaja en Google Colab (una herramienta gratuita de Google que funciona en el navegador, como un documento en línea), sin instalar ningún programa.",

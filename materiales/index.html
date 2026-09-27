@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400&display=swap" rel="stylesheet">
+<title>Materiales del curso</title>
+<meta name="description" content="Diapositivas, cuadernos de Google Colab y grabaciones, semana a semana, del curso Estadística y Machine Learning para Estudiantes de Medicina.">
+<meta property="og:title" content="Materiales · Estadística y Machine Learning para Estudiantes de Medicina">
+<meta property="og:image" content="https://nielspac177.github.io/curso-datos-medicina/og.jpg">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f6f5f1;
+    --text: #1c2733;
+    --text-2: #55606b;
+    --accent: #9e2b3d;
+    --accent-strong: #7e2231;
+    --accent-soft: rgba(158, 43, 61, 0.08);
+    --line: rgba(28, 39, 51, 0.12);
+    --colab: #e8710a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171c;
+      --bg-soft: #1b1f26;
+      --text: #eceae6;
+      --text-2: #a9adb3;
+      --accent: #dc6478;
+      --accent-strong: #e88a99;
+      --accent-soft: rgba(220, 100, 120, 0.12);
+      --line: rgba(236, 234, 230, 0.14);
+      --colab: #f9ab00;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Source Serif 4", Georgia, "Iowan Old Style", "Times New Roman", serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 22px; } }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+    background: color-mix(in srgb, var(--bg) 75%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-in { display: flex; align-items: center; justify-content: space-between; height: 58px; gap: 12px; }
+  .brand { font-weight: 700; font-size: 15px; color: var(--text); }
+  .brand span { color: var(--accent); }
+  .brand:hover { text-decoration: none; }
+  .pill {
+    display: inline-block; padding: 7px 16px; border-radius: 999px; min-height: 38px;
+    font: 600 14px/24px inherit; font-family: inherit; cursor: pointer;
+    background: transparent; color: var(--text); border: 1.5px solid var(--text);
+  }
+
+  header { padding: 56px 0 28px; }
+  .eyebrow {
+    display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--accent);
+    background: var(--accent-soft); border-radius: 999px; padding: 6px 14px; margin-bottom: 18px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 48px); line-height: 1.08; letter-spacing: -0.015em; font-weight: 800; max-width: 20ch; }
+  .lede { font-size: 18px; color: var(--text-2); max-width: 62ch; margin-top: 16px; }
+
+  .howto {
+    margin: 8px 0 36px; padding: 18px 20px; border-radius: 14px;
+    background: var(--bg-soft); border: 1px solid var(--line); font-size: 15.5px;
+  }
+  .howto b { color: var(--text); }
+  .howto ol { margin: 8px 0 0 20px; color: var(--text-2); }
+  .howto li + li { margin-top: 4px; }
+
+  .block-h {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-2); margin: 34px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  }
+  .week {
+    display: grid; grid-template-columns: 52px 1fr; gap: 4px 16px;
+    padding: 18px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 72px;
+  }
+  .week .num {
+    grid-row: span 2; font-size: 28px; font-weight: 800; line-height: 1.1;
+    color: var(--accent); font-variant-numeric: tabular-nums;
+  }
+  .week.pending .num { color: var(--line); }
+  .week h3 { font-size: 20px; font-weight: 700; line-height: 1.3; }
+  .week h3 small { font-size: 14px; font-weight: 400; color: var(--text-2); margin-left: 8px; white-space: nowrap; }
+  .week .topic { font-size: 15px; color: var(--text-2); }
+  .week .links { grid-column: 2; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .week.now { background: var(--accent-soft); border-radius: 12px; padding-left: 12px; padding-right: 12px; margin: 0 -12px; }
+  .tag-now {
+    display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    color: #fff; background: var(--accent); border-radius: 999px; padding: 1px 10px; margin-left: 8px; vertical-align: 3px;
+  }
+  @media (prefers-color-scheme: dark) { .tag-now { color: #26090f; } }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px; min-height: 36px;
+    padding: 6px 14px; border-radius: 999px; font-size: 14.5px; font-weight: 600;
+    border: 1.5px solid var(--line); color: var(--text); background: var(--bg);
+    transition: border-color .2s, transform .2s;
+  }
+  .btn:hover { text-decoration: none; border-color: var(--text); transform: translateY(-1px); }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .btn.colab { border-color: color-mix(in srgb, var(--colab) 55%, transparent); }
+  .btn.colab:hover { border-color: var(--colab); }
+  .btn.colab svg { color: var(--colab); }
+  .btn.slides svg { color: var(--accent); }
+  .soon { font-size: 14.5px; color: var(--text-2); font-style: italic; }
+
+  footer { padding: 40px 0 56px; font-size: 14.5px; color: var(--text-2); }
+  footer p + p { margin-top: 6px; }
+  #err { display: none; color: var(--accent); margin: 24px 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="../">Dr. Niels Pacheco-Barrios <span data-i="nav.tag">· Datos y Medicina</span></a>
+    <button id="lang-btn" class="pill" type="button">English</button>
+  </div>
+</nav>
+
+<header class="wrap">
+  <div class="eyebrow" data-i="h.eye">Materiales del curso</div>
+  <h1 data-i="h.t">Estadística y machine learning, semana a semana</h1>
+  <p class="lede" data-i="h.l">Aquí están las diapositivas, los cuadernos de Google Colab y las grabaciones de cada clase. Los materiales aparecen a medida que avanza el curso.</p>
+</header>
+
+<main class="wrap">
+  <div class="howto">
+    <b data-i="c.t">Cómo usar los cuadernos de Colab</b>
+    <ol>
+      <li data-i="c.1">Presione <b>Abrir en Colab</b>. Se abre en su navegador; no hay que instalar nada.</li>
+      <li data-i="c.2">Antes de escribir, vaya a <b>Archivo → Guardar una copia en Drive</b>. Así sus cambios quedan en su cuenta.</li>
+      <li data-i="c.3">Ejecute cada celda con <b>Shift + Enter</b>.</li>
+    </ol>
+  </div>
+
+  <p id="err" data-i="err">No se pudo cargar la lista de materiales. Recargue la página.</p>
+  <div id="weeks"></div>
+</main>
+
+<footer class="wrap">
+  <p data-i="f.1"><a href="../syllabus.pdf">Syllabus (PDF)</a> · <a href="../">Página del curso</a> · <a href="https://github.com/nielspac177/curso-datos-medicina">Repositorio en GitHub</a></p>
+  <p data-i="f.2">Materiales de libre acceso para fines educativos.</p>
+</footer>
+
+<script>
+(function () {
+  var ICON = {
+    colab: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9.5 7.5a5 5 0 1 0 0 9"/><path d="M14.5 7.5a5 5 0 1 1 0 9"/></svg>',
+    slides: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M12 17v3M8 20h8"/></svg>',
+    video: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z" fill="currentColor"/></svg>',
+    rec: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg>',
+    folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>'
+  };
+
+  var BLOCKS = {
+    es: ["Antes de empezar", "Semanas 1–3 · Explorar y describir datos", "Semanas 4–6 · Probabilidad, estimación y el valor p",
+         "Semanas 7–8 · Pruebas estadísticas y regresión lineal", "Semanas 9–11 · Regresión logística y el salto al machine learning",
+         "Semanas 12–14 · Machine learning aplicado", "Semanas 15–16 · El proyecto final"],
+    en: ["Before you start", "Weeks 1–3 · Exploring and describing data", "Weeks 4–6 · Probability, estimation, and the p-value",
+         "Weeks 7–8 · Statistical tests and linear regression", "Weeks 9–11 · Logistic regression and the leap to machine learning",
+         "Weeks 12–14 · Applied machine learning", "Weeks 15–16 · The final project"]
+  };
+  var UI = {
+    es: { slides: "Diapositivas", colab: "Abrir en Colab", video: "Video de preparación", rec: "Grabación",
+          folder: "Carpeta", soon: "Próximamente", now: "Esta semana", week: "Semana" },
+    en: { slides: "Slides", colab: "Open in Colab", video: "Prep video", rec: "Recording",
+          folder: "Folder", soon: "Coming soon", now: "This week", week: "Week" }
+  };
+
+  var data = null, lang = "es";
+
+  function isUrl(s) { return /^https?:\/\//.test(s); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function colabUrl(ruta) { return "https://colab.research.google.com/github/" + data.repo + "/blob/" + data.rama + "/" + ruta; }
+  function link(cls, href, icon, label) {
+    return '<a class="btn ' + cls + '" href="' + esc(href) + '" target="_blank" rel="noopener">' + ICON[icon] + esc(label) + "</a>";
+  }
+
+  // Decide cómo se muestra cada semana: "actual" (resaltada), "disponible" o "pendiente".
+  // Por defecto: disponible si tiene al menos un material; la semana actual es la
+  // más reciente cuya fecha (AAAA-MM-DD) ya llegó.
+  function estadoSemana(s, hoy, semanaActual) {
+    if (semanaActual && s.n === semanaActual.n) return "actual";
+    var tiene = s.slides || s.video || s.grabacion || (s.cuadernos && s.cuadernos.length);
+    return tiene ? "disponible" : "pendiente";
+  }
+
+  function render() {
+    var t = UI[lang], hoy = new Date().toISOString().slice(0, 10);
+    var pasadas = data.semanas.filter(function (s) { return s.fecha && s.fecha <= hoy; });
+    var actual = pasadas.length ? pasadas[pasadas.length - 1] : null;
+    var html = "", bloque = -1;
+
+    data.semanas.forEach(function (s) {
+      if (s.bloque !== bloque) { bloque = s.bloque; html += '<h2 class="block-h">' + esc(BLOCKS[lang][bloque]) + "</h2>"; }
+      var estado = estadoSemana(s, hoy, actual);
+      var titulo = lang === "es" ? s.titulo : s.title;
+      var tema = lang === "es" ? s.tema : s.topic;
+      var fecha = s.fecha ? new Date(s.fecha + "T12:00:00").toLocaleDateString(lang === "es" ? "es-PE" : "en-US", { day: "numeric", month: "short" }) : "";
+      var links = "";
+
+      if (s.slides) links += link("slides", isUrl(s.slides) ? s.slides : "../" + s.slides, "slides", t.slides);
+      (s.cuadernos || []).forEach(function (c) {
+        var nombre = (lang === "es" ? c.titulo : c.title) || t.colab;
+        links += link("colab", colabUrl(c.ruta), "colab", s.cuadernos.length > 1 ? nombre : t.colab);
+      });
+      if (s.video) links += link("", s.video, "video", t.video);
+      if (s.grabacion) links += link("", s.grabacion, "rec", t.rec);
+      if (links) links += link("", "https://github.com/" + data.repo + "/tree/" + data.rama + "/" + s.carpeta, "folder", t.folder);
+      else links = '<span class="soon">' + t.soon + "</span>";
+
+      html += '<article class="week ' + (estado === "actual" ? "now" : estado === "pendiente" ? "pending" : "") + '" id="s' + s.n + '">' +
+        '<div class="num">' + String(s.n).padStart(2, "0") + "</div>" +
+        "<h3>" + esc(titulo) + (estado === "actual" ? '<span class="tag-now">' + t.now + "</span>" : "") +
+        (fecha ? "<small>" + esc(fecha) + "</small>" : "") + "</h3>" +
+        '<p class="topic">' + esc(tema) + "</p>" +
+        '<div class="links">' + links + "</div></article>";
+    });
+    document.getElementById("weeks").innerHTML = html;
+  }
+
+  // Textos fijos de la página (el español vive en el HTML).
+  var EN = {
+    "nav.tag": "· Data &amp; Medicine",
+    "h.eye": "Course materials",
+    "h.t": "Statistics and machine learning, week by week",
+    "h.l": "Slides, Google Colab notebooks and recordings for every class. Materials appear as the course moves forward.",
+    "c.t": "How to use the Colab notebooks",
+    "c.1": "Press <b>Open in Colab</b>. It opens in your browser; nothing to install.",
+    "c.2": "Before you type, go to <b>File → Save a copy in Drive</b> so your changes stay in your account.",
+    "c.3": "Run each cell with <b>Shift + Enter</b>.",
+    "err": "The materials list could not be loaded. Please reload the page.",
+    "f.1": '<a href="../syllabus.pdf">Syllabus (PDF, Spanish)</a> · <a href="../">Course page</a> · <a href="https://github.com/nielspac177/curso-datos-medicina">GitHub repository</a>',
+    "f.2": "Freely available for educational use."
+  };
+  var ES = {}, els = document.querySelectorAll("[data-i]");
+  els.forEach(function (el) { ES[el.getAttribute("data-i")] = el.innerHTML; });
+  var btn = document.getElementById("lang-btn");
+
+  function setLang(l) {
+    lang = l;
+    document.documentElement.lang = l;
+    els.forEach(function (el) { var k = el.getAttribute("data-i"); el.innerHTML = (l === "en" ? EN : ES)[k]; });
+    btn.textContent = l === "es" ? "English" : "Español";
+    try { localStorage.setItem("lang", l); } catch (e) {}
+    if (data) render();
+  }
+  btn.addEventListener("click", function () { setLang(lang === "es" ? "en" : "es"); });
+
+  var saved = null;
+  try { saved = localStorage.getItem("lang"); } catch (e) {}
+  if (saved === "en") setLang("en");
+
+  fetch("semanas.json", { cache: "no-cache" })
+    .then(function (r) { return r.json(); })
+    .then(function (d) { data = d; render(); if (location.hash) { var el = document.querySelector(location.hash); if (el) el.scrollIntoView(); } })
+    .catch(function () { document.getElementById("err").style.display = "block"; });
+})();
+</script>
+</body>
+</html>

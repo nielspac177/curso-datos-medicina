@@ -1,0 +1,25 @@
+# Datos: este repositorio es público. No se suben bases de datos
+# (MIMIC-IV y PPMI prohíben redistribuirlas). Ver datos/README.md.
+*.csv
+*.csv.gz
+*.parquet
+*.xlsx
+*.sav
+*.dta
+*.sas7bdat
+*.xpt
+*.nii
+*.nii.gz
+*.zip
+datos/*
+!datos/README.md
+
+# Credenciales
+.env
+*.pem
+credentials*.json
+
+# Sistema y Jupyter
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/

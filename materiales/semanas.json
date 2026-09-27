@@ -1,0 +1,130 @@
+{
+  "repo": "nielspac177/curso-datos-medicina",
+  "rama": "main",
+  "semanas": [
+    {
+      "n": 0, "carpeta": "semanas/00-nivelacion", "bloque": 0,
+      "titulo": "Módulo 0 · Nivelación (opcional)", "title": "Module 0 · Refresher (optional)",
+      "tema": "Notación y funciones; logaritmos y odds; vectores y matrices como tablas; probabilidad básica",
+      "topic": "Notation and functions; logarithms and odds; vectors and matrices as tables; basic probability",
+      "fecha": "",
+      "slides": "",
+      "cuadernos": [
+        { "titulo": "Prueba tu Google Colab", "title": "Test your Google Colab", "ruta": "semanas/00-nivelacion/cuadernos/00_prueba_colab.ipynb" }
+      ],
+      "video": "", "grabacion": ""
+    },
+    {
+      "n": 1, "carpeta": "semanas/01-el-medico-y-los-datos", "bloque": 1,
+      "titulo": "El médico y los datos", "title": "The physician and data",
+      "tema": "Por qué analizar datos; primeros pasos en Google Colab y Python · Práctica: NHANES",
+      "topic": "Why analyze data; first steps in Google Colab and Python · Practice: NHANES",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 2, "carpeta": "semanas/02-describir-datos", "bloque": 1,
+      "titulo": "Describir datos", "title": "Describing data",
+      "tema": "Tipos de variables; media, mediana y dispersión; la tabla 1 · Práctica: ENDES",
+      "topic": "Variable types; mean, median and spread; the Table 1 · Practice: ENDES",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 3, "carpeta": "semanas/03-visualizar-datos", "bloque": 1,
+      "titulo": "Visualizar datos", "title": "Visualizing data",
+      "tema": "Principios de una buena figura; histogramas, cajas y dispersión · Práctica: GBD",
+      "topic": "Principles of a good figure; histograms, boxplots and scatterplots · Practice: GBD",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 4, "carpeta": "semanas/04-probabilidad-y-distribuciones", "bloque": 2,
+      "titulo": "Probabilidad y distribuciones", "title": "Probability and distributions",
+      "tema": "Probabilidad para médicos; normal y binomial; teorema del límite central",
+      "topic": "Probability for physicians; normal and binomial; central limit theorem",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 5, "carpeta": "semanas/05-estimar-con-confianza", "bloque": 2,
+      "titulo": "Estimar con confianza", "title": "Estimating with confidence",
+      "tema": "Error estándar; intervalos de confianza; bootstrap · Práctica: ENDES",
+      "topic": "Standard error; confidence intervals; bootstrap · Practice: ENDES",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 6, "carpeta": "semanas/06-el-valor-p", "bloque": 2,
+      "titulo": "El valor p", "title": "The p-value",
+      "tema": "Hipótesis nula; qué significa (y qué no) un valor p; poder y tamaño de muestra",
+      "topic": "Null hypothesis; what a p-value does (and does not) mean; power and sample size",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 7, "carpeta": "semanas/07-pruebas-estadisticas", "bloque": 3,
+      "titulo": "Pruebas estadísticas", "title": "Statistical tests",
+      "tema": "t de Student, Mann-Whitney, chi cuadrado; comparaciones múltiples y FDR · Práctica: NHANES",
+      "topic": "t-test, Mann-Whitney, chi-square; multiple comparisons and FDR · Practice: NHANES",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 8, "carpeta": "semanas/08-correlacion-y-regresion-lineal", "bloque": 3,
+      "titulo": "Correlación y regresión lineal", "title": "Correlation and linear regression",
+      "tema": "Correlación no es causalidad; mínimos cuadrados; R² · Entrega del mini proyecto 1",
+      "topic": "Correlation is not causation; least squares; R² · Mini project 1 due",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 9, "carpeta": "semanas/09-regresion-logistica", "bloque": 4,
+      "titulo": "Regresión logística", "title": "Logistic regression",
+      "tema": "Odds y odds ratio; el modelo logístico · Práctica: mortalidad en UCI con MIMIC-IV demo",
+      "topic": "Odds and odds ratios; the logistic model · Practice: ICU mortality with the MIMIC-IV demo",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 10, "carpeta": "semanas/10-confusion-y-ajuste", "bloque": 4,
+      "titulo": "Confusión y ajuste", "title": "Confounding and adjustment",
+      "tema": "Confusores y regresión múltiple; grafos causales (DAGs) · Práctica: MIMIC-IV",
+      "topic": "Confounders and multiple regression; causal graphs (DAGs) · Practice: MIMIC-IV",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 11, "carpeta": "semanas/11-del-modelo-al-machine-learning", "bloque": 4,
+      "titulo": "Del modelo al machine learning", "title": "From models to machine learning",
+      "tema": "Inferencia vs. predicción; sesgo y varianza; validación cruzada · Práctica: MIMIC-IV",
+      "topic": "Inference vs. prediction; bias and variance; cross-validation · Practice: MIMIC-IV",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 12, "carpeta": "semanas/12-arboles-y-bosques", "bloque": 5,
+      "titulo": "Árboles y bosques", "title": "Trees and forests",
+      "tema": "Árboles de decisión; random forest; importancia de variables · Práctica: PPMI",
+      "topic": "Decision trees; random forest; variable importance · Practice: PPMI",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 13, "carpeta": "semanas/13-gradient-boosting-y-evaluacion", "bloque": 5,
+      "titulo": "Gradient boosting y evaluación", "title": "Gradient boosting and evaluation",
+      "tema": "XGBoost en intuición; sensibilidad, especificidad, ROC, calibración · Práctica: PPMI",
+      "topic": "XGBoost intuition; sensitivity, specificity, ROC, calibration · Practice: PPMI",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 14, "carpeta": "semanas/14-redes-neuronales", "bloque": 5,
+      "titulo": "Redes neuronales", "title": "Neural networks",
+      "tema": "La neurona artificial; capas y retropropagación; cuándo usarlas (y cuándo no) en salud",
+      "topic": "The artificial neuron; layers and backpropagation; when to use them (and when not) in health",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 15, "carpeta": "semanas/15-taller-de-proyecto", "bloque": 6,
+      "titulo": "Taller de proyecto", "title": "Project workshop",
+      "tema": "Trabajo en pods con asesoría; análisis y armado de la presentación",
+      "topic": "Pod work with mentoring; analysis and building the presentation",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    },
+    {
+      "n": 16, "carpeta": "semanas/16-presentaciones-finales", "bloque": 6,
+      "titulo": "Presentaciones finales", "title": "Final presentations",
+      "tema": "Presentación en formato de congreso; la ruta hacia la publicación",
+      "topic": "Conference-style presentations; the road to publication",
+      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+    }
+  ]
+}
