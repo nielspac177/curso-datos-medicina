@@ -26,7 +26,11 @@
       "titulo": "Describir datos", "title": "Describing data",
       "tema": "Tipos de variables; media, mediana y dispersión; la tabla 1 · Práctica: ENDES",
       "topic": "Variable types; mean, median and spread; the Table 1 · Practice: ENDES",
-      "fecha": "", "slides": "", "cuadernos": [], "video": "", "grabacion": ""
+      "fecha": "", "slides": "semanas/02-describir-datos/diapositivas/index.html",
+      "cuadernos": [
+        { "titulo": "Cuaderno: anemia infantil y la tabla 1", "title": "Notebook: child anemia and the Table 1", "ruta": "semanas/02-describir-datos/cuadernos/02_describir_datos_ALUMNO.ipynb" }
+      ],
+      "video": "", "grabacion": ""
     },
     {
       "n": 3, "carpeta": "semanas/03-visualizar-datos", "bloque": 1,
