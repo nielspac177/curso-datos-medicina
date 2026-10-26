@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Describir datos · Semana 2</title>
+<meta name="description" content="Diapositivas de la semana 2 del curso Estadística y Machine Learning para Estudiantes de Medicina: tipos de variables, media, mediana, dispersión y la tabla 1, con datos de anemia infantil de la ENDES 2024.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --soft: #f6f5f1;
+  --ink: #1c2733;
+  --ink-2: #55606b;
+  --ink-3: #8a929b;
+  --accent: #9e2b3d;
+  --accent-soft: rgba(158, 43, 61, 0.09);
+  --blue: #3d6b8f;
+  --blue-soft: rgba(61, 107, 143, 0.12);
+  --line: rgba(28, 39, 51, 0.13);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: #e9e7e1; overflow: hidden; }
+body { font-family: var(--serif); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+/* Escenario 16:9 que se escala a la ventana */
+#stage {
+  position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px;
+  transform-origin: 50% 50%; background: var(--bg); overflow: hidden;
+  box-shadow: 0 20px 60px rgba(28, 39, 51, 0.18);
+}
+.slide {
+  position: absolute; inset: 0; padding: 64px 84px 56px; display: flex; flex-direction: column;
+  opacity: 0; visibility: hidden; transition: opacity .45s var(--ease), transform .55s var(--ease);
+  transform: translateX(28px);
+}
+.slide.active { opacity: 1; visibility: visible; transform: none; }
+.slide.past { transform: translateX(-28px); }
+
+/* Tipografía */
+.kicker { font: 700 14px/1 var(--sans); letter-spacing: .09em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+h1 { font-size: 72px; line-height: 1.02; font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 44px; line-height: 1.08; font-weight: 800; letter-spacing: -0.015em; margin-bottom: 26px; max-width: 32ch; }
+h3 { font-size: 26px; font-weight: 700; margin-bottom: 10px; }
+p, li { font-size: 25px; line-height: 1.42; }
+.lede { font-size: 28px; color: var(--ink-2); max-width: 44ch; }
+.small { font-size: 19px; color: var(--ink-2); }
+.tiny { font: 15px/1.4 var(--sans); color: var(--ink-3); }
+.hl { color: var(--accent); font-style: normal; font-weight: 700; }
+.blue { color: var(--blue); }
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
+ul.clean { list-style: none; }
+ul.clean li { padding-left: 30px; position: relative; margin-bottom: 12px; }
+ul.clean li::before { content: ""; position: absolute; left: 4px; top: 15px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+code, .mono { font-family: var(--mono); font-size: .86em; }
+pre {
+  font: 18px/1.5 var(--mono); background: #1d242d; color: #e8e6e1; border-radius: 14px;
+  padding: 18px 22px; white-space: pre; overflow: hidden;
+}
+pre .c { color: #8b97a3; } pre .k { color: #e88a99; } pre .s { color: #b9d58c; } pre .n { color: #f0c674; }
+.src { position: absolute; left: 84px; bottom: 22px; font: 14px/1.3 var(--sans); color: var(--ink-3); max-width: 1000px; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.cols.c3 { grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.cols.w { grid-template-columns: 1.25fr 1fr; }
+.card { background: var(--soft); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; }
+.card h3 { font-size: 23px; }
+.card p, .card li { font-size: 20px; }
+.pill { display: inline-block; font: 600 15px/1 var(--sans); padding: 7px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.pill.b { background: var(--blue-soft); color: var(--blue); }
+
+/* Fragmentos */
+[data-f] { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease), transform .6s var(--ease); }
+[data-f].on { opacity: 1; transform: none; }
+
+/* Portada y secciones */
+.title-slide { justify-content: center; background: radial-gradient(1200px 500px at 85% 110%, var(--accent-soft), transparent 60%), var(--bg); }
+.title-slide h1 { max-width: 13ch; }
+.title-slide .lede { margin-top: 26px; }
+.title-slide .meta { margin-top: 44px; font: 600 18px/1.5 var(--sans); color: var(--ink-2); }
+.section { justify-content: center; background: var(--ink); color: #f3f1ec; }
+.section .kicker { color: #e88a99; }
+.section h1 { font-size: 84px; }
+.section .lede { color: #b9bfc6; margin-top: 18px; }
+.section .num { position: absolute; right: 84px; bottom: 40px; font: 800 220px/1 var(--serif); color: rgba(255,255,255,.06); }
+
+/* Números grandes */
+.big { font: 800 190px/0.95 var(--serif); letter-spacing: -0.04em; color: var(--accent); }
+.big small { font-size: 90px; }
+.stat-row { display: flex; gap: 60px; align-items: flex-end; margin-top: 20px; }
+.stat { min-width: 260px; }
+.stat > b { display: block; font: 800 84px/1 var(--serif); letter-spacing: -0.02em; }
+.stat span { font: 18px/1.35 var(--sans); color: var(--ink-2); }
+
+/* Gráficos */
+svg text { font-family: var(--sans); }
+.axis { stroke: var(--ink-3); stroke-width: 1; }
+.lbl { font-size: 15px; fill: var(--ink-2); }
+.lbl-b { font-size: 17px; font-weight: 700; fill: var(--ink); }
+.grow { transition: transform 1s var(--ease); transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(0); }
+.grow.go { transform: scaleY(1); }
+
+/* Tarjetas de tipos de variables */
+.flip { perspective: 900px; cursor: pointer; height: 120px; }
+.flip .inner { position: relative; width: 100%; height: 100%; transition: transform .6s var(--ease); transform-style: preserve-3d; }
+.flip.open .inner { transform: rotateY(180deg); }
+.flip .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 12px; font: 600 22px/1.25 var(--sans); }
+.flip .front { background: var(--soft); border: 1px solid var(--line); }
+.flip .back { background: var(--ink); color: #fff; transform: rotateY(180deg); flex-direction: column; gap: 6px; }
+.flip .back small { font-weight: 400; font-size: 15px; color: #c5cbd2; }
+
+/* Árbol de tipos */
+.tree { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 6px; }
+.branch { border-top: 4px solid var(--blue); padding-top: 16px; }
+.branch.cat { border-color: var(--accent); }
+.leaf { display: grid; grid-template-columns: 170px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.leaf b { font: 700 21px/1.3 var(--sans); }
+.leaf span { font-size: 20px; color: var(--ink-2); }
+
+/* Tabla */
+table.t { border-collapse: collapse; font: 17px/1.25 var(--sans); width: 100%; }
+table.t th, table.t td { padding: 6px 10px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.t th:first-child, table.t td:first-child { text-align: left; }
+table.t td.lv { padding-left: 26px; color: var(--ink-2); }
+table.t thead th { border-bottom: 2px solid var(--ink); font-weight: 700; }
+table.t tr.grp td { font-weight: 700; padding-top: 9px; }
+table.t tr[data-f] { transform: none; }
+table.t .miss { color: var(--accent); font-weight: 700; }
+table.t .l { text-align: left; }
+
+/* Controles interactivos */
+input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; }
+.readout { display: flex; gap: 34px; font: 600 22px/1.3 var(--sans); }
+.readout b { font-size: 34px; display: block; }
+
+/* Diagrama de flujo */
+.flow { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.node { border: 2px solid var(--ink); border-radius: 14px; padding: 12px 20px; font: 600 22px/1.25 var(--sans); background: #fff; text-align: center; }
+.node.q { border-style: dashed; }
+.node.end { background: var(--accent); color: #fff; border-color: var(--accent); }
+.node.end.b { background: var(--blue); border-color: var(--blue); }
+.node.end.k { background: var(--ink); border-color: var(--ink); }
+.arrow { font: 600 17px var(--sans); color: var(--ink-3); }
+
+/* Notas del orador e interfaz */
+.notes { display: none; }
+#notes-panel {
+  position: fixed; left: 0; right: 0; bottom: 0; max-height: 34vh; overflow: auto; background: rgba(28,39,51,.96);
+  color: #eceae6; font: 17px/1.5 var(--sans); padding: 16px 26px 22px; transform: translateY(100%);
+  transition: transform .35s var(--ease); z-index: 20;
+}
+#notes-panel.show { transform: none; }
+#notes-panel b { color: #e88a99; }
+#progress { position: fixed; left: 0; top: 0; height: 4px; background: var(--accent); transition: width .4s var(--ease); z-index: 21; }
+#counter { position: fixed; right: 16px; bottom: 12px; font: 600 14px var(--sans); color: var(--ink-2); z-index: 19; }
+#help { position: fixed; left: 16px; bottom: 12px; font: 13px var(--sans); color: var(--ink-3); z-index: 19; }
+
+/* Modo impresión (?print): todas las diapositivas con todos los pasos */
+body.print { overflow: visible; background: #fff; height: auto; }
+body.print #stage { position: static; transform: none !important; box-shadow: none; width: auto; height: auto; overflow: visible; background: none; }
+body.print .slide { position: relative; width: 1280px; height: 720px; opacity: 1; visibility: visible; transform: none; break-after: page; page-break-after: always; transition: none; overflow: hidden; }
+body.print [data-f] { opacity: 1; transform: none; transition: none; }
+body.print .grow { transform: scaleY(1); transition: none; }
+body.print .flip .inner { transform: none; }
+body.print .flip .front { display: none; }
+body.print .flip .back { transform: none; }
+body.print .flip .back .q { font-size: 17px; font-weight: 400; color: #c5cbd2; }
+body.print #progress, body.print #counter, body.print #help, body.print #notes-panel { display: none; }
+@page { size: 1280px 720px; margin: 0; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="stage">
+
+<!-- 1 · Portada -->
+<section class="slide title-slide">
+  <div class="kicker">Semana 2 · Estadística y Machine Learning para Estudiantes de Medicina</div>
+  <h1>Describir datos</h1>
+  <p class="lede">Tipos de variables, media, mediana, dispersión y la tabla 1, con la anemia de las niñas y niños del Perú.</p>
+  <p class="meta">Dr. Niels Pacheco-Barrios · Datos: ENDES 2024, INEI</p>
+  <aside class="notes">Bienvenida. La semana 1 fue Colab y NHANES. Hoy se trabaja con datos peruanos y la meta es que, al final, cada alumno reproduzca una cifra oficial del INEI desde los microdatos. Teclas: flechas para avanzar, N para estas notas, F para pantalla completa.</aside>
+</section>
+
+<!-- 2 · Plan -->
+<section class="slide">
+  <div class="kicker">Plan de las dos horas</div>
+  <h2>Hoy</h2>
+  <div class="cols">
+    <ul class="clean">
+      <li data-f="1"><b>0 a 35 min.</b> Antes de resumir: qué es una fila, los códigos trampa y los tipos de variables. Centro y dispersión.</li>
+      <li data-f="2"><b>35 a 75 min.</b> Cuaderno en Colab, partes 0 a 5.</li>
+      <li data-f="3"><b>75 a 90 min.</b> La tabla 1: qué lleva, qué no lleva y por qué.</li>
+      <li data-f="4"><b>90 a 120 min.</b> Cuaderno, partes 6 a 8, y cierre.</li>
+    </ul>
+    <div class="card" data-f="5">
+      <h3>Al terminar usted podrá</h3>
+      <ul class="clean">
+        <li>Clasificar cualquier variable de una historia clínica.</li>
+        <li>Calcular media, mediana, varianza y DE a mano con <code>numpy</code>.</li>
+        <li>Elegir entre media (DE) y mediana [RIC].</li>
+        <li>Construir y criticar una tabla 1.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">No leer la lista completa: dar los cuatro bloques en una frase y pasar.</aside>
+</section>
+
+<!-- 3 · Gancho -->
+<section class="slide" data-hook="count">
+  <div class="kicker">El problema</div>
+  <div class="big"><span class="count" data-to="43.7" data-dec="1">0</span><small>%</small></div>
+  <p class="lede" style="margin-top:18px">de las niñas y niños de 6 a 35 meses tenía anemia en el Perú en 2024.</p>
+  <p class="small" data-f="1" style="margin-top:30px; max-width: 52ch">Hoy usted va a llegar a este número desde los microdatos de la ENDES. Si su número coincide con el oficial, su limpieza de datos está bien hecha.</p>
+  <div class="src">INEI. Indicadores de resultados de los programas presupuestales, ENDES 2024 (Cuadro 06, criterio RM 363-2022-MINSA).</div>
+  <aside class="notes">Pregunta a la clase: "¿alguien sabe la cifra de anemia en su región?". En la sierra rural pasa del 50&nbsp;%.</aside>
+</section>
+
+<!-- 4 · Anemia por edad -->
+<section class="slide" data-hook="barsEdad">
+  <div class="kicker">Lo que vamos a describir</div>
+  <h2>La anemia se concentra en el primer año de vida</h2>
+  <svg id="svg-edad" viewBox="0 0 1110 420" width="1110" height="420"></svg>
+  <div class="src">ENDES 2024, niños de 6 a 59 meses con hemoglobina medida (n = 18 358). Porcentajes sin ponderar.</div>
+  <aside class="notes">Dos de cada tres niños de 6 a 11 meses tienen anemia. Preguntar: si resumo la anemia de toda la muestra con un solo número (35.8&nbsp;%), ¿qué se pierde? La edad. Un resumen siempre esconde algo; la pregunta es qué.</aside>
+</section>
+
+<!-- 5 · Seis preguntas -->
+<section class="slide">
+  <div class="kicker">Análisis exploratorio (EDA)</div>
+  <h2>Seis preguntas antes de cualquier modelo</h2>
+  <div class="cols c3">
+    <div class="card" data-f="1"><span class="pill">1</span><h3 style="margin-top:12px">¿Qué es una fila?</h3><p>Un niño, un hogar, una visita, una muestra de laboratorio.</p></div>
+    <div class="card" data-f="2"><span class="pill">2</span><h3 style="margin-top:12px">¿Puedo confiar?</h3><p>Códigos de faltantes, unidades, valores imposibles, duplicados.</p></div>
+    <div class="card" data-f="3"><span class="pill">3</span><h3 style="margin-top:12px">¿Cómo se reparte?</h3><p>Centro, dispersión y forma de cada variable.</p></div>
+    <div class="card" data-f="4" style="opacity:.75"><span class="pill b">4</span><h3 style="margin-top:12px">¿Qué se relaciona?</h3><p>Semanas 7 y 8.</p></div>
+    <div class="card" data-f="4" style="opacity:.75"><span class="pill b">5</span><h3 style="margin-top:12px">¿Hay estructura oculta?</h3><p>Subgrupos, conglomerados (semana 10).</p></div>
+    <div class="card" data-f="4" style="opacity:.75"><span class="pill b">6</span><h3 style="margin-top:12px">¿Qué implica para el análisis?</h3><p>Qué modelo, qué ajuste, qué advertir.</p></div>
+  </div>
+  <aside class="notes">Hoy cubrimos las tres primeras. En medicina la respuesta a la pregunta 3 se publica: es la tabla 1.</aside>
+</section>
+
+<!-- 6 · EDA según diseño -->
+<section class="slide">
+  <div class="kicker">El EDA cambia según el diseño</div>
+  <h2>Qué describe la tabla 1 en cada tipo de estudio</h2>
+  <table class="t" style="font-size:20px">
+    <thead><tr><th>Diseño</th><th class="l">Las columnas son...</th><th class="l">El EDA busca sobre todo...</th></tr></thead>
+    <tbody>
+      <tr data-f="1"><td><b>Transversal</b> (ENDES, NHANES)</td><td class="l">Total y subgrupos (área, sexo)</td><td class="l">A quién representa la muestra; pesos de muestreo</td></tr>
+      <tr data-f="2"><td><b>Cohorte</b></td><td class="l">Expuestos y no expuestos</td><td class="l">Diferencias al inicio que podrían confundir</td></tr>
+      <tr data-f="3"><td><b>Casos y controles</b></td><td class="l">Casos y controles</td><td class="l">Si los controles vienen de la misma población</td></tr>
+      <tr data-f="4"><td><b>Ensayo clínico</b></td><td class="l">Brazos de tratamiento</td><td class="l">Que la aleatorización produjo grupos parecidos</td></tr>
+    </tbody>
+  </table>
+  <p class="small" data-f="5" style="margin-top:28px">En todos los casos la primera tarea es la misma: entender los datos antes de compararlos.</p>
+  <div class="src">STROBE, ítem 14 (Vandenbroucke et al., PLoS Med 2007) · CONSORT 2010, ítem 15 (Moher et al., BMJ 2010).</div>
+  <aside class="notes">No profundizar en diseños: eso viene en epidemiología. Solo fijar que las columnas de la tabla 1 son los grupos que el estudio quiere comparar.</aside>
+</section>
+
+<!-- 7 · Sección -->
+<section class="slide section">
+  <div class="kicker">Parte 1</div>
+  <h1>Antes de resumir</h1>
+  <p class="lede">¿Qué es una fila? ¿Puedo confiar en los números?</p>
+  <div class="num">1</div>
+</section>
+
+<!-- 8 · Qué es una fila -->
+<section class="slide" data-hook="merge" data-steps="2">
+  <div class="kicker">Pregunta 1 · ¿Qué es una fila?</div>
+  <h2>Un niño no es un hogar</h2>
+  <div class="cols w">
+    <svg id="svg-merge" viewBox="0 0 640 400" width="640" height="400"></svg>
+    <div>
+      <p data-f="1">En <code>RECH6</code> una fila es un <b>niño</b>. En <code>RECH0</code>, un <b>hogar</b>. Para saber el área o la altitud de cada niño hay que unirlas por <code>HHID</code>.</p>
+      <p data-f="2" style="margin-top:18px">Si un hogar aparece <span class="hl">dos veces</span> en la tabla de hogares, sus niños se duplican sin aviso.</p>
+      <pre data-f="3" style="margin-top:18px; font-size:16px">ninos.merge(hogar, on=<span class="s">"HHID"</span>,
+            validate=<span class="s">"many_to_one"</span>)</pre>
+      <p class="small" data-f="3" style="margin-top:10px"><code>validate</code> detiene el código si la llave no es única.</p>
+    </div>
+  </div>
+  <div class="src">ENDES 2024: 20 290 niños en 17 828 hogares; 2 314 hogares aportan dos o más niños.</div>
+  <aside class="notes">En el paso 2 aparece la fila duplicada en rojo. Es el error más común en tesis que unen bases de laboratorio con bases de pacientes. Mencionar que los niños del mismo hogar se parecen entre sí (no son independientes), tema de la semana 5.</aside>
+</section>
+
+<!-- 9 · La trampa del 999 -->
+<section class="slide" data-hook="hist999" data-steps="3">
+  <div class="kicker">Pregunta 2 · ¿Puedo confiar?</div>
+  <h2>Una hemoglobina media de <span class="hl" id="m999">11.3</span> g/dL</h2>
+  <div class="cols w" style="grid-template-columns: 1.5fr 1fr">
+    <svg id="svg-999" viewBox="0 0 720 380" width="720" height="380"></svg>
+    <div>
+      <pre style="font-size:15px; line-height:1.45">df[<span class="s">"HC56"</span>].describe()
+count   20290
+mean      <span class="n">197.0</span>
+50%       115.0
+max       <span class="k">999.0</span></pre>
+      <p class="small" data-f="1" style="margin-top:16px">La ENDES escribe <b>999</b> cuando no pudo medir. Para pandas es un número más.</p>
+      <p class="small" data-f="2" style="margin-top:12px"><b>1 932</b> niños con 999 suben la media de 11.3 a <span class="hl">19.7 g/dL</span>: policitemia en todo el país.</p>
+      <p class="small" data-f="3" style="margin-top:12px">La mediana casi no se mueve (de 11.3 a 11.5). La media es frágil.</p>
+    </div>
+  </div>
+  <div class="src">HC56: hemoglobina ajustada por altitud, en g/dL × 10. Eje horizontal cortado entre 16 y 99.9 g/dL.</div>
+  <aside class="notes">Primero el histograma limpio. En el paso 2 aparece la barra en 99.9 y la línea de la media salta a la derecha. Pregunta: "¿cuántos habrían notado esto sin mirar el máximo?". describe() y value_counts() se leen buscando lo imposible antes de buscar lo interesante.</aside>
+</section>
+
+<!-- 10 · Códigos trampa -->
+<section class="slide">
+  <div class="kicker">Pregunta 2 · ¿Puedo confiar?</div>
+  <h2>Lista corta de sospechosos</h2>
+  <div class="cols">
+    <ul class="clean">
+      <li data-f="1"><b>9, 99, 999, 9999:</b> "no sabe", "no aplica", "no medido".</li>
+      <li data-f="2"><b>0 o −1</b> en variables que no pueden valer eso (peso, presión).</li>
+      <li data-f="3"><b>Fechas de relleno:</b> 1900-01-01, 1970-01-01.</li>
+      <li data-f="4"><b>Unidades mezcladas:</b> Hb en g/dL y g/L; talla en cm y m; glucosa en mg/dL y mmol/L.</li>
+      <li data-f="5"><b>Escalas ocultas:</b> la ENDES guarda la Hb × 10 y el puntaje z × 100.</li>
+    </ul>
+    <div class="card" data-f="6">
+      <h3>Tres líneas que lo detectan</h3>
+<pre style="font-size:17px">df.describe()           <span class="c"># mire min y max</span>
+df[<span class="s">"x"</span>].value_counts(dropna=<span class="k">False</span>)
+df.isna().sum()          <span class="c"># faltantes reales</span></pre>
+      <p class="small" style="margin-top:14px">Y una regla: lea el diccionario de variables antes de la primera media.</p>
+    </div>
+  </div>
+  <aside class="notes">Pedir ejemplos de su experiencia en hospital: historias con "000" en el DNI, edades de 999, etc.</aside>
+</section>
+
+<!-- 11 · Tipos de variables -->
+<section class="slide">
+  <div class="kicker">Tipos de variables</div>
+  <h2>El tipo decide el resumen</h2>
+  <div class="tree">
+    <div class="branch" data-f="1">
+      <h3 class="blue">Numéricas</h3>
+      <div class="leaf"><b>Continua</b><span>Se mide. Hemoglobina, altitud, puntaje z de talla.</span></div>
+      <div class="leaf"><b>Discreta</b><span>Se cuenta. Número de hermanos, controles prenatales.</span></div>
+    </div>
+    <div class="branch cat" data-f="2">
+      <h3 class="hl">Categóricas</h3>
+      <div class="leaf"><b>Nominal</b><span>Sin orden. Región natural, grupo sanguíneo.</span></div>
+      <div class="leaf"><b>Ordinal</b><span>Con orden. Nivel de anemia, quintil de riqueza, educación.</span></div>
+      <div class="leaf"><b>Binaria</b><span>Dos valores. Anemia sí/no, sexo, área urbana/rural.</span></div>
+    </div>
+  </div>
+  <p class="small" data-f="3" style="margin-top:22px">Un mismo dato puede cambiar de tipo: la hemoglobina (continua) se vuelve anemia (binaria) o nivel de anemia (ordinal). Cada paso pierde información.</p>
+  <aside class="notes">Insistir en el último punto: dicotomizar una variable continua tira información. Volveremos a esto en regresión.</aside>
+</section>
+
+<!-- 12 · Tarjetas -->
+<section class="slide">
+  <div class="kicker">Ejercicio rápido · haga clic en cada tarjeta</div>
+  <h2>¿De qué tipo es?</h2>
+  <div class="cols c3" style="gap:20px">
+    <div class="flip"><div class="inner"><div class="face front">Escala de coma de Glasgow</div><div class="face back">Ordinal<small>de 8 a 9 no equivale a de 13 a 14</small></div></div></div>
+    <div class="flip"><div class="inner"><div class="face front">Puntaje de Apgar</div><div class="face back">Ordinal<small>suma de 5 ítems ordinales</small></div></div></div>
+    <div class="flip"><div class="inner"><div class="face front">Grupo sanguíneo ABO</div><div class="face back">Nominal<small>A, B, AB, O: sin orden</small></div></div></div>
+    <div class="flip"><div class="inner"><div class="face front">Edad en meses cumplidos</div><div class="face back">Discreta<small>se trata como continua si hay muchos valores</small></div></div></div>
+    <div class="flip"><div class="inner"><div class="face front">Dolor en escala de 0 a 10</div><div class="face back">Ordinal<small>se suele promediar; hay que justificarlo</small></div></div></div>
+    <div class="flip"><div class="inner"><div class="face front">Creatinina sérica</div><div class="face back">Continua<small>y asimétrica: mediana [RIC]</small></div></div></div>
+    <div class="flip"><div class="inner"><div class="face front">Estadio de cáncer (I a IV)</div><div class="face back">Ordinal<small>el orden importa, la distancia no</small></div></div></div>
+    <div class="flip"><div class="inner"><div class="face front">Fumador actual (sí/no)</div><div class="face back">Binaria<small>n (%)</small></div></div></div>
+    <div class="flip"><div class="inner"><div class="face front">Hospitalizaciones en el año</div><div class="face back">Discreta<small>casi siempre sesgada a la derecha</small></div></div></div>
+  </div>
+  <aside class="notes">Votación a mano alzada antes de voltear cada tarjeta. Glasgow y la escala de dolor generan discusión: son ordinales que la literatura a menudo trata como numéricas. No hay que prohibirlo, hay que decirlo en métodos.</aside>
+</section>
+
+<!-- 13 · Sección -->
+<section class="slide section">
+  <div class="kicker">Parte 2</div>
+  <h1>El centro</h1>
+  <p class="lede">Media y mediana: qué miden y cuándo engañan.</p>
+  <div class="num">2</div>
+</section>
+
+<!-- 14 · Media -->
+<section class="slide" data-hook="balance">
+  <div class="kicker">La media</div>
+  <h2>La media es el punto de equilibrio</h2>
+  <div class="cols w">
+    <svg id="svg-balance" viewBox="0 0 660 300" width="660" height="300"></svg>
+    <div>
+      <p><math display="block" style="font-size:34px"><mover><mi>x</mi><mo>¯</mo></mover><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub></mrow><mi>n</mi></mfrac></math></p>
+      <p class="small" style="margin-top:18px">Diez niños de la ENDES. Si las bolitas fueran pesos sobre una regla, la regla se equilibraría en la media.</p>
+<pre data-f="1" style="margin-top:18px; font-size:17px">hb.sum() / len(hb)   <span class="c"># 11.22</span>
+np.mean(hb)          <span class="c"># 11.22</span></pre>
+    </div>
+  </div>
+  <aside class="notes">La media usa todos los valores: por eso es eficiente y también frágil. Las bolitas son los 10 primeros valores de la muestra del cuaderno.</aside>
+</section>
+
+<!-- 15 · Mediana interactiva -->
+<section class="slide" data-hook="outlier">
+  <div class="kicker">Media contra mediana · arrastre el control</div>
+  <h2>Un error de digitación: 115 en lugar de 11.5</h2>
+  <svg id="svg-outlier" viewBox="0 0 1110 230" width="1110" height="230"></svg>
+  <div style="margin: 6px 0 18px"><input id="rng-outlier" type="range" min="9.8" max="115" step="0.1" value="9.8" aria-label="Valor del décimo niño"></div>
+  <div class="readout">
+    <div>Décimo valor<b id="ro-x">9.8</b></div>
+    <div style="color:var(--accent)">Media<b id="ro-mean">11.22</b></div>
+    <div style="color:var(--blue)">Mediana<b id="ro-med">11.35</b></div>
+  </div>
+  <p class="small" style="margin-top:16px">La mediana es el valor del medio de los datos ordenados. Solo le importa el orden, no la distancia: por eso resiste los valores extremos.</p>
+  <aside class="notes">Mover el control despacio hasta 115, el error típico de unidades (g/L en vez de g/dL). La media se va a 21.74 y la mediana apenas pasa de 11.35 a 11.55. Pedir a alguien que explique por qué la mediana sí se movió un poco: el 9.8 dejó de estar abajo.</aside>
+</section>
+
+<!-- 16 · Cuál usar -->
+<section class="slide">
+  <div class="kicker">Media, mediana y moda</div>
+  <h2>¿Cuál reporto?</h2>
+  <table class="t" style="font-size:21px">
+    <thead><tr><th>Medida</th><th class="l">Usa</th><th class="l">Se mueve con extremos</th><th class="l">Úsela para</th></tr></thead>
+    <tbody>
+      <tr data-f="1"><td><b class="hl">Media</b></td><td class="l">Todos los valores</td><td class="l">Mucho</td><td class="l">Distribuciones simétricas: Hb, talla, presión</td></tr>
+      <tr data-f="2"><td><b class="blue">Mediana</b></td><td class="l">Solo el orden</td><td class="l">Poco</td><td class="l">Asimétricas: días de estancia, creatinina, altitud</td></tr>
+      <tr data-f="3"><td><b>Moda</b></td><td class="l">La frecuencia</td><td class="l">No aplica</td><td class="l">Categóricas: el grupo más común</td></tr>
+    </tbody>
+  </table>
+  <p data-f="4" style="margin-top:30px">Si la media y la mediana se separan, la distribución está sesgada. Esa diferencia ya es un hallazgo.</p>
+  <aside class="notes">Ejemplo clínico: la estancia hospitalaria suele tener mediana de 4 días y media de 7, porque unos pocos pacientes se quedan 60 días.</aside>
+</section>
+
+<!-- 17 · Sección -->
+<section class="slide section">
+  <div class="kicker">Parte 3</div>
+  <h1>La dispersión</h1>
+  <p class="lede">Varianza, desviación estándar y percentiles.</p>
+  <div class="num">3</div>
+</section>
+
+<!-- 18 · Misma media -->
+<section class="slide" data-hook="spread">
+  <div class="kicker">Por qué no basta con la media</div>
+  <h2>Misma media, poblaciones distintas</h2>
+  <svg id="svg-spread" viewBox="0 0 1110 330" width="1110" height="330"></svg>
+  <p class="small" style="margin-top:10px">Las dos nubes tienen media 11.3 g/dL. En la de abajo, muchos más niños quedan por debajo de 11, el umbral de anemia. La dispersión decide cuántos enfermos hay.</p>
+  <aside class="notes">Datos simulados con la media real. El mensaje clínico: el umbral está en la cola, y la cola depende de la dispersión.</aside>
+</section>
+
+<!-- 19 · Varianza paso a paso -->
+<section class="slide" data-hook="squares" data-steps="4">
+  <div class="kicker">La varianza paso a paso</div>
+  <h2>Promediar distancias al cuadrado</h2>
+  <div class="cols w" style="grid-template-columns: 1.35fr 1fr">
+    <svg id="svg-squares" viewBox="0 0 700 400" width="700" height="400"></svg>
+    <div>
+      <p class="small" data-f="1">1. Distancia de cada valor a la media (11.32).</p>
+      <p class="small" data-f="2" style="margin-top:10px">2. Al cuadrado: así los negativos no cancelan a los positivos, y lo lejano pesa más.</p>
+      <p class="small" data-f="3" style="margin-top:10px">3. Sumar: 7.87. Dividir entre n − 1 = 4: <b>varianza 1.97 (g/dL)²</b>.</p>
+      <p class="small" data-f="4" style="margin-top:10px">4. Raíz cuadrada: <span class="hl">DE = 1.40 g/dL</span>, de nuevo en unidades clínicas.</p>
+      <p data-f="4" style="margin-top:18px"><math display="block" style="font-size:28px"><mi>s</mi><mo>=</mo><msqrt><mfrac><mrow><mo>∑</mo><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo>¯</mo></mover><mo>)</mo></mrow><mn>2</mn></msup></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></mfrac></msqrt></math></p>
+    </div>
+  </div>
+  <aside class="notes">Los cuadrados tienen área proporcional al desvío al cuadrado: el 9.3 domina la varianza. Es la misma tabla que el alumno construye en la parte 5 del cuaderno.</aside>
+</section>
+
+<!-- 20 · n - 1 -->
+<section class="slide">
+  <div class="kicker">¿Por qué n − 1?</div>
+  <h2>Los desvíos siempre suman cero</h2>
+  <div class="cols">
+    <div>
+      <p data-f="1">Si conozco la media y cuatro de los cinco desvíos, el quinto ya está decidido.</p>
+      <p class="mono" data-f="2" style="font-size:24px; margin-top:20px; line-height:1.7">+1.88 &nbsp;+0.38 &nbsp;+0.08 &nbsp;−0.32<br>quinto = <span class="hl">−2.02</span></p>
+      <p data-f="3" style="margin-top:20px">Solo 4 desvíos son libres: <b>4 grados de libertad</b>. Dividir entre n subestima la varianza de la población; dividir entre n − 1 lo corrige.</p>
+    </div>
+    <div class="card" data-f="4">
+      <h3>La trampa de <code>ddof</code></h3>
+<pre style="font-size:16px">np.std(cinco)          <span class="c"># 1.2544  ÷ n</span>
+np.std(cinco, ddof=<span class="n">1</span>)  <span class="c"># 1.4025  ÷ (n−1)</span>
+pd.Series(cinco).std() <span class="c"># 1.4025</span></pre>
+      <p class="small" style="margin-top:12px">numpy divide entre n por defecto; pandas, R y SPSS, entre n − 1. Con 18 mil niños no importa; con 12 pacientes, sí.</p>
+    </div>
+  </div>
+  <aside class="notes">No hace falta demostrar el sesgo. Basta la intuición de los grados de libertad y el aviso práctico de ddof, que causa discrepancias reales entre lo que reporta un alumno en Python y su asesor en SPSS.</aside>
+</section>
+
+<!-- 21 · DE interactiva -->
+<section class="slide" data-hook="normal">
+  <div class="kicker">Desviación estándar · mueva el control</div>
+  <h2>La regla 68 · 95 · 99.7</h2>
+  <svg id="svg-normal" viewBox="0 0 1110 300" width="1110" height="300"></svg>
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items:center; margin-top: 8px">
+    <div><input id="rng-sd" type="range" min="0.5" max="2" step="0.01" value="1.08" aria-label="Desviación estándar"><div class="readout"><div>DE<b id="ro-sd">1.08</b></div><div style="color:var(--accent)">% bajo 11 g/dL<b id="ro-below">40.4&nbsp;%</b></div></div></div>
+    <p class="small">En una normal, el 68&nbsp;% cae a ±1 DE de la media y el 95&nbsp;% a ±2 DE. En la Hb de la ENDES cae el <b>71.5&nbsp;%</b> a ±1 DE: cerca, pero no idéntico. La regla es una guía, no una ley.</p>
+  </div>
+  <aside class="notes">Con la DE real (1.08), la curva normal teórica pone 40&nbsp;% bajo 11 g/dL; en los datos reales es 35.8&nbsp;%, porque la Hb no es exactamente normal. Al agrandar la DE sube la proporción con anemia sin que cambie la media. Conecta con la diapositiva de las dos nubes.</aside>
+</section>
+
+<!-- 22 · Percentiles y caja -->
+<section class="slide" data-hook="box">
+  <div class="kicker">Percentiles y rango intercuartílico</div>
+  <h2>La caja resume la mitad central</h2>
+  <svg id="svg-box" viewBox="0 0 1110 360" width="1110" height="360"></svg>
+  <p class="small" style="margin-top:6px">Hemoglobina ajustada, ENDES 2024: P25 = 10.6, mediana = 11.3, P75 = 12.0. <b>RIC = 1.4 g/dL</b>. Se reporta como <span class="mono">11.3 [10.6, 12.0]</span>.</p>
+  <aside class="notes">El boxplot es un histograma comprimido. Los bigotes de este dibujo llegan a 1.5 RIC desde la caja (8.5 y 14.1), la convención de Tukey. En la semana 3 lo veremos en detalle.</aside>
+</section>
+
+<!-- 23 · Forma -->
+<section class="slide" data-hook="shape">
+  <div class="kicker">La forma</div>
+  <h2>Simétrica contra sesgada</h2>
+  <div class="cols">
+    <div><h3>Hemoglobina</h3><svg id="svg-shape-hb" viewBox="0 0 520 300" width="520" height="300"></svg><p class="small">Media 11.26 · mediana 11.3: casi iguales.<br>Reporte <b>media (DE): 11.3 (1.1)</b></p></div>
+    <div><h3>Altitud del conglomerado</h3><svg id="svg-shape-alt" viewBox="0 0 520 300" width="520" height="300"></svg><p class="small">Media 1 261 m · mediana 425 m · DE 1 407 m.<br>Reporte <b>mediana [RIC]: 425 [120, 2 701]</b></p></div>
+  </div>
+  <div class="src"><span style="color:var(--accent)">━</span> media &nbsp;&nbsp; <span style="color:var(--blue)">━</span> mediana</div>
+  <aside class="notes">La altitud tiene dos jorobas, costa y sierra. La media (1 261 m) cae en un valle donde casi no vive nadie. Pregunta: ¿dónde vive el niño "promedio"?</aside>
+</section>
+
+<!-- 24 · Señal de alarma -->
+<section class="slide">
+  <div class="kicker">Una señal de alarma en los artículos</div>
+  <h2>"Estancia hospitalaria: 5 ± 7 días"</h2>
+  <div class="cols">
+    <div>
+      <p data-f="1">Media menos una DE da −2 días. Nadie se queda menos de cero días.</p>
+      <p data-f="2" style="margin-top:20px">Cuando la DE supera a la media en una variable que no puede ser negativa, la distribución está sesgada y la media (DE) la describe mal.</p>
+    </div>
+    <div class="card" data-f="3">
+      <h3>Casi siempre van con mediana [RIC]</h3>
+      <ul class="clean"><li>Días de estancia, de ventilación, de seguimiento</li><li>Creatinina, PCR, troponina, ferritina</li><li>Número de hospitalizaciones o de visitas</li><li>Costos e ingresos</li></ul>
+    </div>
+  </div>
+  <aside class="notes">Pedir que busquen esta señal en el próximo artículo que lean. Es frecuente incluso en revistas buenas.</aside>
+</section>
+
+<!-- 25 · Decisión -->
+<section class="slide">
+  <div class="kicker">Regla de decisión</div>
+  <h2>¿Qué resumen va en la tabla?</h2>
+  <div class="flow" style="margin-top:4px">
+    <div class="node q" data-f="1">¿La variable es numérica?</div>
+    <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap: 70px; width: 980px">
+      <div class="flow">
+        <div class="arrow" data-f="2">sí ↓</div>
+        <div class="node q" data-f="2">¿Es aproximadamente simétrica?<br><span class="tiny">histograma; media parecida a la mediana</span></div>
+        <div style="display:flex; gap: 22px">
+          <div class="flow"><div class="arrow" data-f="3">sí ↓</div><div class="node end" data-f="3">media (DE)</div></div>
+          <div class="flow"><div class="arrow" data-f="4">no ↓</div><div class="node end b" data-f="4">mediana [RIC]</div></div>
+        </div>
+      </div>
+      <div class="flow">
+        <div class="arrow" data-f="5">no ↓</div>
+        <div class="node end k" data-f="5">n (%)<br><span class="tiny" style="color:#c5cbd2">% sobre quienes tienen el dato</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="small" data-f="6" style="margin-top:22px">Mire la figura antes que la prueba de normalidad: con miles de datos, Shapiro-Wilk rechaza casi todo.</p>
+  <aside class="notes">El aviso sobre Shapiro-Wilk adelanta la semana 6 (valor p y tamaño de muestra).</aside>
+</section>
+
+<!-- 26 · Altitud clínica -->
+<section class="slide" data-hook="altitude" data-steps="2">
+  <div class="kicker">Un detalle clínico</div>
+  <h2>La hemoglobina se ajusta por altitud, y el ajuste cambia la prevalencia</h2>
+  <svg id="svg-alt" viewBox="0 0 1110 320" width="1110" height="320"></svg>
+  <p class="small" data-f="2" style="margin-top:4px">Con la guía OMS 2024, que ajusta menos en altura, la anemia de 6 a 35 meses baja de <b>43.7&nbsp;%</b> a <b>35.3&nbsp;%</b>. Misma sangre, otra definición, otra cifra.</p>
+  <div class="src">ENDES 2024, sin ponderar. Cifra OMS 2024: INEI, Cuadro 6.1 (RM 251-2024-MINSA).</div>
+  <aside class="notes">Paso 1: la Hb cruda sube con la altitud (11.4 a 14.4). Paso 2: la ajustada queda por debajo de la costa en más de 3 000 m (10.5) y la anemia llega a 65&nbsp;%. Pregunta abierta: ¿los niños de altura tienen más anemia o el ajuste resta demasiado? No hay consenso; por eso la OMS cambió la guía en 2024.</aside>
+</section>
+
+<!-- 27 · Sección tabla 1 -->
+<section class="slide section">
+  <div class="kicker">Parte 4</div>
+  <h1>La tabla 1</h1>
+  <p class="lede">Quiénes están en el estudio. La tabla que todos leen primero.</p>
+  <div class="num">4</div>
+</section>
+
+<!-- 28 · Para qué -->
+<section class="slide">
+  <div class="kicker">Para qué sirve</div>
+  <h2>La tabla 1 responde: ¿a quién se aplica este resultado?</h2>
+  <div class="cols">
+    <ul class="clean">
+      <li data-f="1">El lector compara a <b>sus</b> pacientes con los del estudio.</li>
+      <li data-f="2">El revisor busca diferencias entre grupos que puedan <b>confundir</b> el resultado.</li>
+      <li data-f="3">Todos miran los <b>faltantes</b>: un estudio con 40&nbsp;% sin dato de educación es otro estudio.</li>
+    </ul>
+    <div class="card" data-f="4">
+      <h3>STROBE, ítem 14</h3>
+      <p>(a) Características de los participantes (demográficas, clínicas, sociales), exposiciones y posibles confusores.</p>
+      <p style="margin-top:8px">(b) Número de participantes con datos faltantes en cada variable.</p>
+    </div>
+  </div>
+  <div class="src">Vandenbroucke JP et al. PLoS Med 2007;4(10):e297. doi:10.1371/journal.pmed.0040297</div>
+  <aside class="notes">STROBE es la guía para estudios observacionales; CONSORT, para ensayos. Ambas piden esta tabla.</aside>
+</section>
+
+<!-- 29 · Anatomía -->
+<section class="slide">
+  <div class="kicker">Anatomía de una tabla 1 · ENDES 2024</div>
+  <h2 style="font-size:32px; margin-bottom:12px">Niñas y niños de 6 a 59 meses según área de residencia</h2>
+  <div style="display:grid; grid-template-columns: 1fr 250px; gap: 22px">
+  <table class="t" style="font-size:16px">
+    <thead><tr><th>Característica</th><th>Total</th><th>Rural</th><th>Urbana</th><th>Faltantes, n (%)</th></tr></thead>
+    <tbody>
+      <tr data-f="1"><td><b>n</b></td><td>18 358</td><td>5 663</td><td>12 695</td><td></td></tr>
+      <tr data-f="2"><td>Hemoglobina (g/dL), media (DE)</td><td>11.3 (1.1)</td><td>11.0 (1.1)</td><td>11.4 (1.1)</td><td>0</td></tr>
+      <tr data-f="3"><td>Edad (meses), mediana [RIC]</td><td>33 [19, 46]</td><td>32 [19, 45]</td><td>33 [19, 46]</td><td>0</td></tr>
+      <tr data-f="3"><td>Altitud (m), mediana [RIC]</td><td>425 [120, 2 701]</td><td>2 073 [312, 3 348]</td><td>238 [84, 1 622]</td><td>0</td></tr>
+      <tr data-f="4"><td>Niña, n (%)</td><td>9 031 (49.2)</td><td>2 809 (49.6)</td><td>6 222 (49.0)</td><td>0</td></tr>
+      <tr data-f="4" class="grp"><td>Quintil de riqueza, n (%)</td><td></td><td></td><td></td><td>0</td></tr>
+      <tr data-f="4"><td class="lv">Q1 (más pobre)</td><td>5 696 (31.0)</td><td>4 414 (77.9)</td><td>1 282 (10.1)</td><td></td></tr>
+      <tr data-f="4"><td class="lv">Q5 (más rico)</td><td>1 553 (8.5)</td><td>2 (0.0)</td><td>1 551 (12.2)</td><td></td></tr>
+      <tr data-f="5" class="grp"><td>Educación de la madre, n (%)</td><td></td><td></td><td></td><td class="miss">511 (2.8)</td></tr>
+      <tr data-f="5"><td class="lv">Primaria o sin nivel</td><td>2 874 (16.1)</td><td>1 776 (32.5)</td><td>1 098 (8.8)</td><td></td></tr>
+      <tr data-f="5"><td class="lv">Superior</td><td>2 792 (15.6)</td><td>225 (4.1)</td><td>2 567 (20.7)</td><td></td></tr>
+      <tr data-f="6"><td>Anemia, n (%)</td><td>6 570 (35.8)</td><td>2 505 (44.2)</td><td>4 065 (32.0)</td><td>0</td></tr>
+      <tr data-f="6"><td>Desnutrición crónica, n (%)</td><td>2 334 (12.7)</td><td>1 179 (20.8)</td><td>1 155 (9.1)</td><td class="miss">52 (0.3)</td></tr>
+    </tbody>
+  </table>
+  <div style="display:flex; flex-direction:column; gap: 10px">
+    <div class="card" data-f="1" style="padding:11px 15px"><p class="small"><b>n arriba</b> en cada columna.</p></div>
+    <div class="card" data-f="2" style="padding:11px 15px"><p class="small"><b>Simétrica:</b> media (DE), con unidades.</p></div>
+    <div class="card" data-f="3" style="padding:11px 15px"><p class="small"><b>Sesgada:</b> mediana [RIC].</p></div>
+    <div class="card" data-f="4" style="padding:11px 15px"><p class="small"><b>Categórica:</b> n (%), un decimal.</p></div>
+    <div class="card" data-f="5" style="padding:11px 15px"><p class="small"><b>Faltantes:</b> madre que no vive en el hogar.</p></div>
+    <div class="card" data-f="6" style="padding:11px 15px"><p class="small"><b>Sin valores p.</b></p></div>
+  </div>
+  </div>
+  <aside class="notes">Sale de la función tabla1() del cuaderno (aquí abreviada a algunas categorías). Pregunta: ¿qué columna mira primero un revisor? La de faltantes. Además: el 77.9&nbsp;% de los niños rurales está en el quintil más pobre. Área y riqueza casi se superponen, un problema de confusión para la semana 10.</aside>
+</section>
+
+<!-- 30 · Reglas -->
+<section class="slide">
+  <div class="kicker">Guía práctica</div>
+  <h2>Reglas para una tabla 1 útil</h2>
+  <div class="cols">
+    <ul class="clean">
+      <li data-f="1">Columnas: los grupos que el estudio compara, más el total.</li>
+      <li data-f="2">Las variables que el lector necesita para juzgar a quién se aplica el resultado, y los posibles confusores.</li>
+      <li data-f="3">Faltantes por variable, en números absolutos.</li>
+      <li data-f="4">Unidades en cada fila; un decimal para porcentajes.</li>
+    </ul>
+    <ul class="clean">
+      <li data-f="5">No incluya la variable que define los grupos (la Hb en una tabla por anemia).</li>
+      <li data-f="6">No cambie de criterio entre filas parecidas sin explicarlo.</li>
+      <li data-f="7">Diga en el título a qué población describe y si usó pesos.</li>
+    </ul>
+  </div>
+  <div class="src">Hayes-Larson E, Kezios KL, Mooney SJ, Lovasi G. Who is in this study, anyway? Guidelines for a useful Table 1. J Clin Epidemiol 2019. doi:10.1016/j.jclinepi.2019.06.011</div>
+  <aside class="notes">Recomendar el artículo de Hayes-Larson: es corto y se lee en 20 minutos.</aside>
+</section>
+
+<!-- 31 · Valores p -->
+<section class="slide">
+  <div class="kicker">La pregunta de siempre</div>
+  <h2>¿Por qué no van valores p en la tabla 1?</h2>
+  <div class="cols">
+    <div class="card" data-f="1">
+      <h3>En un ensayo clínico</h3>
+      <p>Si la aleatorización se hizo bien, toda diferencia al inicio es azar por definición. CONSORT considera innecesario probarla, y Senn mostró que esas pruebas no indican qué variables ajustar.</p>
+    </div>
+    <div class="card" data-f="2">
+      <h3>En un estudio observacional</h3>
+      <p>El valor p dice si una diferencia es compatible con el azar, no si es tan <b>grande</b> como para confundir. Con 18 mil niños casi todo da p &lt; 0.001; con 40 pacientes, casi nada.</p>
+    </div>
+  </div>
+  <p data-f="3" style="margin-top:26px">Si necesita cuantificar el desequilibrio, use la <b>diferencia estandarizada de medias</b> (<code>smd=True</code> en <code>tableone</code>). La veremos en la semana 10.</p>
+  <div class="src">Moher D et al. CONSORT 2010 explanation and elaboration. BMJ 2010;340:c869 · Senn S. Testing for baseline balance in clinical trials. Stat Med 1994;13:1715-26.</div>
+  <aside class="notes">Muchas revistas todavía piden valores p en la tabla 1. Si el revisor los exige, se ponen, pero no se interpretan como prueba de comparabilidad.</aside>
+</section>
+
+<!-- 32 · Errores frecuentes -->
+<section class="slide">
+  <div class="kicker">Para revisar en su próxima tesis</div>
+  <h2>Cinco errores frecuentes</h2>
+  <div class="cols c3" style="grid-template-columns: repeat(5, 1fr); gap: 16px">
+    <div class="card" data-f="1"><h3>1</h3><p class="small">Porcentajes con los faltantes en el denominador.</p></div>
+    <div class="card" data-f="2"><h3>2</h3><p class="small">54.23817&nbsp;%: decimales que nadie puede medir.</p></div>
+    <div class="card" data-f="3"><h3>3</h3><p class="small">Media (DE) en variables sesgadas: 5 ± 7 días.</p></div>
+    <div class="card" data-f="4"><h3>4</h3><p class="small">La variable que define el grupo, dentro de la tabla.</p></div>
+    <div class="card" data-f="5"><h3>5</h3><p class="small">Sin n por columna: no se sabe de dónde salen los&nbsp;%.</p></div>
+  </div>
+  <aside class="notes">Opcional: mostrar una tabla 1 de una tesis (anonimizada) y buscar los errores entre todos.</aside>
+</section>
+
+<!-- 33 · Pesos -->
+<section class="slide" data-hook="count">
+  <div class="kicker">La muestra no es el país</div>
+  <h2>De 46.0&nbsp;% a 43.7&nbsp;%: los pesos de muestreo</h2>
+  <div class="stat-row">
+    <div class="stat" data-f="1"><b class="count" data-to="46.0" data-dec="1">0</b><span>Sin pesos. La muestra tiene más niños rurales de los que le tocan.</span></div>
+    <div class="stat" data-f="2"><b class="count" data-to="43.9" data-dec="1">0</b><span>Con el peso de cada hogar (<code>HV005</code>).</span></div>
+    <div class="stat" data-f="3"><b class="count hl" data-to="43.7" data-dec="1">0</b><span>Con pesos y solo niños que durmieron en la vivienda (<i>de facto</i>). <b>La cifra del INEI.</b></span></div>
+  </div>
+  <p class="small" data-f="4" style="margin-top:46px">La tabla 1 describe a la <b>muestra</b>: sin pesos. Una prevalencia del <b>país</b> necesita los pesos. Y su intervalo de confianza necesita además estratos y conglomerados (semana 5).</p>
+  <div class="src">Niños de 6 a 35 meses, ENDES 2024. INEI: 43.7&nbsp;% nacional, 40.2&nbsp;% urbano, 51.9&nbsp;% rural; el cuaderno reproduce las tres cifras.</div>
+  <aside class="notes">Es el ejercicio final del cuaderno. Si a un alumno le sale 43.7&nbsp;%, limpió bien los datos.</aside>
+</section>
+
+<!-- 34 · Sección herramientas -->
+<section class="slide section">
+  <div class="kicker">Parte 5</div>
+  <h1>Las herramientas</h1>
+  <p class="lede">Los paquetes de Python que hacen casi todo el análisis descriptivo.</p>
+  <div class="num">5</div>
+</section>
+
+<!-- 35 · Paquetes -->
+<section class="slide">
+  <div class="kicker">El ecosistema</div>
+  <h2>Cinco paquetes, un flujo</h2>
+  <div class="cols c3" style="grid-template-columns: repeat(5, 1fr); gap: 16px">
+    <div class="card" data-f="1"><span class="pill">leer y limpiar</span><h3 style="margin-top:12px">pandas</h3><p class="small">Tablas: <code>read_csv</code>, <code>merge</code>, <code>groupby</code>, <code>describe</code>.</p></div>
+    <div class="card" data-f="2"><span class="pill">calcular</span><h3 style="margin-top:12px">numpy</h3><p class="small">Arreglos y matemáticas: medias, varianzas, percentiles.</p></div>
+    <div class="card" data-f="3"><span class="pill">forma</span><h3 style="margin-top:12px">scipy.stats</h3><p class="small"><code>skew</code>, <code>iqr</code> y, más adelante, las pruebas.</p></div>
+    <div class="card" data-f="4"><span class="pill b">mirar</span><h3 style="margin-top:12px">seaborn</h3><p class="small">Histogramas y cajas en una línea, sobre matplotlib.</p></div>
+    <div class="card" data-f="5"><span class="pill b">publicar</span><h3 style="margin-top:12px">tableone</h3><p class="small">La tabla 1 con formato de artículo.</p></div>
+  </div>
+  <p class="small" data-f="6" style="margin-top:28px">Para explorar rápido existen reportes automáticos (<code>ydata-profiling</code>, <code>skimpy</code>). Sirven para mirar, no para publicar: no saben qué es un 999.</p>
+  <aside class="notes">Colab ya trae pandas, numpy, scipy, matplotlib, seaborn y requests. tableone se instala con&nbsp;%pip.</aside>
+</section>
+
+<!-- 36 · pandas -->
+<section class="slide">
+  <div class="kicker">pandas para EDA</div>
+  <h2>Diez líneas que va a usar siempre</h2>
+<pre style="font-size:19px; line-height:1.62">df.shape                                <span class="c"># filas y columnas: ¿qué es una fila?</span>
+df.head()                               <span class="c"># mirar antes de calcular</span>
+df.dtypes                               <span class="c"># tipos de almacenamiento, no estadísticos</span>
+df.describe()                           <span class="c"># min y max primero: ¿hay 999?</span>
+df[<span class="s">"x"</span>].value_counts(dropna=<span class="k">False</span>)       <span class="c"># categorías y códigos</span>
+df.isna().sum()                         <span class="c"># faltantes reales</span>
+df.merge(otra, on=<span class="s">"id"</span>, validate=<span class="s">"many_to_one"</span>)
+df.groupby(<span class="s">"area"</span>)[<span class="s">"hb"</span>].agg([<span class="s">"mean"</span>, <span class="s">"std"</span>, <span class="s">"median"</span>])
+pd.cut(df[<span class="s">"altitud"</span>], bins=[<span class="n">0</span>, <span class="n">1000</span>, <span class="n">2000</span>, <span class="n">3000</span>, <span class="n">4000</span>, <span class="n">5500</span>])
+pd.Categorical(x, categories=[...], ordered=<span class="k">True</span>)   <span class="c"># ordinales en orden</span></pre>
+  <aside class="notes">Esta es la lista para pegar en la pared. Todas aparecen en el cuaderno.</aside>
+</section>
+
+<!-- 37 · numpy y tableone -->
+<section class="slide">
+  <div class="kicker">numpy y tableone</div>
+  <h2>De la fórmula al artículo</h2>
+  <div class="cols">
+    <div>
+      <h3>numpy: la fórmula a mano</h3>
+<pre style="font-size:17px">hb = muestra[<span class="s">"hb"</span>].to_numpy()
+hb.mean()                  <span class="c"># 11.26</span>
+np.median(hb)              <span class="c"># 11.3</span>
+hb.std(ddof=<span class="n">1</span>)             <span class="c"># 1.08</span>
+np.percentile(hb, [<span class="n">25</span>, <span class="n">75</span>]) <span class="c"># 10.6, 12.0</span></pre>
+    </div>
+    <div>
+      <h3>tableone: la tabla publicable</h3>
+<pre style="font-size:16px">%pip install -q tableone
+<span class="k">from</span> tableone <span class="k">import</span> TableOne
+
+TableOne(muestra,
+    columns=[<span class="s">"edad_meses"</span>, <span class="s">"hb"</span>, <span class="s">"sexo"</span>],
+    categorical=[<span class="s">"sexo"</span>],
+    nonnormal=[<span class="s">"edad_meses"</span>],
+    groupby=<span class="s">"area"</span>, missing=<span class="k">True</span>)</pre>
+      <p class="tiny" style="margin-top:10px">Pollard TJ et al. JAMIA Open 2018;1(1):26-31. doi:10.1093/jamiaopen/ooy012</p>
+    </div>
+  </div>
+  <aside class="notes">Primero se entiende la fórmula (numpy); después se automatiza (tableone). Quien no sabe calcularla a mano no sabrá cuándo el paquete se equivoca.</aside>
+</section>
+
+<!-- 38 · Al cuaderno -->
+<section class="slide title-slide">
+  <div class="kicker">Ahora, al cuaderno</div>
+  <h1 style="font-size:60px; max-width:none">Abra el cuaderno de la semana 2</h1>
+  <p class="lede">Archivo → Guardar una copia en Drive. Ejecute de arriba hacia abajo con Shift + Enter.</p>
+  <p class="meta" style="font-family:var(--mono); font-size:17px">nielspac177.github.io/curso-datos-medicina/materiales/#s2</p>
+  <aside class="notes">Antes de clase, ejecutar una vez la celda de descarga: el servidor del INEI a veces tarda. Si falla en clase, esperar un minuto y reintentar.</aside>
+</section>
+
+<!-- 39 · Cierre -->
+<section class="slide">
+  <div class="kicker">Cierre</div>
+  <h2>Antes de publicar una tabla 1</h2>
+  <div class="cols">
+    <ul class="clean">
+      <li>Sé qué es una fila y cuántas quedan en cada paso.</li>
+      <li>Busqué códigos (9, 99, 999) y valores imposibles.</li>
+      <li>Los faltantes son NaN y los reporto.</li>
+      <li>Cada variable tiene su tipo y su resumen.</li>
+    </ul>
+    <ul class="clean">
+      <li>Las ordinales están en orden.</li>
+      <li>La primera fila dice el n de cada columna.</li>
+      <li>No incluí la variable que define el grupo ni valores p.</li>
+      <li>Si comparo con el país, usé los pesos.</li>
+    </ul>
+  </div>
+  <p class="small" style="margin-top:20px"><b>Semana 3:</b> dibujaremos estos mismos datos. Piense qué figura mostraría mejor la relación entre altitud, hemoglobina y anemia.</p>
+</section>
+
+<!-- 40 · Recursos -->
+<section class="slide">
+  <div class="kicker">Para seguir</div>
+  <h2>Recursos</h2>
+  <div class="cols">
+    <ul class="clean">
+      <li><b>Simuladores interactivos</b> de media, mediana y dispersión (Online Statistics Education, dominio público): <a href="https://onlinestatbook.com/2/summarizing_distributions/mean_median_sim.html">onlinestatbook.com</a>.</li>
+      <li><b>Seeing Theory</b> (Brown University): esperanza y varianza, animadas. <a href="https://seeing-theory.brown.edu/basic-probability/index.html">seeing-theory.brown.edu</a></li>
+      <li><b>OpenIntro Statistics</b>, capítulo 2 (CC BY-SA): <a href="https://www.openintro.org/book/os/">openintro.org/book/os</a></li>
+    </ul>
+    <ul class="clean">
+      <li>Hayes-Larson et al. Guidelines for a useful Table 1. J Clin Epidemiol 2019. <a href="https://doi.org/10.1016/j.jclinepi.2019.06.011">doi</a></li>
+      <li>Vandenbroucke et al. STROBE explanation and elaboration. PLoS Med 2007. <a href="https://doi.org/10.1371/journal.pmed.0040297">doi</a></li>
+      <li>Pollard et al. tableone. JAMIA Open 2018. <a href="https://doi.org/10.1093/jamiaopen/ooy012">doi</a></li>
+      <li>INEI. <a href="https://proyectos.inei.gob.pe/endes/2024/ppr2/indicadores_de_resultados_de_los_programas_presupuestales_endes_2024.pdf">Indicadores de resultados de los programas presupuestales, ENDES 2024</a>.</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+<div id="counter"></div>
+<div id="help">← → avanzar · N notas · F pantalla completa</div>
+<div id="notes-panel"></div>
+
+<script>
+(function () {
+  "use strict";
+  // ---------- Agregados de la ENDES 2024 (conteos, sin filas individuales) ----------
+  var D = {
+    anemiaEdad: [["6 a 11", 67.8], ["12 a 17", 56.1], ["18 a 23", 42.1], ["24 a 29", 32.9], ["30 a 35", 30.6], ["36 a 41", 27.1], ["42 a 47", 25.5], ["48 a 53", 21.9], ["54 a 59", 18.2]],
+    hbBins: [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0],
+    hbC: [1, 0, 1, 1, 0, 2, 6, 14, 29, 44, 112, 262, 504, 1036, 1741, 2817, 3564, 3542, 2429, 1398, 557, 223, 58, 15, 2, 0],
+    altBins: [0, 200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4200, 4400, 4600, 4800, 5000],
+    altC: [6597, 2406, 1190, 662, 393, 204, 249, 358, 171, 316, 217, 327, 431, 589, 554, 622, 981, 651, 410, 654, 198, 159, 17, 0, 0],
+    alt: [["0 a 1 000 m", 11.4, 11.4, 32.1], ["1 000 a 2 000", 12.0, 11.5, 28.5], ["2 000 a 3 000", 12.8, 11.4, 30.3], ["3 000 a 4 000", 13.4, 10.8, 51.4], ["más de 4 000", 14.4, 10.5, 65.0]],
+    diez: [13.2, 11.7, 11.4, 9.3, 11.0, 11.7, 11.3, 11.9, 10.9, 9.8],
+    cinco: [13.2, 11.7, 11.4, 9.3, 11.0]
+  };
+  var NS = "http://www.w3.org/2000/svg";
+  var C = { ink: "#1c2733", ink3: "#8a929b", acc: "#9e2b3d", blue: "#3d6b8f", line: "rgba(28,39,51,.13)", soft: "#f6f5f1" };
+  var printMode = /[?&]print/.test(location.search);
+
+  function el(tag, attrs, parent, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (tag === "text" && attrs.fill) e.style.fill = attrs.fill;
+    if (text !== undefined) e.textContent = text;
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+  function fmt(x, d) { return x.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+  function mean(a) { return a.reduce(function (s, x) { return s + x; }, 0) / a.length; }
+  function median(a) { var b = a.slice().sort(function (x, y) { return x - y; }), n = b.length; return n % 2 ? b[(n - 1) / 2] : (b[n / 2 - 1] + b[n / 2]) / 2; }
+  function erf(x) { var t = 1 / (1 + 0.3275911 * Math.abs(x)); var y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); return x >= 0 ? y : -y; }
+  function pnorm(z) { return 0.5 * (1 + erf(z / Math.SQRT2)); }
+  function growAll(s) { setTimeout(function () { s.querySelectorAll(".grow").forEach(function (r) { r.classList.add("go"); }); }, printMode ? 0 : 60); }
+
+  // Histograma con marcadores verticales
+  function histogram(svg, bins, counts, o) {
+    clear(svg);
+    var W = +svg.getAttribute("width"), H = +svg.getAttribute("height");
+    var m = { l: 30, r: 16, t: 34, b: 44 }, w = W - m.l - m.r, h = H - m.t - m.b;
+    var x0 = o.xmin !== undefined ? o.xmin : bins[0], x1 = o.xmax !== undefined ? o.xmax : bins[bins.length - 1];
+    var ymax = o.ymax || Math.max.apply(null, counts);
+    var X = function (v) { return m.l + (v - x0) / (x1 - x0) * w; };
+    var Y = function (v) { return m.t + h - v / ymax * h; };
+    counts.forEach(function (c, i) {
+      if (bins[i] < x0 || bins[i + 1] > x1 + 1e-9) return;
+      var bx = X(bins[i]), bw = Math.max(1, X(bins[i + 1]) - bx - 1.5);
+      el("rect", { x: bx, y: Y(c), width: bw, height: m.t + h - Y(c), fill: o.color || C.blue, class: o.animate ? "grow" : "", rx: 1.5 }, svg);
+    });
+    el("line", { x1: m.l, x2: m.l + w, y1: m.t + h, y2: m.t + h, class: "axis" }, svg);
+    (o.ticks || []).forEach(function (t) {
+      el("text", { x: X(t), y: m.t + h + 22, "text-anchor": "middle", class: "lbl" }, svg, o.tickFmt ? o.tickFmt(t) : t);
+    });
+    if (o.xlabel) el("text", { x: m.l + w / 2, y: H - 2, "text-anchor": "middle", class: "lbl" }, svg, o.xlabel);
+    (o.marks || []).forEach(function (mk) {
+      el("line", { x1: X(mk.v), x2: X(mk.v), y1: m.t - 6, y2: m.t + h, stroke: mk.color, "stroke-width": 3 }, svg);
+      if (mk.label) el("text", { x: X(mk.v) + (mk.anchor === "end" ? -6 : 6), y: m.t - 12, "text-anchor": mk.anchor || "start", class: "lbl-b", fill: mk.color }, svg, mk.label);
+    });
+    return { X: X, Y: Y, m: m, w: w, h: h };
+  }
+
+  function numberLine(svg, o) {
+    clear(svg);
+    var W = +svg.getAttribute("width"), l = 30, w = W - 60, y = o.y;
+    var X = function (v) { return l + (Math.min(v, o.max) - o.min) / (o.max - o.min) * w; };
+    el("line", { x1: l, x2: l + w, y1: y, y2: y, stroke: C.ink, "stroke-width": 2 }, svg);
+    o.ticks.forEach(function (t) {
+      el("line", { x1: X(t), x2: X(t), y1: y, y2: y + 8, stroke: C.ink3 }, svg);
+      el("text", { x: X(t), y: y + 28, "text-anchor": "middle", class: "lbl" }, svg, t);
+    });
+    return { X: X, y: y };
+  }
+  function dots(svg, r, vals, colorOf) {
+    var stack = {};
+    vals.forEach(function (v, i) {
+      var k = Math.round(Math.min(v, 1e9) * 10); stack[k] = (stack[k] || 0) + 1;
+      el("circle", { cx: r.X(v), cy: r.y - 14 - (stack[k] - 1) * 24, r: 11, fill: colorOf(i) }, svg);
+    });
+  }
+
+  // ---------- Dibujos por diapositiva ----------
+  var hooks = {};
+
+  hooks.count = function (s) {
+    s.querySelectorAll(".count").forEach(function (e) {
+      var f = e.closest("[data-f]");
+      if (f && !f.classList.contains("on")) { e.textContent = "0"; delete e.dataset.done; return; }
+      if (e.dataset.done) return;
+      e.dataset.done = 1;
+      var to = +e.dataset.to, dec = +e.dataset.dec, t0 = null;
+      if (printMode) { e.textContent = to.toFixed(dec); return; }
+      (function tick(t) {
+        if (t === undefined) return requestAnimationFrame(tick);
+        if (!t0) t0 = t;
+        var p = Math.min(1, (t - t0) / 1300);
+        e.textContent = (to * (1 - Math.pow(1 - p, 3))).toFixed(dec);
+        if (p < 1) requestAnimationFrame(tick);
+      })();
+    });
+  };
+
+  hooks.barsEdad = function (s) {
+    var svg = s.querySelector("#svg-edad");
+    if (!svg.firstChild) {
+      var m = { l: 20, b: 56, t: 34 }, w = 1110 - 2 * m.l, h = 420 - m.t - m.b, bw = w / D.anemiaEdad.length;
+      D.anemiaEdad.forEach(function (d, i) {
+        var bh = d[1] / 75 * h, x = m.l + i * bw + 14, y = m.t + h - bh;
+        el("rect", { x: x, y: y, width: bw - 28, height: bh, rx: 4, fill: i < 2 ? C.acc : C.blue, class: "grow" }, svg);
+        el("text", { x: x + (bw - 28) / 2, y: y - 10, "text-anchor": "middle", class: "lbl-b" }, svg, d[1].toFixed(1) + " %");
+        el("text", { x: x + (bw - 28) / 2, y: m.t + h + 24, "text-anchor": "middle", class: "lbl" }, svg, d[0]);
+      });
+      el("text", { x: 555, y: 416, "text-anchor": "middle", class: "lbl" }, svg, "Edad (meses)");
+      el("line", { x1: m.l, x2: m.l + w, y1: m.t + h, y2: m.t + h, class: "axis" }, svg);
+    }
+    growAll(s);
+  };
+
+  hooks.merge = function (s, step) {
+    var svg = s.querySelector("#svg-merge");
+    clear(svg);
+    var kids = [["Niño 1", "A", 80], ["Niño 2", "A", 190], ["Niño 3", "B", 320]];
+    var homes = step >= 2 ? [["Hogar A", "A", 80], ["Hogar A", "A", 190], ["Hogar B", "B", 320]] : [["Hogar A", "A", 135], ["Hogar B", "B", 320]];
+    el("text", { x: 90, y: 28, "text-anchor": "middle", class: "lbl-b" }, svg, "RECH6 (niños)");
+    el("text", { x: 540, y: 28, "text-anchor": "middle", class: "lbl-b" }, svg, "RECH0 (hogares)");
+    kids.forEach(function (k) {
+      homes.filter(function (h) { return h[1] === k[1]; }).forEach(function (t, j) {
+        if (step < 1) return;
+        el("path", { d: "M170 " + k[2] + " C 300 " + k[2] + ", 330 " + t[2] + ", 460 " + t[2], fill: "none", stroke: j > 0 ? C.acc : C.blue, "stroke-width": j > 0 ? 3 : 2.2, "stroke-dasharray": j > 0 ? "6 5" : "" }, svg);
+      });
+    });
+    homes.forEach(function (hm, i) {
+      var dup = step >= 2 && i === 1;
+      el("rect", { x: 460, y: hm[2] - 28, width: 160, height: 56, rx: 12, fill: dup ? "rgba(158,43,61,.12)" : C.soft, stroke: dup ? C.acc : C.line, "stroke-width": 2 }, svg);
+      el("text", { x: 540, y: hm[2] + 6, "text-anchor": "middle", class: "lbl-b", fill: dup ? C.acc : C.ink }, svg, hm[0] + (dup ? " (repetido)" : ""));
+    });
+    kids.forEach(function (k) {
+      el("rect", { x: 10, y: k[2] - 28, width: 160, height: 56, rx: 12, fill: "#fff", stroke: C.ink, "stroke-width": 2 }, svg);
+      el("text", { x: 90, y: k[2] + 6, "text-anchor": "middle", class: "lbl-b" }, svg, k[0]);
+    });
+    if (step >= 2) el("text", { x: 320, y: 392, "text-anchor": "middle", class: "lbl-b", fill: C.acc }, svg, "3 niños se convierten en 5 filas");
+  };
+
+  hooks.hist999 = function (s, step) {
+    var svg = s.querySelector("#svg-999"), spike = step >= 2;
+    // eje de 3 a 20: hasta 16 es lineal; 17.2 marca el corte y 19.6 representa 99.9 g/dL
+    var r = histogram(svg, D.hbBins, D.hbC, { xmin: 3, xmax: 20, ymax: 3700, ticks: [4, 8, 12, 16], xlabel: "Hemoglobina (g/dL)",
+      marks: [{ v: spike ? 18.1 : 11.26, color: C.acc, label: spike ? "media 19.7" : "media 11.3", anchor: spike ? "end" : "start" },
+              { v: spike ? 11.5 : 11.3, color: C.blue, label: "mediana", anchor: "end" }] });
+    el("text", { x: r.X(17.2), y: r.m.t + r.h + 22, "text-anchor": "middle", class: "lbl" }, svg, "//");
+    el("text", { x: r.X(19.6), y: r.m.t + r.h + 22, "text-anchor": "middle", class: "lbl" }, svg, "99.9");
+    if (spike) {
+      el("rect", { x: r.X(19.3), y: r.Y(1932), width: r.X(19.9) - r.X(19.3), height: r.m.t + r.h - r.Y(1932), fill: C.acc, rx: 1.5 }, svg);
+      el("text", { x: r.X(19.9), y: r.Y(1932) - 10, "text-anchor": "end", class: "lbl-b", fill: C.acc }, svg, "1 932 códigos 999");
+    }
+    document.getElementById("m999").textContent = spike ? "19.7" : "11.3";
+  };
+
+  hooks.balance = function (s) {
+    var svg = s.querySelector("#svg-balance");
+    var r = numberLine(svg, { min: 9, max: 13.5, ticks: [9, 10, 11, 12, 13], y: 200 });
+    dots(svg, r, D.diez, function () { return C.blue; });
+    var mx = r.X(mean(D.diez));
+    el("path", { d: "M" + mx + " " + (r.y + 2) + " l -20 36 h 40 z", fill: C.acc }, svg);
+    el("text", { x: mx, y: r.y + 64, "text-anchor": "middle", class: "lbl-b", fill: C.acc }, svg, "media 11.22");
+  };
+
+  hooks.outlier = function (s) {
+    var svg = s.querySelector("#svg-outlier"), rng = s.querySelector("#rng-outlier");
+    function draw() {
+      var x = +rng.value, vals = D.diez.slice(0, 9).concat([x]), mu = mean(vals), md = median(vals);
+      var r = numberLine(svg, { min: 9, max: 25, ticks: [9, 11, 13, 15, 17, 19, 21, 23, 25], y: 160 });
+      dots(svg, r, vals, function (i) { return i === 9 ? C.acc : C.blue; });
+      if (x > 25) el("text", { x: r.X(25) - 6, y: r.y - 44, "text-anchor": "end", class: "lbl-b", fill: C.acc }, svg, x.toFixed(1) + " →");
+      el("line", { x1: r.X(mu), x2: r.X(mu), y1: 34, y2: r.y + 6, stroke: C.acc, "stroke-width": 3 }, svg);
+      el("text", { x: r.X(mu) + 8, y: 28, class: "lbl-b", fill: C.acc }, svg, "media");
+      el("line", { x1: r.X(md), x2: r.X(md), y1: 34, y2: r.y + 6, stroke: C.blue, "stroke-width": 3 }, svg);
+      el("text", { x: r.X(md) + 8, y: 52, class: "lbl-b", fill: C.blue }, svg, "mediana");
+      document.getElementById("ro-x").textContent = x.toFixed(1);
+      document.getElementById("ro-mean").textContent = mu.toFixed(2);
+      document.getElementById("ro-med").textContent = md.toFixed(2);
+    }
+    if (!rng.dataset.bound) { rng.addEventListener("input", draw); rng.dataset.bound = 1; }
+    draw();
+  };
+
+  hooks.spread = function (s) {
+    var svg = s.querySelector("#svg-spread");
+    if (svg.firstChild) return;
+    var seed = 7;
+    function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    function rnorm() { return Math.sqrt(-2 * Math.log(rnd())) * Math.cos(2 * Math.PI * rnd()); }
+    var X = function (v) { return 40 + (v - 6) / 11 * 1030; };
+    [[0.5, 90, "DE 0.5 g/dL"], [1.6, 235, "DE 1.6 g/dL"]].forEach(function (g) {
+      el("text", { x: 40, y: g[1] - 52, class: "lbl-b" }, svg, g[2]);
+      for (var i = 0; i < 160; i++) {
+        var v = 11.3 + g[0] * rnorm();
+        el("circle", { cx: X(v), cy: g[1] + (rnd() - 0.5) * 66, r: 5, fill: v < 11 ? C.acc : C.blue, opacity: 0.75 }, svg);
+      }
+    });
+    el("line", { x1: X(11), x2: X(11), y1: 20, y2: 300, stroke: C.acc, "stroke-width": 2, "stroke-dasharray": "6 6" }, svg);
+    el("text", { x: X(11) - 8, y: 322, "text-anchor": "end", class: "lbl", fill: C.acc }, svg, "umbral de anemia: 11 g/dL");
+    el("line", { x1: X(11.3), x2: X(11.3), y1: 20, y2: 300, stroke: C.ink, "stroke-width": 2 }, svg);
+    el("text", { x: X(11.3) + 8, y: 322, class: "lbl" }, svg, "media 11.3");
+  };
+
+  hooks.squares = function (s, step) {
+    var svg = s.querySelector("#svg-squares");
+    clear(svg);
+    var vals = D.cinco, mu = mean(vals), total = 0;
+    var X = function (v) { return 330 + (v - mu) * 105; };
+    el("line", { x1: X(mu), x2: X(mu), y1: 34, y2: 392, stroke: C.acc, "stroke-width": 2.5 }, svg);
+    el("text", { x: X(mu) + 6, y: 26, class: "lbl-b", fill: C.acc }, svg, "media 11.32");
+    vals.forEach(function (v, i) {
+      var y = 74 + i * 68, d = v - mu; total += d * d;
+      if (step >= 2) {
+        var side = Math.abs(d) * 40;
+        el("rect", { x: d > 0 ? X(v) - side : X(v), y: y - side / 2, width: side, height: side, fill: "rgba(158,43,61,.16)", stroke: C.acc, "stroke-width": 1.5 }, svg);
+      }
+      if (step >= 1) el("line", { x1: X(mu), x2: X(v), y1: y, y2: y, stroke: C.ink, "stroke-width": 2 }, svg);
+      el("circle", { cx: X(v), cy: y, r: 9, fill: C.blue }, svg);
+      el("text", { x: X(v), y: y - 15, "text-anchor": "middle", class: "lbl" }, svg, v.toFixed(1));
+      if (step === 1) el("text", { x: 690, y: y + 6, "text-anchor": "end", class: "lbl-b" }, svg, (d >= 0 ? "+" : "−") + Math.abs(d).toFixed(2));
+      if (step >= 2) el("text", { x: 690, y: y + 6, "text-anchor": "end", class: "lbl-b", fill: C.acc }, svg, (d * d).toFixed(2));
+    });
+    if (step >= 3) el("text", { x: 690, y: 396, "text-anchor": "end", class: "lbl-b", fill: C.acc }, svg, "suma = " + total.toFixed(2));
+  };
+
+  hooks.normal = function (s) {
+    var svg = s.querySelector("#svg-normal"), rng = s.querySelector("#rng-sd");
+    function draw() {
+      clear(svg);
+      var sd = +rng.value, mu = 11.26, l = 40, w = 1030, base = 260, peak = 1 / (0.5 * Math.sqrt(2 * Math.PI));
+      var X = function (v) { return l + (v - 6) / 11 * w; };
+      var Y = function (p) { return base - p / peak * 230; };
+      function pdf(x) { return Math.exp(-0.5 * Math.pow((x - mu) / sd, 2)) / (sd * Math.sqrt(2 * Math.PI)); }
+      function area(a, b, fill) {
+        a = Math.max(6, a); b = Math.min(17, b);
+        var d = "M" + X(a) + " " + base;
+        for (var x = a; x <= b; x += 0.02) d += " L" + X(x) + " " + Y(pdf(x));
+        el("path", { d: d + " L" + X(b) + " " + base + " Z", fill: fill }, svg);
+      }
+      area(mu - 2 * sd, mu + 2 * sd, "rgba(61,107,143,.14)");
+      area(mu - sd, mu + sd, "rgba(61,107,143,.26)");
+      area(6, 11, "rgba(158,43,61,.35)");
+      var d = "";
+      for (var x = 6; x <= 17; x += 0.02) d += (d ? " L" : "M") + X(x) + " " + Y(pdf(x));
+      el("path", { d: d, fill: "none", stroke: C.ink, "stroke-width": 2.5 }, svg);
+      el("line", { x1: l, x2: l + w, y1: base, y2: base, class: "axis" }, svg);
+      for (var t = 6; t <= 17; t++) el("text", { x: X(t), y: base + 24, "text-anchor": "middle", class: "lbl" }, svg, t);
+      el("text", { x: X(11) - 6, y: base - 8, "text-anchor": "end", class: "lbl-b", fill: C.acc }, svg, "anemia");
+      el("text", { x: X(mu), y: Math.max(16, Y(pdf(mu)) - 10), "text-anchor": "middle", class: "lbl-b" }, svg, "68 % a ±1 DE");
+      document.getElementById("ro-sd").textContent = sd.toFixed(2);
+      document.getElementById("ro-below").textContent = (100 * pnorm((11 - mu) / sd)).toFixed(1) + " %";
+    }
+    if (!rng.dataset.bound) { rng.addEventListener("input", draw); rng.dataset.bound = 1; }
+    draw();
+  };
+
+  hooks.box = function (s) {
+    var svg = s.querySelector("#svg-box");
+    var r = histogram(svg, D.hbBins, D.hbC, { xmin: 6, xmax: 16, ticks: [6, 8, 10, 12, 14, 16], xlabel: "Hemoglobina ajustada (g/dL)", color: "rgba(61,107,143,.5)", ymax: 5600 });
+    [[10.6, "P25 10.6", "end"], [11.3, "mediana 11.3", "middle"], [12.0, "P75 12.0", "start"]].forEach(function (p, i) {
+      el("line", { x1: r.X(p[0]), x2: r.X(p[0]), y1: 24, y2: r.m.t + r.h, stroke: i === 1 ? C.acc : C.ink, "stroke-width": 2.5, "stroke-dasharray": i === 1 ? "" : "7 5" }, svg);
+      el("text", { x: r.X(p[0]) + (p[2] === "end" ? -6 : p[2] === "start" ? 6 : 0), y: 20, "text-anchor": p[2], class: "lbl-b", fill: i === 1 ? C.acc : C.ink }, svg, p[1]);
+    });
+    var by = 44, bh = 44;
+    el("line", { x1: r.X(8.5), x2: r.X(10.6), y1: by + bh / 2, y2: by + bh / 2, stroke: C.ink, "stroke-width": 2 }, svg);
+    el("line", { x1: r.X(12.0), x2: r.X(14.1), y1: by + bh / 2, y2: by + bh / 2, stroke: C.ink, "stroke-width": 2 }, svg);
+    el("rect", { x: r.X(10.6), y: by, width: r.X(12.0) - r.X(10.6), height: bh, fill: "rgba(158,43,61,.15)", stroke: C.acc, "stroke-width": 2.5, rx: 4 }, svg);
+    el("text", { x: (r.X(10.6) + r.X(12.0)) / 2, y: by + bh / 2 + 6, "text-anchor": "middle", class: "lbl-b", fill: C.acc }, svg, "RIC = 1.4");
+  };
+
+  hooks.shape = function (s) {
+    histogram(s.querySelector("#svg-shape-hb"), D.hbBins, D.hbC, { xmin: 6, xmax: 16, ticks: [6, 8, 10, 12, 14, 16], xlabel: "g/dL", animate: true,
+      marks: [{ v: 11.26, color: C.acc }, { v: 11.32, color: C.blue }] });
+    histogram(s.querySelector("#svg-shape-alt"), D.altBins, D.altC, { ticks: [0, 1000, 2000, 3000, 4000, 5000], tickFmt: function (t) { return fmt(t, 0); }, xlabel: "metros", animate: true, color: "#7c94a8",
+      marks: [{ v: 1261, color: C.acc }, { v: 425, color: C.blue }] });
+    growAll(s);
+  };
+
+  hooks.altitude = function (s, step) {
+    var svg = s.querySelector("#svg-alt");
+    clear(svg);
+    var l = 50, base = 262, gw = 1040 / D.alt.length, Y = function (v) { return base - (v - 9) / 6 * 206; };
+    for (var t = 9; t <= 15; t++) {
+      el("line", { x1: l, x2: l + 1040, y1: Y(t), y2: Y(t), stroke: C.line }, svg);
+      el("text", { x: l - 10, y: Y(t) + 5, "text-anchor": "end", class: "lbl" }, svg, t);
+    }
+    el("line", { x1: l, x2: l + 1040, y1: Y(11), y2: Y(11), stroke: C.acc, "stroke-dasharray": "6 6", "stroke-width": 1.5 }, svg);
+    D.alt.forEach(function (d, i) {
+      var x = l + i * gw + 34, bw = 74;
+      el("rect", { x: x, y: Y(d[1]), width: bw, height: base - Y(d[1]), fill: "#a9bccb", rx: 3 }, svg);
+      el("text", { x: x + bw / 2, y: Y(d[1]) - 8, "text-anchor": "middle", class: "lbl" }, svg, d[1].toFixed(1));
+      if (step >= 1) {
+        el("rect", { x: x + bw + 6, y: Y(d[2]), width: bw, height: base - Y(d[2]), fill: C.blue, rx: 3 }, svg);
+        el("text", { x: x + bw * 1.5 + 6, y: Y(d[2]) - 8, "text-anchor": "middle", class: "lbl-b" }, svg, d[2].toFixed(1));
+      }
+      if (step >= 2) el("text", { x: x + bw + 3, y: 22, "text-anchor": "middle", class: "lbl-b", fill: C.acc }, svg, "anemia " + d[3].toFixed(0) + " %");
+      el("text", { x: x + bw + 3, y: base + 24, "text-anchor": "middle", class: "lbl" }, svg, d[0]);
+    });
+    el("rect", { x: l + 700, y: 296, width: 14, height: 14, fill: "#a9bccb" }, svg);
+    el("text", { x: l + 720, y: 308, class: "lbl" }, svg, "Hb sin ajustar (g/dL)");
+    if (step >= 1) { el("rect", { x: l + 880, y: 296, width: 14, height: 14, fill: C.blue }, svg); el("text", { x: l + 900, y: 308, class: "lbl" }, svg, "Hb ajustada"); }
+  };
+
+  document.querySelectorAll(".flip").forEach(function (f) {
+    f.addEventListener("click", function (e) { e.stopPropagation(); f.classList.toggle("open"); });
+  });
+
+  // ---------- Motor ----------
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  var stage = document.getElementById("stage"), notes = document.getElementById("notes-panel");
+  var cur = 0, step = 0;
+
+  function maxStep(s) {
+    var m = +(s.dataset.steps || 0);
+    s.querySelectorAll("[data-f]").forEach(function (e) { m = Math.max(m, +e.dataset.f); });
+    return m;
+  }
+  function apply(s, k) {
+    s.querySelectorAll("[data-f]").forEach(function (e) { e.classList.toggle("on", +e.dataset.f <= k); });
+    if (s.dataset.hook && hooks[s.dataset.hook]) hooks[s.dataset.hook](s, k);
+  }
+  function render() {
+    slides.forEach(function (s, i) { s.classList.toggle("active", i === cur); s.classList.toggle("past", i < cur); });
+    apply(slides[cur], step);
+    document.getElementById("progress").style.width = (100 * (cur + 1) / slides.length) + "%";
+    document.getElementById("counter").textContent = (cur + 1) + " / " + slides.length;
+    var n = slides[cur].querySelector(".notes");
+    notes.innerHTML = "<b>Diapositiva " + (cur + 1) + ".</b> " + (n ? n.innerHTML : "Sin notas.");
+    if (history.replaceState) history.replaceState(null, "", "#" + (cur + 1));
+  }
+  function go(i, k) { cur = Math.max(0, Math.min(slides.length - 1, i)); step = k; render(); }
+  function next() { if (step < maxStep(slides[cur])) { step++; render(); } else if (cur < slides.length - 1) go(cur + 1, 0); }
+  function prev() { if (step > 0) { step--; render(); } else if (cur > 0) go(cur - 1, maxStep(slides[cur - 1])); }
+
+  function fit() {
+    var k = Math.min(window.innerWidth / 1280, window.innerHeight / 720) * 0.98;
+    stage.style.transform = "translate(-50%, -50%) scale(" + k + ")";
+  }
+
+  if (printMode) {
+    document.body.classList.add("print");
+    slides.forEach(function (s) { apply(s, maxStep(s)); });
+    document.querySelectorAll(".flip").forEach(function (f) {
+      var q = document.createElement("span"); q.className = "q"; q.textContent = f.querySelector(".front").textContent;
+      f.querySelector(".back").prepend(q);
+    });
+    document.querySelectorAll(".grow").forEach(function (r) { r.classList.add("go"); });
+    return;
+  }
+
+  window.addEventListener("resize", fit);
+  document.addEventListener("keydown", function (e) {
+    if (e.target.tagName === "INPUT" && (e.key === "ArrowLeft" || e.key === "ArrowRight")) return;
+    if (["ArrowRight", "PageDown", " ", "Enter"].indexOf(e.key) >= 0) { e.preventDefault(); next(); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].indexOf(e.key) >= 0) { e.preventDefault(); prev(); }
+    else if (e.key === "Home") go(0, 0);
+    else if (e.key === "End") go(slides.length - 1, 0);
+    else if (e.key === "n" || e.key === "N") notes.classList.toggle("show");
+    else if (e.key === "f" || e.key === "F") { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
+  });
+  stage.addEventListener("click", function (e) {
+    if (e.target.closest("input, .flip, a, pre")) return;
+    var r = stage.getBoundingClientRect();
+    if (e.clientX - r.left < r.width * 0.25) prev(); else next();
+  });
+  var tx = null;
+  document.addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener("touchend", function (e) {
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx; tx = null;
+    if (Math.abs(dx) > 40) { if (dx < 0) next(); else prev(); }
+  });
+
+  var h = parseInt(location.hash.slice(1), 10);
+  fit();
+  go(isNaN(h) ? 0 : h - 1, 0);
+})();
+</script>
+</body>
+</html>

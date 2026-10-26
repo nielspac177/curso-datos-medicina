@@ -2,7 +2,7 @@ name: Validar materiales
 
 on:
   push:
-    paths: ["materiales/**", "semanas/**", "scripts/**"]
+    paths: ["materiales/**", "semanas/**", "scripts/**", "tests/**"]
   pull_request:
 
 jobs:
@@ -14,3 +14,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/validar_materiales.py
+      - run: pip install pandas numpy pytest
+      - run: python -m pytest -q
